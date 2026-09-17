@@ -231,10 +231,10 @@ button{
 
 <div class="wrap">
 
-<h1>Transportation Price</h1>
+<h1 id="pageTitle">Transportation Price</h1>
 
 <div class="sub">
-Search a branch to find its transportation price.
+<span id="pageSubtitle">Search a branch to find its transportation price.</span>
 </div>
 
 <div class="search">
@@ -243,6 +243,7 @@ Search a branch to find its transportation price.
         id="searchInput"
         type="search"
         placeholder="Search location..."
+        id="searchInput"
         autocomplete="off"
         enterkeyhint="search"
     >
@@ -254,10 +255,10 @@ Search a branch to find its transportation price.
     >×</button>
 </div>
 
-<div class="label">Result</div>
+<div class="label" id="resultLabel">Result</div>
 
 <div id="result" class="message">
-    Search result will appear here.
+    <span id="initialResultText">Search result will appear here.</span>
 </div>
 
 </div>
@@ -1720,6 +1721,58 @@ const searchInput = document.getElementById("searchInput");
 const clearSearch = document.getElementById("clearSearch");
 const result = document.getElementById("result");
 
+/* =========================
+   LANGUAGE
+========================= */
+
+const selectedLanguage =
+    localStorage.getItem("pulseAutoImportLanguage") || "en";
+
+const translations = {
+    en: {
+        title: "Transportation Price",
+        subtitle: "Search a branch to find its transportation price.",
+        placeholder: "Search location...",
+        clearSearch: "Clear search",
+        result: "Result",
+        initialResult: "Search result will appear here.",
+        noLocation: "No location found."
+    },
+
+    hy: {
+        title: "Տրանսպորտավորման գին",
+        subtitle: "Փնտրեք մասնաճյուղը՝ տրանսպորտավորման գինը գտնելու համար։",
+        placeholder: "Փնտրել մասնաճյուղ...",
+        clearSearch: "Մաքրել որոնումը",
+        result: "Արդյունք",
+        initialResult: "Որոնման արդյունքը կհայտնվի այստեղ։",
+        noLocation: "Տեղադրություն չի գտնվել։"
+    },
+
+    ru: {
+        title: "Стоимость транспортировки",
+        subtitle: "Найдите филиал, чтобы узнать стоимость транспортировки.",
+        placeholder: "Поиск филиала...",
+        clearSearch: "Очистить поиск",
+        result: "Результат",
+        initialResult: "Результат поиска появится здесь.",
+        noLocation: "Местоположение не найдено."
+    }
+};
+
+const t = translations[selectedLanguage] || translations.en;
+
+document.documentElement.lang = selectedLanguage;
+document.title = t.title;
+
+document.getElementById("pageTitle").textContent = t.title;
+document.getElementById("pageSubtitle").textContent = t.subtitle;
+searchInput.placeholder = t.placeholder;
+clearSearch.setAttribute("aria-label", t.clearSearch);
+document.getElementById("resultLabel").textContent = t.result;
+document.getElementById("initialResultText").textContent = t.initialResult;
+
+
 function getPriceNumber(price){
     const number = parseInt(price.replace(/[$,+]/g,""),10);
     return Number.isNaN(number) ? 0 : number;
@@ -1754,7 +1807,7 @@ function doSearch(){
 
     if(!query){
         result.className = "message";
-        result.textContent = "Search result will appear here.";
+        result.textContent = t.initialResult;
         return;
     }
 
@@ -1772,7 +1825,7 @@ function doSearch(){
 
     if(found.length === 0){
         result.className = "message";
-        result.textContent = "No location found.";
+        result.textContent = t.noLocation;
         return;
     }
 
@@ -1825,7 +1878,7 @@ searchInput.addEventListener("input",function(){
 clearSearch.addEventListener("click",function(){
     searchInput.value = "";
     result.className = "message";
-    result.textContent = "Search result will appear here.";
+    result.textContent = t.initialResult;
     updateClearButton();
     searchInput.focus();
 });
