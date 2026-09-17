@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Access Request</title>
 
   <style>
@@ -93,7 +94,7 @@
 
 <body>
   <div class="card">
-    <h1>Access Request</h1>
+    <h1 id="title">Access Request</h1>
 
     <p id="description">
       Create 6-digit ID to request access
@@ -117,16 +118,80 @@
       "https://yusznijfwkdcvrrqqapz.supabase.co/functions/v1/telegram-access";
 
     const STORAGE_KEY = "pulseAutoImportDeviceId";
+    const LANGUAGE_KEY = "pulseAutoImportLanguage";
 
     const deviceInput = document.getElementById("deviceId");
     const submitBtn = document.getElementById("submitBtn");
     const message = document.getElementById("message");
     const description = document.getElementById("description");
+    const title = document.getElementById("title");
 
     let statusTimer = null;
     let currentDeviceId = null;
     let redirectTimer = null;
     let redirecting = false;
+
+    const translations = {
+      en: {
+        title: "Access Request",
+        description: "Create 6-digit ID to request access",
+        request: "Request",
+        newRequest: "New Request",
+        accessGranted: "Access granted ✅",
+        accessDenied: "Access denied ❌",
+        idBlocked: "Your ID blocked",
+        idExists: "This ID already exists",
+        pending: "Your access request is pending.",
+        invalidId: "Enter a valid 6-digit ID\nUse only A-Z and 0-9",
+        sending: "Sending request..",
+        verificationError: "An error occurred during verification.",
+        generalError: "An error occurred. Please try again."
+      },
+
+      hy: {
+        title: "Մուտքի հարցում",
+        description: "Ստեղծեք 6 նիշանոց ID՝ մուտք ստանալու համար",
+        request: "Հարցում",
+        newRequest: "Նոր հարցում",
+        accessGranted: "Մուտքը թույլատրված է ✅",
+        accessDenied: "Մուտքը մերժված է ❌",
+        idBlocked: "Ձեր ID-ն արգելափակված է",
+        idExists: "Այս ID-ն արդեն գոյություն ունի",
+        pending: "Ձեր մուտքի հարցումը սպասման մեջ է։",
+        invalidId: "Մուտքագրեք ճիշտ 6 նիշանոց ID\nՕգտագործեք միայն A-Z և 0-9",
+        sending: "Հարցումն ուղարկվում է..",
+        verificationError: "Ստուգման ընթացքում սխալ առաջացավ։",
+        generalError: "Սխալ առաջացավ։ Խնդրում ենք կրկին փորձել։"
+      },
+
+      ru: {
+        title: "Запрос доступа",
+        description: "Создайте 6-значный ID для получения доступа",
+        request: "Запросить",
+        newRequest: "Новый запрос",
+        accessGranted: "Доступ разрешён ✅",
+        accessDenied: "Доступ запрещён ❌",
+        idBlocked: "Ваш ID заблокирован",
+        idExists: "Этот ID уже существует",
+        pending: "Ваш запрос на доступ ожидает рассмотрения.",
+        invalidId: "Введите правильный 6-значный ID\nИспользуйте только A-Z и 0-9",
+        sending: "Запрос отправляется..",
+        verificationError: "Произошла ошибка при проверке.",
+        generalError: "Произошла ошибка. Попробуйте ещё раз."
+      }
+    };
+
+    const currentLanguage =
+      localStorage.getItem(LANGUAGE_KEY) || "en";
+
+    const t = translations[currentLanguage] || translations.en;
+
+    document.documentElement.lang = currentLanguage;
+    document.title = t.title;
+
+    title.textContent = t.title;
+    description.textContent = t.description;
+    submitBtn.textContent = t.request;
 
     function setMessage(text, className = "") {
       message.textContent = text;
@@ -170,7 +235,7 @@
       redirecting = true;
       stopStatusPolling();
 
-      setMessage("Access granted ✅", "approved");
+      setMessage(t.accessGranted, "approved");
 
       redirectTimer = setTimeout(() => {
         window.location.href = "./transportationPrice.html";
@@ -185,7 +250,7 @@
       redirecting = true;
       stopStatusPolling();
 
-      setMessage("Access denied ❌", "rejected");
+      setMessage(t.accessDenied, "rejected");
 
       redirectTimer = setTimeout(() => {
         window.location.href = "./entry.html";
@@ -203,9 +268,9 @@
       deviceInput.disabled = false;
 
       submitBtn.disabled = false;
-      submitBtn.textContent = "New Request";
+      submitBtn.textContent = t.newRequest;
 
-      setMessage("Your ID blocked", "rejected");
+      setMessage(t.idBlocked, "rejected");
     }
 
     function showExistingId() {
@@ -216,9 +281,9 @@
 
       deviceInput.disabled = false;
       submitBtn.disabled = false;
-      submitBtn.textContent = "New Request";
+      submitBtn.textContent = t.newRequest;
 
-      setMessage("This ID already exists", "rejected");
+      setMessage(t.idExists, "rejected");
     }
 
     function showStatus(status) {
@@ -228,12 +293,9 @@
       } else if (status === "pending") {
         deviceInput.disabled = true;
         submitBtn.disabled = true;
-        submitBtn.textContent = "Request";
+        submitBtn.textContent = t.request;
 
-        setMessage(
-          "Your access request is pending.",
-          "waiting"
-        );
+        setMessage(t.pending, "waiting");
 
       } else if (status === "rejected") {
         showRejected();
@@ -299,11 +361,7 @@
         }
 
       } catch (error) {
-        setMessage(
-          "An error occurred during verification.",
-          "rejected"
-        );
-
+        setMessage(t.verificationError, "rejected");
         console.error(error);
       }
     }
@@ -312,10 +370,7 @@
       const deviceId = deviceInput.value.trim().toUpperCase();
 
       if (!validDeviceId(deviceId)) {
-        setMessage(
-          "Enter a valid 6-digit ID \n Use only A-Z and 0-9",
-          "rejected"
-        );
+        setMessage(t.invalidId, "rejected");
         return;
       }
 
@@ -331,9 +386,9 @@
 
       submitBtn.disabled = true;
       deviceInput.disabled = true;
-      submitBtn.textContent = "Request";
+      submitBtn.textContent = t.request;
 
-      setMessage("Sending request..", "waiting");
+      setMessage(t.sending, "waiting");
 
       try {
         const checkData = await callFunction({
@@ -361,12 +416,9 @@
       } catch (error) {
         deviceInput.disabled = false;
         submitBtn.disabled = false;
-        submitBtn.textContent = "New Request";
+        submitBtn.textContent = t.newRequest;
 
-        setMessage(
-          "An error occurred. Please try again.",
-          "rejected"
-        );
+        setMessage(t.generalError, "rejected");
 
         console.error(error);
       }
