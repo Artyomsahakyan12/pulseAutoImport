@@ -31,6 +31,38 @@
             justify-content: center;
             background: #f5f6fa;
             font-family: Arial, sans-serif;
+            position: relative;
+        }
+
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .language-selector select {
+            appearance: none;
+            -webkit-appearance: none;
+            padding: 9px 32px 9px 12px;
+            border: 1px solid #d9e0e9;
+            border-radius: 12px;
+            background:
+                #ffffff
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23172033' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
+                no-repeat right 10px center;
+            color: #172033;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow:
+                0 2px 4px rgba(35, 55, 85, 0.08),
+                0 5px 12px rgba(35, 55, 85, 0.08);
+        }
+
+        .language-selector select:focus {
+            outline: none;
+            border-color: #9aa8bd;
         }
 
         .brand-logo {
@@ -207,6 +239,16 @@
         }
 
         @media (max-width: 420px) {
+            .language-selector {
+                top: 14px;
+                right: 14px;
+            }
+
+            .language-selector select {
+                padding: 8px 30px 8px 10px;
+                font-size: 13px;
+            }
+
             .brand-logo {
                 width: 260px;
                 max-width: 70%;
@@ -265,6 +307,15 @@
 </head>
 
 <body>
+    <!-- Language selector -->
+    <div class="language-selector">
+        <select id="languageSelect" aria-label="Select language">
+            <option value="en">English</option>
+            <option value="hy">Հայերեն</option>
+            <option value="ru">Русский</option>
+        </select>
+    </div>
+
     <!-- Pulse AutoImport logo -->
     <img
         class="brand-logo"
@@ -288,8 +339,8 @@
             <div class="transport-divider"></div>
 
             <div class="transport-text">
-                <span>Transportation</span>
-                <span>Price</span>
+                <span id="transportationText">Transportation</span>
+                <span id="priceText">Price</span>
             </div>
 
             <div class="transport-arrow">›</div>
@@ -310,13 +361,13 @@
 
             <div class="bidcars-divider"></div>
 
-            <div class="bidcars-text">
+            <div class="bidcars-text" id="bidcarsText">
                 BidCars
             </div>
 
             <div class="bidcars-arrow">›</div>
         </a>
-        
+
         <!-- Container Tracking -->
         <a
             class="caucasusContainerTracking-button"
@@ -333,12 +384,72 @@
             <div class="caucasusContainerTracking-divider"></div>
 
             <div class="caucasusContainerTracking-text">
-                <span>Container</span>
-                <span>Tracking</span>
+                <span id="containerText">Container</span>
+                <span id="trackingText">Tracking</span>
             </div>
 
             <div class="caucasusContainerTracking-arrow">›</div>
         </a>
     </div>
+
+    <script>
+        const translations = {
+            en: {
+                transportation: "Transportation",
+                price: "Price",
+                bidcars: "BidCars",
+                container: "Container",
+                tracking: "Tracking"
+            },
+            hy: {
+                transportation: "Փոխադրման",
+                price: "Գին",
+                bidcars: "BidCars",
+                container: "Կոնտեյների",
+                tracking: "Հետևում"
+            },
+            ru: {
+                transportation: "Транспортная",
+                price: "Цена",
+                bidcars: "BidCars",
+                container: "Отслеживание",
+                tracking: "контейнера"
+            }
+        };
+
+        const languageSelect = document.getElementById("languageSelect");
+
+        function applyLanguage(language) {
+            const selectedLanguage = translations[language] || translations.en;
+
+            document.getElementById("transportationText").textContent =
+                selectedLanguage.transportation;
+
+            document.getElementById("priceText").textContent =
+                selectedLanguage.price;
+
+            document.getElementById("bidcarsText").textContent =
+                selectedLanguage.bidcars;
+
+            document.getElementById("containerText").textContent =
+                selectedLanguage.container;
+
+            document.getElementById("trackingText").textContent =
+                selectedLanguage.tracking;
+
+            document.documentElement.lang = language;
+            localStorage.setItem("pulseAutoImportLanguage", language);
+        }
+
+        const savedLanguage =
+            localStorage.getItem("pulseAutoImportLanguage") || "en";
+
+        languageSelect.value = savedLanguage;
+        applyLanguage(savedLanguage);
+
+        languageSelect.addEventListener("change", function () {
+            applyLanguage(this.value);
+        });
+    </script>
 </body>
 </html>
