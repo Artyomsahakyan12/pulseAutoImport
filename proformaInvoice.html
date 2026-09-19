@@ -429,199 +429,183 @@ document
             }
 
 
-            /* =================================
-               RIGHT-ALIGNED TEXT
-            ================================= */
+           /* =========================================
+   LEFT-ALIGNED TEXT
+========================================= */
 
-            function writeRightAligned(
-                text,
-                rightX,
-                baselineY,
-                fontSize,
-                color,
-                maxWidth
-            ) {
+function writeLeftAligned(
+    text,
+    x,
+    baselineY,
+    fontSize,
+    color,
+    maxWidth
+) {
 
-                if (!text) {
-                    return;
-                }
+    if (!text) {
+        return;
+    }
 
-                let size = fontSize;
+    let size = fontSize;
 
-                let textWidth =
-                    font.widthOfTextAtSize(
-                        text,
-                        size
-                    );
+    let textWidth =
+        font.widthOfTextAtSize(
+            text,
+            size
+        );
 
+    /*
+     * Եթե տեքստը երկար է,
+     * ավտոմատ փոքրացնում ենք font-ը
+     */
+    if (
+        maxWidth &&
+        textWidth > maxWidth
+    ) {
 
-                /* Automatically reduce font */
+        size *=
+            maxWidth /
+            textWidth;
 
-                if (
-                    maxWidth &&
-                    textWidth > maxWidth
-                ) {
+    }
 
-                    size *=
-                        maxWidth /
-                        textWidth;
+    page.drawText(
+        text,
+        {
+            x: x,
 
-                    textWidth =
-                        font.widthOfTextAtSize(
-                            text,
-                            size
-                        );
-                }
+            y: baselineY,
 
+            size: size,
 
-                page.drawText(
-                    text,
-                    {
-                        x:
-                            rightX - textWidth,
+            font: font,
 
-                        y:
-                            baselineY,
-
-                        size:
-                            size,
-
-                        font:
-                            font,
-
-                        color:
-                            color
-                    }
-                );
-
-            }
+            color: color
+        }
+    );
+}
 
 
-            /* =================================
-               COLORS
-            ================================= */
+/* =========================================
+   COLORS
+========================================= */
 
-            const dark =
-                PDFLib.rgb(
-                    0.12,
-                    0.15,
-                    0.20
-                );
+const dark =
+    PDFLib.rgb(
+        0.12,
+        0.15,
+        0.20
+    );
 
-
-            const red =
-                PDFLib.rgb(
-                    0.84,
-                    0.05,
-                    0.08
-                );
-
-
-            /* =================================
-               1. NAME, SURNAME
-            ================================= */
-
-            writeRightAligned(
-                customerName,
-                171,
-                553,
-                8.5,
-                dark,
-                67
-            );
+const red =
+    PDFLib.rgb(
+        0.84,
+        0.05,
+        0.08
+    );
 
 
-            /* =================================
-               2. PASSPORT / ID CARD
-            ================================= */
+/* =========================================
+   1. NAME, SURNAME
+========================================= */
 
-            writeRightAligned(
-                passport,
-                171,
-                527,
-                8.5,
-                dark,
-                67
-            );
-
-
-            /* =================================
-               3. MANUFACTURER
-            ================================= */
-
-            writeRightAligned(
-                make,
-                310,
-                553,
-                8.5,
-                dark,
-                58
-            );
+writeLeftAligned(
+    customerName,
+    110,
+    553,
+    8.5,
+    dark,
+    70
+);
 
 
-            /* =================================
-               4. MODEL
-            ================================= */
+/* =========================================
+   2. PASSPORT / ID CARD
+========================================= */
 
-            writeRightAligned(
-                model,
-                310,
-                528,
-                8.5,
-                dark,
-                67
-            );
-
-
-            /* =================================
-               5. YEAR
-            ================================= */
-
-            writeRightAligned(
-                year,
-                310,
-                503,
-                8.5,
-                dark,
-                58
-            );
+writeLeftAligned(
+    passport,
+    110,
+    527,
+    8.5,
+    dark,
+    70
+);
 
 
-            /* =================================
-               6. VIN
-            ================================= */
+/* =========================================
+   3. MANUFACTURER
+========================================= */
 
-            writeRightAligned(
-                vin,
-                310,
-                478,
-                8.5,
-                dark,
-                82
-            );
+writeLeftAligned(
+    make,
+    285,
+    553,
+    8.5,
+    dark,
+    55
+);
 
 
-            /* =================================
-               7. AMOUNT
-               
-               IMPORTANT:
-               No rectangle is drawn here.
+/* =========================================
+   4. MODEL
+========================================= */
 
-               The original gray payment-row
-               background remains untouched.
-               
-               AMD in the original PDF also
-               remains untouched.
-            ================================= */
+writeLeftAligned(
+    model,
+    285,
+    528,
+    8.5,
+    dark,
+    55
+);
 
-            writeRightAligned(
-                amount,
-                212,
-                354,
-                10,
-                red,
-                82
-            );
+
+/* =========================================
+   5. YEAR
+========================================= */
+
+writeLeftAligned(
+    year,
+    285,
+    503,
+    8.5,
+    dark,
+    55
+);
+
+
+/* =========================================
+   6. VIN
+========================================= */
+
+writeLeftAligned(
+    vin,
+    285,
+    478,
+    8.5,
+    dark,
+    82
+);
+
+
+/* =========================================
+   7. AMOUNT
+
+   IMPORTANT:
+   No rectangle.
+   Original gray background remains.
+   Original AMD remains untouched.
+========================================= */
+
+writeLeftAligned(
+    amount,
+    205,
+    354,
+    10,
+    red,
+    80
+);
 
 
             /* =================================
