@@ -115,7 +115,8 @@
 
         .transport-button,
         .bidcars-button,
-        .caucasusContainerTracking-button {
+        .caucasusContainerTracking-button,
+        .proforma-button {
             width: 72%;
             max-width: 360px;
             min-width: 0;
@@ -149,7 +150,8 @@
 
         .transport-button:hover,
         .bidcars-button:hover,
-        .caucasusContainerTracking-button:hover {
+        .caucasusContainerTracking-button:hover,
+        .proforma-button:hover {
             box-shadow:
                 0 3px 5px rgba(35, 55, 85, 0.10),
                 0 10px 22px rgba(35, 55, 85, 0.18),
@@ -159,7 +161,8 @@
 
         .transport-button:active,
         .bidcars-button:active,
-        .caucasusContainerTracking-button:active {
+        .caucasusContainerTracking-button:active,
+        .proforma-button:active {
             transform: scale(0.99);
         }
 
@@ -238,7 +241,38 @@
             transform: translateX(30px);
         }
 
+        /* Proforma Invoice */
+        .proforma-button {
+            color: #172033;
+            background: #ffffff;
+            font-size: 18px;
+        }
+
+        .proforma-button .proforma-text {
+            flex: 1;
+            min-width: 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .proforma-divider {
+            width: 2px;
+            height: 42px;
+            flex-shrink: 0;
+            margin: 0 12px;
+            background: #d9e0e9;
+        }
+
+        .proforma-arrow {
+            flex-shrink: 0;
+            margin-left: 8px;
+            color: #172033;
+            font-size: 30px;
+        }
+
         @media (max-width: 420px) {
+
             .language-selector {
                 top: 14px;
                 right: 14px;
@@ -257,7 +291,8 @@
 
             .transport-button,
             .bidcars-button,
-            .caucasusContainerTracking-button {
+            .caucasusContainerTracking-button,
+            .proforma-button {
                 width: 72%;
             }
 
@@ -307,6 +342,7 @@
 </head>
 
 <body>
+
     <!-- Language selector -->
     <div class="language-selector">
         <select id="languageSelect" aria-label="Select language">
@@ -316,6 +352,7 @@
         </select>
     </div>
 
+
     <!-- Pulse AutoImport logo -->
     <img
         class="brand-logo"
@@ -323,7 +360,9 @@
         alt="Pulse AutoImport"
     >
 
+
     <div class="buttons">
+
         <!-- Transportation Price -->
         <a
             class="transport-button"
@@ -339,12 +378,20 @@
             <div class="transport-divider"></div>
 
             <div class="transport-text">
-                <span id="transportationText">Transportation</span>
-                <span id="priceText">Price</span>
+                <span id="transportationText">
+                    Transportation
+                </span>
+
+                <span id="priceText">
+                    Price
+                </span>
             </div>
 
-            <div class="transport-arrow">›</div>
+            <div class="transport-arrow">
+                ›
+            </div>
         </a>
+
 
         <!-- BidCars -->
         <a
@@ -361,12 +408,18 @@
 
             <div class="bidcars-divider"></div>
 
-            <div class="bidcars-text" id="bidcarsText">
+            <div
+                class="bidcars-text"
+                id="bidcarsText"
+            >
                 BidCars
             </div>
 
-            <div class="bidcars-arrow">›</div>
+            <div class="bidcars-arrow">
+                ›
+            </div>
         </a>
+
 
         <!-- Container Tracking -->
         <a
@@ -384,72 +437,165 @@
             <div class="caucasusContainerTracking-divider"></div>
 
             <div class="caucasusContainerTracking-text">
-                <span id="containerText">Container</span>
-                <span id="trackingText">Tracking</span>
+                <span id="containerText">
+                    Container
+                </span>
+
+                <span id="trackingText">
+                    Tracking
+                </span>
             </div>
 
-            <div class="caucasusContainerTracking-arrow">›</div>
+            <div class="caucasusContainerTracking-arrow">
+                ›
+            </div>
         </a>
+
+
+        <!-- Proforma Invoice -->
+        <a
+            class="proforma-button"
+            href="./proformaInvoice.html"
+            target="_self"
+        >
+            <div
+                class="proforma-text"
+                id="proformaText"
+            >
+                Proforma Invoice
+            </div>
+
+            <div class="proforma-divider"></div>
+
+            <div class="proforma-arrow">
+                ›
+            </div>
+        </a>
+
     </div>
 
+
     <script>
+
         const translations = {
+
             en: {
                 transportation: "Transportation",
                 price: "price",
                 bidcars: "BidCars",
                 container: "Container",
-                tracking: "tracking"
+                tracking: "tracking",
+                proforma: "Proforma Invoice"
             },
+
             hy: {
                 transportation: "Փոխադրման",
                 price: "արժեք",
                 bidcars: "ԲիդՔարս",
                 container: "Կոնտեյների",
-                tracking: "հետևում"
+                tracking: "հետևում",
+                proforma: "Պրոֆորմա հաշիվ"
             },
+
             ru: {
                 transportation: "Стоимость",
                 price: "транспортировки",
                 bidcars: "БидКарс",
                 container: "Отслеживание",
-                tracking: "контейнера"
+                tracking: "контейнера",
+                proforma: "Проформа-инвойс"
             }
+
         };
 
-        const languageSelect = document.getElementById("languageSelect");
+
+        const languageSelect =
+            document.getElementById(
+                "languageSelect"
+            );
+
 
         function applyLanguage(language) {
-            const selectedLanguage = translations[language] || translations.en;
 
-            document.getElementById("transportationText").textContent =
+            const selectedLanguage =
+                translations[language] ||
+                translations.en;
+
+
+            document.getElementById(
+                "transportationText"
+            ).textContent =
                 selectedLanguage.transportation;
 
-            document.getElementById("priceText").textContent =
+
+            document.getElementById(
+                "priceText"
+            ).textContent =
                 selectedLanguage.price;
 
-            document.getElementById("bidcarsText").textContent =
+
+            document.getElementById(
+                "bidcarsText"
+            ).textContent =
                 selectedLanguage.bidcars;
 
-            document.getElementById("containerText").textContent =
+
+            document.getElementById(
+                "containerText"
+            ).textContent =
                 selectedLanguage.container;
 
-            document.getElementById("trackingText").textContent =
+
+            document.getElementById(
+                "trackingText"
+            ).textContent =
                 selectedLanguage.tracking;
 
-            document.documentElement.lang = language;
-            localStorage.setItem("pulseAutoImportLanguage", language);
+
+            document.getElementById(
+                "proformaText"
+            ).textContent =
+                selectedLanguage.proforma;
+
+
+            document.documentElement.lang =
+                language;
+
+
+            localStorage.setItem(
+                "pulseAutoImportLanguage",
+                language
+            );
         }
 
+
         const savedLanguage =
-            localStorage.getItem("pulseAutoImportLanguage") || "en";
+            localStorage.getItem(
+                "pulseAutoImportLanguage"
+            ) || "en";
 
-        languageSelect.value = savedLanguage;
-        applyLanguage(savedLanguage);
 
-        languageSelect.addEventListener("change", function () {
-            applyLanguage(this.value);
-        });
+        languageSelect.value =
+            savedLanguage;
+
+
+        applyLanguage(
+            savedLanguage
+        );
+
+
+        languageSelect.addEventListener(
+            "change",
+            function () {
+
+                applyLanguage(
+                    this.value
+                );
+
+            }
+        );
+
     </script>
+
 </body>
 </html>
