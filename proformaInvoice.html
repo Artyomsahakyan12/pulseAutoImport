@@ -450,11 +450,12 @@ button {
 
             <div class="field-input">
 
-                <input
-                    id="vin"
-                    type="text"
-                    autocapitalize="characters"
-                >
+              <input
+    id="vin"
+    type="text"
+    autocapitalize="characters"
+    style="text-transform: uppercase;"
+>
 
                 <button
                     class="field-clear-btn"
@@ -726,6 +727,15 @@ document
             this.value =
                 value;
 
+        }
+    );
+    
+    document
+    .getElementById("vin")
+    .addEventListener(
+        "input",
+        function () {
+            this.value = this.value.toUpperCase();
         }
     );
 
