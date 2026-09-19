@@ -1,1899 +1,1274 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="mobile-web-app-capable" content="yes">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
 
-<title>PulseAutoImport</title>
+<meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+>
+
+<meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default"
+>
+
+<meta
+    name="apple-mobile-web-app-title"
+    content="Proforma Invoice"
+>
+
+<title>Proforma Invoice</title>
+
 
 <style>
-*{box-sizing:border-box}
 
-body{
-    margin:0;
-    background:#f5f7fa;
-    color:#172033;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+* {
+    box-sizing: border-box;
 }
 
-.wrap{
-    max-width:700px;
-    margin:auto;
-    padding:55px 18px
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    background: #f4f5f7;
+    color: #202733;
+
+    padding:
+        20px
+        14px
+        30px;
 }
 
-.brand{
-    text-align:center;
-    font-size:13px;
-    font-weight:800;
-    letter-spacing:.14em;
-    color:#697386
+
+.container {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
 }
 
-h1{
-    text-align:center;
-    font-size:34px;
-    margin:10px 0 8px;
+
+h1 {
+    margin:
+        6px
+        0
+        18px;
+
+    text-align: center;
+
+    font-size: 24px;
+    font-weight: 700;
 }
 
-.sub{
-    text-align:center;
-    color:#7d8695;
-    margin-bottom:28px;
-    white-space:pre-line;
+
+.card {
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 4px 18px rgba(0,0,0,.08);
 }
 
-.search{
-    background:#fff;
-    border:1px solid #dce2eb;
-    border-radius:17px;
-    padding:5px;
-    display:flex;
-    align-items:center;
-    box-shadow:0 8px 28px rgba(23,32,51,.07)
+
+.field {
+    margin-bottom: 14px;
 }
 
-.icon{
-    padding:0 12px;
-    color:#8a93a3;
-    font-size:22px
+
+label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+    font-weight: 700;
 }
 
-.clear-btn{
-    display:none;
-    width:36px;
-    height:36px;
-    margin:0 6px 0 0;
-    padding:0;
-    border:0;
-    border-radius:50%;
-    background:#eef1f5;
-    color:#697386;
-    font-size:22px;
-    font-weight:500;
-    line-height:36px;
-    cursor:pointer;
-    flex-shrink:0;
-    appearance:none
+
+/* =========================================
+   INPUT WRAPPER
+========================================= */
+
+.field-input {
+    position: relative;
 }
 
-.clear-btn.visible{
-    display:block
+
+/* =========================================
+   INPUT
+========================================= */
+
+input {
+    width: 100%;
+    height: 46px;
+
+    border:
+        1px solid
+        #d8dce2;
+
+    border-radius: 10px;
+
+    padding:
+        0
+        46px
+        0
+        13px;
+
+    font-size: 16px;
+
+    outline: none;
+
+    background: #ffffff;
 }
 
-input{
-    flex:1;
-    border:0;
-    outline:0;
-    font-size:16px !important;
-    padding:14px 6px;
-    -webkit-text-size-adjust:100%;
-    background:transparent
+
+input:focus {
+    border-color: #d71920;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(215,25,32,.10);
 }
 
-button{
-    width:100%;
-    margin-top:12px;
-    border:0;
-    border-radius:15px;
-    padding:17px;
-    background:#172033;
-    color:white;
-    font-size:17px;
-    font-weight:750
+
+/* =========================================
+   INDIVIDUAL X BUTTON
+========================================= */
+
+.field-clear-btn {
+
+    display: none;
+
+    position: absolute;
+
+    right: 6px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 36px;
+    height: 36px;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background: #eef1f5;
+
+    color: #697386;
+
+    font-size: 22px;
+
+    font-weight: 500;
+
+    line-height: 36px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+
+    appearance: none;
 }
 
-.label{
-    margin-top:28px;
-    margin-bottom:10px;
-    font-size:13px;
-    font-weight:800;
-    color:#7b8493;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-    text-align:center
+
+.field-clear-btn.visible {
+    display: block;
 }
 
-.message,.results{
-    background:white;
-    border:1px solid #e0e5ed;
-    border-radius:17px
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+button {
+    width: 100%;
+    height: 50px;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
 }
 
-.message{
-    text-align:center;
-    padding:22px;
-    color:#8992a1
+
+.generate {
+    color: #ffffff;
+
+    background: #d71920;
+
+    margin-top: 4px;
 }
 
-.row{
-    padding:18px 12px 18px 10px;
-    border-bottom:1px solid #edf0f4;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px
+
+.generate:disabled {
+    opacity: .6;
 }
 
-.row:last-child{
-    border-bottom:0
+
+.clear {
+    color: #202733;
+
+    background: #eef0f3;
+
+    margin-top: 10px;
 }
 
-.left{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    min-width:0
+
+/* =========================================
+   BACK
+========================================= */
+
+.back {
+    display: block;
+
+    text-align: center;
+
+    margin-top: 16px;
+
+    color: #202733;
+
+    text-decoration: none;
+
+    font-size: 14px;
 }
 
-.name{
-    font-size:17px;
-    font-weight:700;
-    word-break:break-word
-}
-
-.desc{
-    font-size:12px;
-    color:#9299a6;
-    margin-top:4px
-}
-
-.price{
-    font-size:23px;
-    font-weight:800;
-}
-
-.price.cheap{
-    color:#16a34a
-}
-
-.price.normal{
-    color:#d97706
-}
-
-.price.expensive{
-    color:#dc2626
-}
-
-.price.ultra-expensive{
-    color:#8C0000
-}
-
-.georgia-indicator{
-    display:block;
-    font-size:11px;
-    font-weight:700;
-    color:#697386;
-    margin-bottom:3px;
-    white-space: nowrap;
-}
-
-.auction-logo{
-    width:34px;
-    height:24px;
-    object-fit:contain;
-    display:block;
-    flex-shrink:0
-}
-
-.auction-name{
-    font-size:11px;
-    color:#8992a1;
-    margin-top:3px
-}
-
-@media(max-width:520px){
-    .wrap{
-        padding:45px 16px
-    }
-
-    h1{
-        font-size:30px
-    }
-
-    .price{
-        font-size:21px
-    }
-
-    .name{
-        font-size:15px
-    }
-}
 </style>
+
 </head>
+
 
 <body>
 
-<div id="transportation-app">
 
-<div class="wrap">
-
-<h1 id="pageTitle">Transportation Price</h1>
-
-<div class="sub">
-<span id="pageSubtitle">Search a branch to find its transportation price.</span>
-</div>
-
-<div class="search">
-    <div class="icon">🔍</div>
-    <input
-        id="searchInput"
-        type="search"
-        placeholder="Search location..."
-        id="searchInput"
-        autocomplete="off"
-        enterkeyhint="search"
-    >
-    <button
-        id="clearSearch"
-        class="clear-btn"
-        type="button"
-        aria-label="Clear search"
-    >×</button>
-</div>
-
-<div class="label" id="resultLabel">Result</div>
-
-<div id="result" class="message">
-    <span id="initialResultText">Search result will appear here.</span>
-</div>
-
-</div>
-
-<script>
-
-/* =========================
-   IAAI DATABASE
-========================= */
-
-const iaaiDatabase = [
-{"state":"AK","name":"Anchorage","price":"$5,370"},
-{"state":"AL","name":"Birmingham","price":"$1,960"},
-{"state":"AL","name":"Dothan","price":"$1,840"},
-{"state":"AL","name":"Huntsville","price":"$1,930"},
-{"state":"AL","name":"Mobile","price":"$1,890"},
-{"state":"AL","name":"ADESA Birmingham","price":"$2,140"},
-{"state":"AR","name":"Fayetteville","price":"$2,191"},
-{"state":"AR","name":"Little Rock","price":"$2,181"},
-{"state":"AZ","name":"Phoenix","price":"$2,549"},
-{"state":"AZ","name":"Tucson","price":"$2,313"},
-{"state":"CA","name":"ACE - Perris","price":"$2,446"},
-{"state":"CA","name":"ACE Carson","price":"$2,120"},
-{"state":"CA","name":"ACE Perris 2","price":"$2,496"},
-{"state":"CA","name":"Anaheim","price":"$2,420"},
-{"state":"CA","name":"Colton","price":"$2,232"},
-{"state":"CA","name":"East Bay","price":"$2,532"},
-{"state":"CA","name":"Fontana","price":"$2,450"},
-{"state":"CA","name":"Fremont","price":"$2,570"},
-{"state":"CA","name":"Fresno","price":"$2,461"},
-{"state":"CA","name":"High Desert","price":"$2,320"},
-{"state":"CA","name":"Los Angeles","price":"$2,305"},
-{"state":"CA","name":"Los Angeles South","price":"$2,470"},
-{"state":"CA","name":"North Hollywood","price":"$2,510"},
-{"state":"CA","name":"Riverside","price":"$2,450"},
-{"state":"CA","name":"Sacramento","price":"$2,470"},
-{"state":"CA","name":"Sacramento West","price":"$2,520"},
-{"state":"CA","name":"San Bernardino","price":"$2,420"},
-{"state":"CA","name":"San Diego","price":"$2,451"},
-{"state":"CA","name":"Santa Clarita","price":"$2,345"},
-{"state":"CA","name":"Stockton","price":"$2,520"},
-{"state":"CO","name":"Colorado Springs","price":"$2,260"},
-{"state":"CO","name":"Denver","price":"$2,090"},
-{"state":"CO","name":"Denver East","price":"$2,170"},
-{"state":"CO","name":"Western Colorado","price":"$2,840"},
-{"state":"CT","name":"Hartford","price":"$1,690"},
-{"state":"CT","name":"Hartford-South","price":"$1,890"},
-{"state":"DE","name":"New Castle","price":"$1,540"},
-{"state":"FL","name":"Clearwater","price":"$1,870"},
-{"state":"FL","name":"Fort Myers","price":"$1,920"},
-{"state":"FL","name":"Fort Pierce","price":"$1,657"},
-{"state":"FL","name":"Jacksonville","price":"$1,770"},
-{"state":"FL","name":"Miami","price":"$1,840"},
-{"state":"FL","name":"Miami-North","price":"$1,870"},
-{"state":"FL","name":"Orlando","price":"$1,883"},
-{"state":"FL","name":"Orlando-North","price":"$1,902"},
-{"state":"FL","name":"Pensacola","price":"$1,940"},
-{"state":"FL","name":"Tampa","price":"$1,890"},
-{"state":"FL","name":"Tampa North","price":"$1,840"},
-{"state":"FL","name":"West Palm Beach","price":"$1,890"},
-{"state":"GA","name":"Atlanta","price":"$1,840"},
-{"state":"GA","name":"Atlanta East","price":"$1,895"},
-{"state":"GA","name":"Atlanta North","price":"$1,841"},
-{"state":"GA","name":"Atlanta South","price":"$1,796"},
-{"state":"GA","name":"Atlanta West","price":"$1,826"},
-{"state":"GA","name":"Lake City","price":"$1,826"},
-{"state":"GA","name":"Macon","price":"$1,880"},
-{"state":"GA","name":"Savannah","price":"$1,540"},
-{"state":"GA","name":"Tifton","price":"$1,851"},
-{"state":"HI","name":"Honolulu","price":"$4,116"},
-{"state":"IA","name":"Davenport","price":"$2,070"},
-{"state":"IA","name":"Des Moines","price":"$2,210"},
-{"state":"ID","name":"Boise","price":"$2,620"},
-{"state":"IL","name":"Chicago-North","price":"$1,974"},
-{"state":"IL","name":"Chicago-South","price":"$1,970"},
-{"state":"IL","name":"Chicago-West","price":"$1,920"},
-{"state":"IL","name":"Lincoln","price":"$2,100"},
-{"state":"IL","name":"Specialty Division","price":"$2,040"},
-{"state":"IL","name":"St. Louis","price":"$2,110"},
-{"state":"IN","name":"Fort Wayne","price":"$2,120"},
-{"state":"IN","name":"Indianapolis","price":"$2,040"},
-{"state":"IN","name":"Indianapolis South","price":"$2,040"},
-{"state":"IN","name":"South Bend","price":"$2,070"},
-{"state":"KS","name":"Kansas City","price":"$2,225"},
-{"state":"KS","name":"Wichita","price":"$2,170"},
-{"state":"KY","name":"Ashland","price":"$1,940"},
-{"state":"KY","name":"Bowling Green","price":"$1,940"},
-{"state":"KY","name":"Louisville","price":"$1,996"},
-{"state":"KY","name":"Louisville North","price":"$2,057"},
-{"state":"KY","name":"Paducah","price":"$1,990"},
-{"state":"LA","name":"Baton Rouge","price":"$2,065"},
-{"state":"LA","name":"Lafayette","price":"$1,942"},
-{"state":"LA","name":"New Orleans","price":"$1,890"},
-{"state":"LA","name":"New Orleans East","price":"$1,940"},
-{"state":"LA","name":"Shreveport","price":"$1,840"},
-{"state":"MA","name":"Boston - Shirley","price":"$1,900"},
-{"state":"MA","name":"Taunton","price":"$1,890"},
-{"state":"MA","name":"Templeton","price":"$1,940"},
-{"state":"MD","name":"Baltimore","price":"$1,870"},
-{"state":"MD","name":"Dundalk","price":"$1,805"},
-{"state":"MD","name":"Elkton","price":"$1,920"},
-{"state":"MD","name":"Laurel","price":"$1,905"},
-{"state":"MD","name":"Metro DC","price":"$1,900"},
-{"state":"MD","name":"Rosedale","price":"$1,790"},
-{"state":"ME","name":"Portland - Gorham","price":"$2,020"},
-{"state":"ME","name":"Rental Rides","price":"$2,040"},
-{"state":"MI","name":"Detroit","price":"$2,080"},
-{"state":"MI","name":"Flint","price":"$2,126"},
-{"state":"MI","name":"Grand Rapids","price":"$2,130"},
-{"state":"MI","name":"Great Lakes","price":"$2,090"},
-{"state":"MN","name":"Minneapolis South","price":"$2,080"},
-{"state":"MN","name":"Minneapolis/St. Paul","price":"$2,105"},
-{"state":"MN","name":"St. Cloud","price":"$2,224"},
-{"state":"MN","name":"St. Paul North","price":"$2,160"},
-{"state":"MO","name":"Kansas City East","price":"$1,990"},
-{"state":"MO","name":"Springfield","price":"$2,140"},
-{"state":"MS","name":"Grenada","price":"$2,040"},
-{"state":"MS","name":"Gulf Coast","price":"$1,990"},
-{"state":"MS","name":"Jackson","price":"$1,940"},
-{"state":"MT","name":"Billings","price":"$2,895"},
-{"state":"MT","name":"Missoula","price":"$3,110"},
-{"state":"NC","name":"Asheville","price":"$1,935"},
-{"state":"NC","name":"Charlotte","price":"$1,890"},
-{"state":"NC","name":"Concord","price":"$1,970"},
-{"state":"NC","name":"Greensboro","price":"$2,010"},
-{"state":"NC","name":"High Point","price":"$2,090"},
-{"state":"NC","name":"Raleigh","price":"$2,060"},
-{"state":"NC","name":"Wilmington","price":"$1,826"},
-{"state":"ND","name":"Bismarck","price":"$2,840"},
-{"state":"ND","name":"Fargo","price":"$2,670"},
-{"state":"NE","name":"Omaha","price":"$2,330"},
-{"state":"NE","name":"Omaha South","price":"$2,415"},
-{"state":"NH","name":"Manchester","price":"$1,925"},
-{"state":"NJ","name":"Avenel New Jersey","price":"$1,692"},
-{"state":"NJ","name":"Central New Jersey","price":"$1,590"},
-{"state":"NJ","name":"Englishtown","price":"$1,668"},
-{"state":"NJ","name":"Sayreville","price":"$1,790"},
-{"state":"NJ","name":"Northern New Jersey","price":"$1,790"},
-{"state":"NJ","name":"Port Murray","price":"$1,790"},
-{"state":"NJ","name":"Southern New Jersey","price":"$1,740"},
-{"state":"NM","name":"Albuquerque","price":"$2,003"},
-{"state":"NV","name":"Las Vegas","price":"$2,370"},
-{"state":"NV","name":"Reno","price":"$2,410"},
-{"state":"NY","name":"Albany","price":"$1,900"},
-{"state":"NY","name":"Buffalo","price":"$1,940"},
-{"state":"NY","name":"Long Island","price":"$1,930"},
-{"state":"NY","name":"Monticello","price":"$1,915"},
-{"state":"NY","name":"Newburgh","price":"$1,865"},
-{"state":"NY","name":"Rochester","price":"$1,885"},
-{"state":"NY","name":"Staten Island","price":"$1,940"},
-{"state":"NY","name":"Syracuse","price":"$1,823"},
-{"state":"OH","name":"Akron-Canton","price":"$1,953"},
-{"state":"OH","name":"Cincinnati","price":"$2,130"},
-{"state":"OH","name":"Cincinnati-South","price":"$1,990"},
-{"state":"OH","name":"Cleveland","price":"$2,120"},
-{"state":"OH","name":"Columbus","price":"$2,103"},
-{"state":"OH","name":"Dayton","price":"$1,890"},
-{"state":"OK","name":"Oklahoma City","price":"$1,987"},
-{"state":"OK","name":"Tulsa","price":"$2,140"},
-{"state":"OR","name":"Eugene","price":"$2,620"},
-{"state":"OR","name":"Portland","price":"$2,916"},
-{"state":"OR","name":"Portland South","price":"$2,670"},
-{"state":"OR","name":"Portland West","price":"$2,820"},
-{"state":"PA","name":"Altoona","price":"$1,690"},
-{"state":"PA","name":"Bridgeport","price":"$1,825"},
-{"state":"PA","name":"Erie","price":"$2,043"},
-{"state":"PA","name":"Philadelphia","price":"$1,765"},
-{"state":"PA","name":"Pittsburgh","price":"$1,860"},
-{"state":"PA","name":"Pittsburgh-North","price":"$1,867"},
-{"state":"PA","name":"Scranton","price":"$1,795"},
-{"state":"PA","name":"York Springs","price":"$1,790"},
-{"state":"RI","name":"Providence","price":"$1,740"},
-{"state":"SC","name":"Charleston","price":"$1,790"},
-{"state":"SC","name":"Columbia","price":"$2,040"},
-{"state":"SC","name":"Greenville","price":"$1,895"},
-{"state":"SC","name":"Lexington","price":"$1,975"},
-{"state":"SD","name":"Sioux Falls","price":"$2,290"},
-{"state":"TN","name":"Chattanooga","price":"$1,890"},
-{"state":"TN","name":"Knoxville","price":"$1,940"},
-{"state":"TN","name":"Memphis","price":"$2,040"},
-{"state":"TN","name":"Nashville","price":"$1,990"},
-{"state":"TX","name":"Abilene","price":"$1,890"},
-{"state":"TX","name":"Amarillo","price":"$1,980"},
-{"state":"TX","name":"Austin","price":"$2,030"},
-{"state":"TX","name":"Austin North","price":"$2,115"},
-{"state":"TX","name":"Corpus Christi","price":"$1,890"},
-{"state":"TX","name":"Dallas","price":"$1,990"},
-{"state":"TX","name":"Dallas/Ft. Worth","price":"$1,790"},
-{"state":"TX","name":"El Paso","price":"$1,970"},
-{"state":"TX","name":"Fort Worth North","price":"$2,030"},
-{"state":"TX","name":"Houston","price":"$1,740"},
-{"state":"TX","name":"Houston South","price":"$1,645"},
-{"state":"TX","name":"Houston-North","price":"$1,970"},
-{"state":"TX","name":"Longview","price":"$1,890"},
-{"state":"TX","name":"Lubbock","price":"$2,140"},
-{"state":"TX","name":"McAllen","price":"$1,970"},
-{"state":"TX","name":"Permian Basin","price":"$1,790"},
-{"state":"TX","name":"San Antonio","price":"$1,790"},
-{"state":"TX","name":"San Antonio-South","price":"$2,040"},
-{"state":"UT","name":"Provo","price":"$2,639"},
-{"state":"UT","name":"Salt Lake City","price":"$2,610"},
-{"state":"VA","name":"Culpeper","price":"$1,940"},
-{"state":"VA","name":"Fredericksburg-South","price":"$1,940"},
-{"state":"VA","name":"Northern Virginia","price":"$1,975"},
-{"state":"VA","name":"Pulaski","price":"$1,970"},
-{"state":"VA","name":"Richmond","price":"$1,801"},
-{"state":"VA","name":"ROANOKE","price":"$1,970"},
-{"state":"VA","name":"Suffolk","price":"$1,910"},
-{"state":"VA","name":"Tidewater","price":"$1,835"},
-{"state":"VT","name":"Burlington","price":"$2,035"},
-{"state":"WA","name":"Puyallup","price":"$2,740"},
-{"state":"WA","name":"Seattle","price":"$2,740"},
-{"state":"WA","name":"Spokane","price":"$2,890"},
-{"state":"WI","name":"Appleton","price":"$2,089"},
-{"state":"WI","name":"IAA Ignite Auction Portage","price":"$2,028"},
-{"state":"WI","name":"Milwaukee","price":"$2,070"},
-{"state":"WI","name":"Portage","price":"$2,085"},
-{"state":"WV","name":"Buckhannon","price":"$2,040"},
-{"state":"WV","name":"Shady Spring","price":"$2,090"},
-{"state":"WY","name":"Casper","price":"$2,540"}
-].map(item => ({
-    ...item,
-    auction:"IAAI",
-    logo:"iaai-logo.PNG"
-}));
+<div class="container">
 
 
-/* =========================
-   COPART DATABASE
-========================= */
-
-const copartDatabase = [
-    {
-        "state": "AB",
-        "name": "Calgary",
-        "price": "$2890"
-    },
-    {
-        "state": "AB",
-        "name": "Edmonton",
-        "price": "$2890"
-    },
-    {
-        "state": "AK",
-        "name": "Anchorage",
-        "price": "$5370"
-    },
-    {
-        "state": "AL",
-        "name": "Alabama Dothan",
-        "price": "$2040"
-    },
-    {
-        "state": "AL",
-        "name": "Birmingham",
-        "price": "$1985"
-    },
-    {
-        "state": "AL",
-        "name": "Cusseta",
-        "price": "$1945"
-    },
-    {
-        "state": "AL",
-        "name": "Dothan",
-        "price": "$1875"
-    },
-    {
-        "state": "AL",
-        "name": "Mobile",
-        "price": "$1974"
-    },
-    {
-        "state": "AL",
-        "name": "Mobile South",
-        "price": "$1890"
-    },
-    {
-        "state": "AL",
-        "name": "Montgomery",
-        "price": "$2020"
-    },
-    {
-        "state": "AL",
-        "name": "Tanner",
-        "price": "$1961"
-    },
-    {
-        "state": "AR",
-        "name": "Fayetteville",
-        "price": "$2133"
-    },
-    {
-        "state": "AR",
-        "name": "Little Rock",
-        "price": "$2240"
-    },
-    {
-        "state": "AZ",
-        "name": "Phoenix",
-        "price": "$2540"
-    },
-    {
-        "state": "AZ",
-        "name": "Phoenix North",
-        "price": "$2590"
-    },
-    {
-        "state": "AZ",
-        "name": "Tucson",
-        "price": "$2440"
-    },
-    {
-        "state": "CA",
-        "name": "Adelanto",
-        "price": "$2170"
-    },
-    {
-        "state": "CA",
-        "name": "Antelope",
-        "price": "$2591"
-    },
-    {
-        "state": "CA",
-        "name": "Bakersfield",
-        "price": "$2412"
-    },
-    {
-        "state": "CA",
-        "name": "CrashedToys Sacramento",
-        "price": "$2445"
-    },
-    {
-        "state": "CA",
-        "name": "D-Bid Repo",
-        "price": "$2535"
-    },
-    {
-        "state": "CA",
-        "name": "Fresno",
-        "price": "$2380"
-    },
-    {
-        "state": "CA",
-        "name": "Hayward",
-        "price": "$2590"
-    },
-    {
-        "state": "CA",
-        "name": "Long Beach",
-        "price": "$2370"
-    },
-    {
-        "state": "CA",
-        "name": "Los Angeles",
-        "price": "$2410"
-    },
-    {
-        "state": "CA",
-        "name": "Martinez",
-        "price": "$2700"
-    },
-    {
-        "state": "CA",
-        "name": "Mentone",
-        "price": "$2258"
-    },
-    {
-        "state": "CA",
-        "name": "Napa",
-        "price": "$2574"
-    },
-    {
-        "state": "CA",
-        "name": "Rancho Cucamonga",
-        "price": "$2470"
-    },
-    {
-        "state": "CA",
-        "name": "REDDING",
-        "price": "$2660"
-    },
-    {
-        "state": "CA",
-        "name": "Sacramento",
-        "price": "$2570"
-    },
-    {
-        "state": "CA",
-        "name": "San Bernardino",
-        "price": "$2358"
-    },
-    {
-        "state": "CA",
-        "name": "San Diego",
-        "price": "$2510"
-    },
-    {
-        "state": "CA",
-        "name": "San Jose",
-        "price": "$2600"
-    },
-    {
-        "state": "CA",
-        "name": "So Sacramento",
-        "price": "$2454"
-    },
-    {
-        "state": "CA",
-        "name": "Sun Valley",
-        "price": "$2440"
-    },
-    {
-        "state": "CA",
-        "name": "Vallejo",
-        "price": "$2524"
-    },
-    {
-        "state": "CA",
-        "name": "Van Nuys",
-        "price": "$2470"
-    },
-    {
-        "state": "CO",
-        "name": "Colorado Springs",
-        "price": "$2189"
-    },
-    {
-        "state": "CO",
-        "name": "Denver",
-        "price": "$2370"
-    },
-    {
-        "state": "CO",
-        "name": "Denver Central",
-        "price": "$2353"
-    },
-    {
-        "state": "CO",
-        "name": "Denver South",
-        "price": "$2397"
-    },
-    {
-        "state": "CT",
-        "name": "Hartford",
-        "price": "$1840"
-    },
-    {
-        "state": "CT",
-        "name": "Hartford Springfield",
-        "price": "$1850"
-    },
-    {
-        "state": "DC",
-        "name": "Washington DC",
-        "price": "$1970"
-    },
-    {
-        "state": "DE",
-        "name": "Seaford",
-        "price": "$1694"
-    },
-    {
-        "state": "FL",
-        "name": "Clewiston",
-        "price": "$1990"
-    },
-    {
-        "state": "FL",
-        "name": "Ft. Pierce",
-        "price": "$1845"
-    },
-    {
-        "state": "FL",
-        "name": "Jacksonville East",
-        "price": "$1690"
-    },
-    {
-        "state": "FL",
-        "name": "Jacksonville North",
-        "price": "$1740"
-    },
-    {
-        "state": "FL",
-        "name": "Jacksonville West",
-        "price": "$1690"
-    },
-    {
-        "state": "FL",
-        "name": "Miami Central",
-        "price": "$1840"
-    },
-    {
-        "state": "FL",
-        "name": "Miami North",
-        "price": "$1690"
-    },
-    {
-        "state": "FL",
-        "name": "Miami South",
-        "price": "$1840"
-    },
-    {
-        "state": "FL",
-        "name": "Ocala",
-        "price": "$1740"
-    },
-    {
-        "state": "FL",
-        "name": "Orlando North",
-        "price": "$1812"
-    },
-    {
-        "state": "FL",
-        "name": "Orlando South",
-        "price": "$1890"
-    },
-    {
-        "state": "FL",
-        "name": "Punta Gorda",
-        "price": "$2020"
-    },
-    {
-        "state": "FL",
-        "name": "Punta Gorda South",
-        "price": "$2070"
-    },
-    {
-        "state": "FL",
-        "name": "Tallahassee",
-        "price": "$1970"
-    },
-    {
-        "state": "FL",
-        "name": "Tampa North",
-        "price": "$1940"
-    },
-    {
-        "state": "FL",
-        "name": "Tampa South",
-        "price": "$1940"
-    },
-    {
-        "state": "FL",
-        "name": "West Palm Beach",
-        "price": "$1950"
-    },
-    {
-        "state": "GA",
-        "name": "Atlanta East",
-        "price": "$1943"
-    },
-    {
-        "state": "GA",
-        "name": "Atlanta North",
-        "price": "$1830"
-    },
-    {
-        "state": "GA",
-        "name": "Atlanta South",
-        "price": "$1890"
-    },
-    {
-        "state": "GA",
-        "name": "Atlanta West",
-        "price": "$1890"
-    },
-    {
-        "state": "GA",
-        "name": "Augusta",
-        "price": "$2195"
-    },
-    {
-        "state": "GA",
-        "name": "Cartersville",
-        "price": "$1873"
-    },
-    {
-        "state": "GA",
-        "name": "CrashedToys Atlanta",
-        "price": "$1985"
-    },
-    {
-        "state": "GA",
-        "name": "Fairburn",
-        "price": "$2069"
-    },
-    {
-        "state": "GA",
-        "name": "Macon",
-        "price": "$1904"
-    },
-    {
-        "state": "GA",
-        "name": "Savannah",
-        "price": "$1639"
-    },
-    {
-        "state": "GA",
-        "name": "Tifton",
-        "price": "$1920"
-    },
-    {
-        "state": "HI",
-        "name": "Honolulu",
-        "price": "$3866"
-    },
-    {
-        "state": "IA",
-        "name": "Cedar Rapids",
-        "price": "$2170"
-    },
-    {
-        "state": "IA",
-        "name": "Davenport",
-        "price": "$2075"
-    },
-    {
-        "state": "IA",
-        "name": "Des Moines",
-        "price": "$2120"
-    },
-    {
-        "state": "ID",
-        "name": "Boise",
-        "price": "$2670"
-    },
-    {
-        "state": "IL",
-        "name": "Chicago North",
-        "price": "$2140"
-    },
-    {
-        "state": "IL",
-        "name": "Chicago South",
-        "price": "$2022"
-    },
-    {
-        "state": "IL",
-        "name": "Peoria",
-        "price": "$2116"
-    },
-    {
-        "state": "IL",
-        "name": "Southern Illinois",
-        "price": "$2116"
-    },
-    {
-        "state": "IL",
-        "name": "St.Louis",
-        "price": "$1941"
-    },
-    {
-        "state": "IL",
-        "name": "Wheeling",
-        "price": "$2067"
-    },
-    {
-        "state": "IN",
-        "name": "Cicero",
-        "price": "$2070"
-    },
-    {
-        "state": "IN",
-        "name": "Dyer",
-        "price": "$2393"
-    },
-    {
-        "state": "IN",
-        "name": "Fort Wayne",
-        "price": "$1992"
-    },
-    {
-        "state": "IN",
-        "name": "Hammond",
-        "price": "$2108"
-    },
-    {
-        "state": "IN",
-        "name": "Hartford City",
-        "price": "$2202"
-    },
-    {
-        "state": "IN",
-        "name": "Indianapolis",
-        "price": "$2082"
-    },
-    {
-        "state": "KS",
-        "name": "Kansas City",
-        "price": "$2240"
-    },
-    {
-        "state": "KS",
-        "name": "Kansas City East",
-        "price": "$2390"
-    },
-    {
-        "state": "KS",
-        "name": "Kansas City West",
-        "price": "$2415"
-    },
-    {
-        "state": "KS",
-        "name": "Wichita",
-        "price": "$2173"
-    },
-    {
-        "state": "KY",
-        "name": "Earlington",
-        "price": "$2390"
-    },
-    {
-        "state": "KY",
-        "name": "Lexington East",
-        "price": "$2190"
-    },
-    {
-        "state": "KY",
-        "name": "Lexington West",
-        "price": "$2090"
-    },
-    {
-        "state": "KY",
-        "name": "Louisville",
-        "price": "$2090"
-    },
-    {
-        "state": "KY",
-        "name": "Walton",
-        "price": "$2140"
-    },
-    {
-        "state": "LA",
-        "name": "Baton Rouge",
-        "price": "$2140"
-    },
-    {
-        "state": "LA",
-        "name": "New Orleans",
-        "price": "$1990"
-    },
-    {
-        "state": "LA",
-        "name": "Shreveport",
-        "price": "$1740"
-    },
-    {
-        "state": "LA",
-        "name": "Vin-ton",
-        "price": "$2045"
-    },
-    {
-        "state": "LA",
-        "name": "Vinthon",
-        "price": "$2040"
-    },
-    {
-        "state": "MA",
-        "name": "Freetown",
-        "price": "$2115"
-    },
-    {
-        "state": "MA",
-        "name": "National Offsite Auction",
-        "price": "$1840"
-    },
-    {
-        "state": "MA",
-        "name": "North Boston",
-        "price": "$1970"
-    },
-    {
-        "state": "MA",
-        "name": "South Boston",
-        "price": "$1930"
-    },
-    {
-        "state": "MA",
-        "name": "West Warren",
-        "price": "$1940"
-    },
-    {
-        "state": "MD",
-        "name": "Baltimore",
-        "price": "$1890"
-    },
-    {
-        "state": "MD",
-        "name": "Baltimore East",
-        "price": "$1940"
-    },
-    {
-        "state": "MD",
-        "name": "Laurel",
-        "price": "$1920+"
-    },
-    {
-        "state": "ME",
-        "name": "Lyman",
-        "price": "$1888"
-    },
-    {
-        "state": "ME",
-        "name": "Windham",
-        "price": "$2138"
-    },
-    {
-        "state": "MI",
-        "name": "Detroit",
-        "price": "$1990"
-    },
-    {
-        "state": "MI",
-        "name": "Flint",
-        "price": "$2040"
-    },
-    {
-        "state": "MI",
-        "name": "Ionia",
-        "price": "$2138"
-    },
-    {
-        "state": "MI",
-        "name": "Kincheloe",
-        "price": "$2437"
-    },
-    {
-        "state": "MI",
-        "name": "Lansing",
-        "price": "$2091"
-    },
-    {
-        "state": "MI",
-        "name": "Wayland",
-        "price": "$2038"
-    },
-    {
-        "state": "MN",
-        "name": "CrashedToys Minneapolis",
-        "price": "$2064"
-    },
-    {
-        "state": "MN",
-        "name": "Minneapolis",
-        "price": "$2265"
-    },
-    {
-        "state": "MN",
-        "name": "Minneapolis North",
-        "price": "$2240"
-    },
-    {
-        "state": "MN",
-        "name": "St. Cloud",
-        "price": "$2224"
-    },
-    {
-        "state": "MO",
-        "name": "Columbia",
-        "price": "$2085"
-    },
-    {
-        "state": "MO",
-        "name": "Sikeston",
-        "price": "$2020"
-    },
-    {
-        "state": "MO",
-        "name": "Springfield",
-        "price": "$2250"
-    },
-    {
-        "state": "MO",
-        "name": "St. Louis",
-        "price": "$2182"
-    },
-    {
-        "state": "MS",
-        "name": "Grenada",
-        "price": "$1940"
-    },
-    {
-        "state": "MS",
-        "name": "Jackson",
-        "price": "$1890"
-    },
-    {
-        "state": "MT",
-        "name": "Billings",
-        "price": "$2790"
-    },
-    {
-        "state": "MT",
-        "name": "Helena",
-        "price": "$2690"
-    },
-    {
-        "state": "NB",
-        "name": "Atlantic Canada Auction",
-        "price": "$2090"
-    },
-    {
-        "state": "NB",
-        "name": "Moncton",
-        "price": "$2140"
-    },
-    {
-        "state": "NC",
-        "name": "China Grove",
-        "price": "$1890"
-    },
-    {
-        "state": "NC",
-        "name": "Concord",
-        "price": "$1920"
-    },
-    {
-        "state": "NC",
-        "name": "Gastonia",
-        "price": "$2120"
-    },
-    {
-        "state": "NC",
-        "name": "Lagrange",
-        "price": "$1920"
-    },
-    {
-        "state": "NC",
-        "name": "Lumberton",
-        "price": "$1895"
-    },
-    {
-        "state": "NC",
-        "name": "Mebane",
-        "price": "$1905"
-    },
-    {
-        "state": "NC",
-        "name": "Mocksville",
-        "price": "$1890"
-    },
-    {
-        "state": "NC",
-        "name": "Raleigh",
-        "price": "$1970"
-    },
-    {
-        "state": "NC",
-        "name": "Raleigh North",
-        "price": "$2220"
-    },
-    {
-        "state": "ND",
-        "name": "Bismarck",
-        "price": "$2501"
-    },
-    {
-        "state": "NE",
-        "name": "Lincoln",
-        "price": "$2205"
-    },
-    {
-        "state": "NH",
-        "name": "Candia",
-        "price": "$2030"
-    },
-    {
-        "state": "NJ",
-        "name": "Glassboro East",
-        "price": "$1825"
-    },
-    {
-        "state": "NJ",
-        "name": "Glassboro West",
-        "price": "$1490"
-    },
-    {
-        "state": "NJ",
-        "name": "Somerville",
-        "price": "$1690"
-    },
-    {
-        "state": "NJ",
-        "name": "Trenton",
-        "price": "$1840"
-    },
-    {
-        "state": "NM",
-        "name": "Albuquerque",
-        "price": "$2080"
-    },
-    {
-        "state": "NS",
-        "name": "Halifax",
-        "price": "$2190"
-    },
-    {
-        "state": "NV",
-        "name": "Las Vegas",
-        "price": "$2420"
-    },
-    {
-        "state": "NV",
-        "name": "Las Vegas West",
-        "price": "$2470"
-    },
-    {
-        "state": "NV",
-        "name": "Reno",
-        "price": "$2450"
-    },
-    {
-        "state": "NY",
-        "name": "Albany",
-        "price": "$1880"
-    },
-    {
-        "state": "NY",
-        "name": "Buffalo",
-        "price": "$1955"
-    },
-    {
-        "state": "NY",
-        "name": "Long Island",
-        "price": "$1870"
-    },
-    {
-        "state": "NY",
-        "name": "Newburgh",
-        "price": "$1900"
-    },
-    {
-        "state": "NY",
-        "name": "Rochester",
-        "price": "$1954"
-    },
-    {
-        "state": "NY",
-        "name": "Syracuse",
-        "price": "$1880"
-    },
-    {
-        "state": "OH",
-        "name": "Akron",
-        "price": "$2190"
-    },
-    {
-        "state": "OH",
-        "name": "Cleveland East",
-        "price": "$2087"
-    },
-    {
-        "state": "OH",
-        "name": "Cleveland West",
-        "price": "$2140"
-    },
-    {
-        "state": "OH",
-        "name": "Columbus",
-        "price": "$2070"
-    },
-    {
-        "state": "OH",
-        "name": "Dayton",
-        "price": "$2002"
-    },
-    {
-        "state": "OK",
-        "name": "Oklahoma City",
-        "price": "$2080"
-    },
-    {
-        "state": "OK",
-        "name": "Tulsa",
-        "price": "$2127"
-    },
-    {
-        "state": "ON",
-        "name": "Cookstown",
-        "price": "$1920"
-    },
-    {
-        "state": "ON",
-        "name": "London",
-        "price": "$1890"
-    },
-    {
-        "state": "ON",
-        "name": "Ottawa",
-        "price": "$2215"
-    },
-    {
-        "state": "ON",
-        "name": "Toronto",
-        "price": "$1865"
-    },
-    {
-        "state": "OR",
-        "name": "Eugene",
-        "price": "$2695"
-    },
-    {
-        "state": "OR",
-        "name": "Portland North",
-        "price": "$2830"
-    },
-    {
-        "state": "OR",
-        "name": "Portland South",
-        "price": "$2820"
-    },
-    {
-        "state": "PA",
-        "name": "Altoona",
-        "price": "$1783"
-    },
-    {
-        "state": "PA",
-        "name": "Chambersburg",
-        "price": "$1840"
-    },
-    {
-        "state": "PA",
-        "name": "Harrisburg",
-        "price": "$1747"
-    },
-    {
-        "state": "PA",
-        "name": "Philadelphia",
-        "price": "$1820"
-    },
-    {
-        "state": "PA",
-        "name": "Philadelphia East",
-        "price": "$1755"
-    },
-    {
-        "state": "PA",
-        "name": "Pittsburgh East",
-        "price": "$1590"
-    },
-    {
-        "state": "PA",
-        "name": "Pittsburgh North",
-        "price": "$1980"
-    },
-    {
-        "state": "PA",
-        "name": "Pittsburgh South",
-        "price": "$1890"
-    },
-    {
-        "state": "PA",
-        "name": "Pittsburgh West",
-        "price": "$1915"
-    },
-    {
-        "state": "PA",
-        "name": "Scranton",
-        "price": "$1890"
-    },
-    {
-        "state": "PA",
-        "name": "York Haven",
-        "price": "$1940"
-    },
-    {
-        "state": "QC",
-        "name": "Montreal",
-        "price": "$1790"
-    },
-    {
-        "state": "RI",
-        "name": "Exeter",
-        "price": "$1934"
-    },
-    {
-        "state": "SC",
-        "name": "Columbia",
-        "price": "$2085"
-    },
-    {
-        "state": "SC",
-        "name": "Greer",
-        "price": "$2040"
-    },
-    {
-        "state": "SC",
-        "name": "North Charleston",
-        "price": "$1940"
-    },
-    {
-        "state": "SC",
-        "name": "Spartanburg",
-        "price": "$2045"
-    },
-    {
-        "state": "SD",
-        "name": "Rapid City",
-        "price": "$2340"
-    },
-    {
-        "state": "TN",
-        "name": "Knoxville",
-        "price": "$2140"
-    },
-    {
-        "state": "TN",
-        "name": "Memphis",
-        "price": "$2140"
-    },
-    {
-        "state": "TN",
-        "name": "Nashville",
-        "price": "$2090"
-    },
-    {
-        "state": "TX",
-        "name": "Abilene",
-        "price": "$1890"
-    },
-    {
-        "state": "TX",
-        "name": "Amarillo",
-        "price": "$2040"
-    },
-    {
-        "state": "TX",
-        "name": "Andrews",
-        "price": "$1920"
-    },
-    {
-        "state": "TX",
-        "name": "Austin",
-        "price": "$2026"
-    },
-    {
-        "state": "TX",
-        "name": "Central Region",
-        "price": "$1940"
-    },
-    {
-        "state": "TX",
-        "name": "Corpus Christi",
-        "price": "$1804"
-    },
-    {
-        "state": "TX",
-        "name": "CrashedToys Dallas",
-        "price": "$1876"
-    },
-    {
-        "state": "TX",
-        "name": "Dallas",
-        "price": "$1945"
-    },
-    {
-        "state": "TX",
-        "name": "Dallas South",
-        "price": "$1945"
-    },
-    {
-        "state": "TX",
-        "name": "DRIVE Dallas",
-        "price": "$1870"
-    },
-    {
-        "state": "TX",
-        "name": "Eastern Region",
-        "price": "$1940"
-    },
-    {
-        "state": "TX",
-        "name": "El Paso",
-        "price": "$1958"
-    },
-    {
-        "state": "TX",
-        "name": "Ft. Worth",
-        "price": "$2035"
-    },
-    {
-        "state": "TX",
-        "name": "Houston",
-        "price": "$1840"
-    },
-    {
-        "state": "TX",
-        "name": "Houston East",
-        "price": "$1900"
-    },
-    {
-        "state": "TX",
-        "name": "Longview",
-        "price": "$1940"
-    },
-    {
-        "state": "TX",
-        "name": "Lufkin",
-        "price": "$1690"
-    },
-    {
-        "state": "TX",
-        "name": "McAllen",
-        "price": "$1990"
-    },
-    {
-        "state": "TX",
-        "name": "Mountain Region",
-        "price": "$1940"
-    },
-    {
-        "state": "TX",
-        "name": "North Austin",
-        "price": "$2076"
-    },
-    {
-        "state": "TX",
-        "name": "Pacific Region",
-        "price": "$1890"
-    },
-    {
-        "state": "TX",
-        "name": "San Antonio",
-        "price": "$1890"
-    },
-    {
-        "state": "TX",
-        "name": "Waco",
-        "price": "$2040"
-    },
-    {
-        "state": "UT",
-        "name": "Ogden",
-        "price": "$2570"
-    },
-    {
-        "state": "UT",
-        "name": "Salt Lake City",
-        "price": "$2720"
-    },
-    {
-        "state": "UT",
-        "name": "Salt Lake City North",
-        "price": "$2530"
-    },
-    {
-        "state": "VA",
-        "name": "Danville",
-        "price": "$2002"
-    },
-    {
-        "state": "VA",
-        "name": "Fredericksburg",
-        "price": "$2020"
-    },
-    {
-        "state": "VA",
-        "name": "Hampton",
-        "price": "$1940"
-    },
-    {
-        "state": "VA",
-        "name": "Richmond",
-        "price": "$1845"
-    },
-    {
-        "state": "VA",
-        "name": "Richmond East",
-        "price": "$1890"
-    },
-    {
-        "state": "VT",
-        "name": "Rutland",
-        "price": "$2090"
-    },
-    {
-        "state": "WA",
-        "name": "Graham",
-        "price": "$2790"
-    },
-    {
-        "state": "WA",
-        "name": "North Seattle",
-        "price": "$2940"
-    },
-    {
-        "state": "WA",
-        "name": "Pasco",
-        "price": "$2733"
-    },
-    {
-        "state": "WA",
-        "name": "Spanaway",
-        "price": "$2840"
-    },
-    {
-        "state": "WA",
-        "name": "Spokane",
-        "price": "$2866"
-    },
-    {
-        "state": "WI",
-        "name": "Appleton",
-        "price": "$2040"
-    },
-    {
-        "state": "WI",
-        "name": "Madison",
-        "price": "$2163"
-    },
-    {
-        "state": "WI",
-        "name": "Madison South",
-        "price": "$1963"
-    },
-    {
-        "state": "WI",
-        "name": "Milwaukee",
-        "price": "$2050"
-    },
-    {
-        "state": "WI",
-        "name": "Milwaukee North",
-        "price": "$2180"
-    },
-    {
-        "state": "WI",
-        "name": "Milwaukee South",
-        "price": "$2150"
-    },
-    {
-        "state": "WV",
-        "name": "Charleston",
-        "price": "$1940"
-    },
-    {
-        "state": "WY",
-        "name": "Casper",
-        "price": "$2490"
-    }
-].map(item => ({
-    ...item,
-    auction:"Copart",
-    logo:"copart-logo.PNG"
-}));
+    <h1>
+        Proforma Invoice
+    </h1>
 
 
-/* =========================
-   COMBINED DATABASE
-========================= */
-
-const database = [
-    ...iaaiDatabase,
-    ...copartDatabase
-];
-
-const searchInput = document.getElementById("searchInput");
-const clearSearch = document.getElementById("clearSearch");
-const result = document.getElementById("result");
-
-/* =========================
-   LANGUAGE
-========================= */
-
-const selectedLanguage =
-    localStorage.getItem("pulseAutoImportLanguage") || "en";
-
-const translations = {
-    en: {
-        title: "Transportation Price",
-        subtitle: "Search a branch to find its transportation price.",
-        placeholder: "Search location...",
-        clearSearch: "Clear search",
-        result: "Result",
-        initialResult: "Search result will appear here.",
-        noLocation: "No location found."
-    },
-
-    hy: {
-        title: "Փոխադրման արժեք",
-        subtitle: "Փնտրեք մասնաճյուղը\nփոխադրման արժեքը գտնելու համար",
-        placeholder: "Փնտրել մասնաճյուղ...",
-        clearSearch: "Մաքրել որոնումը",
-        result: "Արդյունք",
-        initialResult: "Որոնման արդյունքը կհայտնվի այստեղ",
-        noLocation: "Մասնաճյուղ չի գտնվել"
-    },
-
-    ru: {
-        title: "Стоимость транспортировки",
-        subtitle: "Найдите филиал, чтобы узнать стоимость транспортировки.",
-        placeholder: "Поиск филиала...",
-        clearSearch: "Очистить поиск",
-        result: "Результат",
-        initialResult: "Результат поиска появится здесь.",
-        noLocation: "Филиал не найдено."
-    }
-};
-
-const t = translations[selectedLanguage] || translations.en;
-
-document.documentElement.lang = selectedLanguage;
-document.title = t.title;
-
-document.getElementById("pageTitle").textContent = t.title;
-document.getElementById("pageSubtitle").textContent = t.subtitle;
-searchInput.placeholder = t.placeholder;
-clearSearch.setAttribute("aria-label", t.clearSearch);
-document.getElementById("resultLabel").textContent = t.result;
-document.getElementById("initialResultText").textContent = t.initialResult;
+    <div class="card">
 
 
-function getPriceNumber(price){
-    const number = parseInt(price.replace(/[$,+]/g,""),10);
-    return Number.isNaN(number) ? 0 : number;
-}
+        <!-- =================================
+             DATE
+        ================================== -->
 
-function getPriceClass(price){
-    const value = getPriceNumber(price);
+        <div class="field">
 
-    if(value > 2800) return "ultra-expensive";
-    if(value <= 1915) return "cheap";
-    if(value <= 2090) return "normal";
+            <label for="invoice_date">
+                Date
+            </label>
 
-    return "expensive";
-}
+            <div class="field-input">
 
-function escapeHTML(text){
-    return String(text)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-}
-
-function isCanadianLocation(item){
-    return ["AB","NB","NS","ON","QC"].includes(item.state);
-}
-
-function doSearch(){
-
-    const query = searchInput.value.trim().toLowerCase();
-
-    if(!query){
-        result.className = "message";
-        result.textContent = t.initialResult;
-        return;
-    }
-
-  const found = database.filter(item => {
-    const state = item.state.toLowerCase();
-    const name = item.name.toLowerCase();
-    const auction = item.auction.toLowerCase();
-
-    return (
-        state.startsWith(query) ||
-        name.startsWith(query) ||
-        auction.startsWith(query)
-    );
-});
-
-    if(found.length === 0){
-        result.className = "message";
-        result.textContent = t.noLocation;
-        return;
-    }
-
-    result.className = "results";
-
-    result.innerHTML = found.map(item => `
-        <div class="row">
-
-            <div class="left">
-
-                <img
-                    class="auction-logo"
-src="./${item.logo}"
-                    alt="${escapeHTML(item.auction)}"
+                <input
+                    id="invoice_date"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="10"
+                    placeholder="DD/MM/YYYY"
                 >
 
-                <div>
-                    <div class="name">
-                        ${escapeHTML(item.state)}-${escapeHTML(item.name)}
-                    </div>
+                <button
+                    class="field-clear-btn"
+                    type="button"
+                    data-clear="invoice_date"
+                    aria-label="Clear date"
+                >×</button>
 
-                    <div class="auction-name">
-                        ${escapeHTML(item.auction)}
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="price ${getPriceClass(item.price)}">
-                ${isCanadianLocation(item) ? '<span class="georgia-indicator">🇬🇪 To Georgia</span>' : ''}
-                ${escapeHTML(item.price)}
             </div>
 
         </div>
-    `).join("");
+
+
+        <!-- =================================
+             NAME
+        ================================== -->
+
+        <div class="field">
+
+            <label for="customer_name">
+                Name, Surname
+            </label>
+
+            <div class="field-input">
+
+                <input
+                    id="customer_name"
+                    type="text"
+                    autocomplete="name"
+                >
+
+                <button
+                    class="field-clear-btn"
+                    type="button"
+                    data-clear="customer_name"
+                    aria-label="Clear name"
+                >×</button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             PASSPORT
+        ================================== -->
+
+        <div class="field">
+
+            <label for="passport">
+                Passport / ID card
+            </label>
+
+            <div class="field-input">
+
+                <input
+                    id="passport"
+                    type="text"
+                >
+
+                <button
+                    class="field-clear-btn"
+                    type="button"
+                    data-clear="passport"
+                    aria-label="Clear passport"
+                >×</button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             MANUFACTURER
+        ================================== -->
+
+        <div class="field">
+
+            <label for="make">
+                Manufacturer
+            </label>
+
+            <div class="field-input">
+
+                <input
+                    id="make"
+                    type="text"
+                >
+
+                <button
+                    class="field-clear-btn"
+                    type="button"
+                    data-clear="make"
+                    aria-label="Clear manufacturer"
+                >×</button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             MODEL
+        ================================== -->
+
+        <div class="field">
+
+            <label for="model">
+                Model
+            </label>
+
+            <div class="field-input">
+
+                <input
+                    id="model"
+                    type="text"
+                >
+
+                <button
+                    class="field-clear-btn"
+                    type="button"
+                    data-clear="model"
+                    aria-label="Clear model"
+                >×</button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             YEAR
+        ================================== -->
+
+        <div class="field">
+
+            <label for="year">
+                Year
+            </label>
+
+            <div class="field-input">
+
+                <input
+                    id="year"
+                    type="text"
+                    inputmode="numeric"
+                >
+
+                <button
+                    class="field-clear-btn"
+                    type="button"
+                    data-clear="year"
+                    aria-label="Clear year"
+                >×</button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             VIN
+        ================================== -->
+
+        <div class="field">
+
+            <label for="vin">
+                VIN
+            </label>
+
+            <div class="field-input">
+
+                <input
+                    id="vin"
+                    type="text"
+                    autocapitalize="characters"
+                >
+
+                <button
+                    class="field-clear-btn"
+                    type="button"
+                    data-clear="vin"
+                    aria-label="Clear VIN"
+                >×</button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             AMOUNT
+        ================================== -->
+
+        <div class="field">
+
+            <label for="amount">
+                Due to payment (AMD)
+            </label>
+
+            <div class="field-input">
+
+                <input
+                    id="amount"
+                    type="text"
+                    inputmode="decimal"
+                >
+
+                <button
+                    class="field-clear-btn"
+                    type="button"
+                    data-clear="amount"
+                    aria-label="Clear amount"
+                >×</button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             GENERATE
+        ================================== -->
+
+        <button
+            class="generate"
+            id="generateBtn"
+            type="button"
+        >
+            Generate PDF
+        </button>
+
+
+        <!-- =================================
+             GLOBAL CLEAR
+        ================================== -->
+
+        <button
+            class="clear"
+            id="clearBtn"
+            type="button"
+        >
+            Clear
+        </button>
+
+
+    </div>
+
+
+    <a
+        class="back"
+        href="./entry.html"
+    >
+        ‹ Back
+    </a>
+
+
+</div>
+
+
+<!-- =========================================
+     PDF-LIB
+========================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+
+<script>
+
+
+const PDF_FILE =
+    "./proformaInvoice-template.pdf";
+
+
+/* =========================================
+   FIELD LIST
+========================================= */
+
+const fields = [
+
+    "invoice_date",
+
+    "customer_name",
+
+    "passport",
+
+    "make",
+
+    "model",
+
+    "year",
+
+    "vin",
+
+    "amount"
+
+];
+
+
+function getValue(id) {
+
+    return document
+        .getElementById(id)
+        .value
+        .trim();
+
 }
 
-function updateClearButton(){
-    clearSearch.classList.toggle(
-        "visible",
-        searchInput.value.trim().length > 0
+
+/* =========================================
+   INDIVIDUAL FIELD CLEAR BUTTONS
+========================================= */
+
+document
+    .querySelectorAll(".field-clear-btn")
+    .forEach(button => {
+
+        const fieldId =
+            button.dataset.clear;
+
+        const input =
+            document.getElementById(fieldId);
+
+
+        function updateButton() {
+
+            button.classList.toggle(
+                "visible",
+                input.value.trim().length > 0
+            );
+
+        }
+
+
+        input.addEventListener(
+            "input",
+            updateButton
+        );
+
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                input.value = "";
+
+                updateButton();
+
+                input.focus();
+
+            }
+        );
+
+
+        updateButton();
+
+    });
+
+
+/* =========================================
+   AUTO DATE SLASHES
+
+   19092026
+   ↓
+   19/09/2026
+========================================= */
+
+document
+    .getElementById("invoice_date")
+    .addEventListener(
+        "input",
+        function () {
+
+            let value =
+                this.value.replace(
+                    /\D/g,
+                    ""
+                );
+
+
+            if (value.length > 8) {
+
+                value =
+                    value.slice(
+                        0,
+                        8
+                    );
+
+            }
+
+
+            if (value.length > 4) {
+
+                value =
+                    value.slice(0, 2) +
+                    "/" +
+                    value.slice(2, 4) +
+                    "/" +
+                    value.slice(4);
+
+            }
+
+            else if (value.length > 2) {
+
+                value =
+                    value.slice(0, 2) +
+                    "/" +
+                    value.slice(2);
+
+            }
+
+
+            this.value =
+                value;
+
+        }
     );
-}
 
-searchInput.addEventListener("input",function(){
-    doSearch();
-    updateClearButton();
-});
 
-clearSearch.addEventListener("click",function(){
-    searchInput.value = "";
-    result.className = "message";
-    result.textContent = t.initialResult;
-    updateClearButton();
-    searchInput.focus();
-});
+/* =========================================
+   GLOBAL CLEAR
 
-updateClearButton();
+   Clears ALL fields
+========================================= */
 
-searchInput.addEventListener("keydown",function(event){
-    if(event.key === "Enter"){
-        event.preventDefault();
-        doSearch();
-    }
-});
+document
+    .getElementById("clearBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            fields.forEach(id => {
+
+                document
+                    .getElementById(id)
+                    .value = "";
+
+            });
+
+
+            document
+                .querySelectorAll(
+                    ".field-clear-btn"
+                )
+                .forEach(button => {
+
+                    button.classList.remove(
+                        "visible"
+                    );
+
+                });
+
+        }
+    );
+
+
+/* =========================================
+   GENERATE PDF
+========================================= */
+
+document
+    .getElementById("generateBtn")
+    .addEventListener(
+        "click",
+        async () => {
+
+            const button =
+                document.getElementById(
+                    "generateBtn"
+                );
+
+
+            try {
+
+                button.disabled = true;
+
+
+                /* =============================
+                   LOAD TEMPLATE
+                ============================= */
+
+                const response =
+                    await fetch(
+                        PDF_FILE,
+                        {
+                            cache: "no-store"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Could not load proformaInvoice-template.pdf"
+                    );
+
+                }
+
+
+                const pdfBytes =
+                    await response.arrayBuffer();
+
+
+                /* =============================
+                   OPEN PDF
+                ============================= */
+
+                const pdfDoc =
+                    await PDFLib
+                        .PDFDocument
+                        .load(
+                            pdfBytes
+                        );
+
+
+                const page =
+                    pdfDoc
+                        .getPages()[0];
+
+
+                const {
+                    width,
+                    height
+                } =
+                    page.getSize();
+
+
+                /* =============================
+                   BOLD FONT
+                ============================= */
+
+                const font =
+                    await pdfDoc.embedFont(
+                        PDFLib
+                            .StandardFonts
+                            .HelveticaBold
+                    );
+
+
+                /* =============================
+                   USER VALUES
+                ============================= */
+
+                const invoiceDate =
+                    getValue(
+                        "invoice_date"
+                    );
+
+
+                const customerName =
+                    getValue(
+                        "customer_name"
+                    );
+
+
+                const passport =
+                    getValue(
+                        "passport"
+                    );
+
+
+                const make =
+                    getValue(
+                        "make"
+                    );
+
+
+                const model =
+                    getValue(
+                        "model"
+                    );
+
+
+                const year =
+                    getValue(
+                        "year"
+                    );
+
+
+                const vin =
+                    getValue(
+                        "vin"
+                    );
+
+
+                const amount =
+                    getValue(
+                        "amount"
+                    );
+
+
+                /* =============================
+                   AMOUNT + AMD
+                ============================= */
+
+                const amountWithCurrency =
+                    amount
+                        ? amount + " AMD"
+                        : "";
+
+
+                /* =============================
+                   PDF / IMAGE SCALE
+
+                   Original artwork:
+                   1086 × 1448
+                ============================= */
+
+                const IMAGE_WIDTH =
+                    1086;
+
+
+                const IMAGE_HEIGHT =
+                    1448;
+
+
+                const SX =
+                    width /
+                    IMAGE_WIDTH;
+
+
+                const SY =
+                    height /
+                    IMAGE_HEIGHT;
+
+
+                function X(px) {
+
+                    return px * SX;
+
+                }
+
+
+                function TOP(px) {
+
+                    return px * SY;
+
+                }
+
+
+                /* =============================
+                   WRITE TEXT
+                ============================= */
+
+                function writeText(
+                    text,
+                    imageX,
+                    imageTop,
+                    fontSize,
+                    color,
+                    maxWidthPx
+                ) {
+
+                    if (!text) {
+
+                        return;
+
+                    }
+
+
+                    let size =
+                        fontSize;
+
+
+                    const maxWidth =
+                        maxWidthPx
+                            ? X(maxWidthPx)
+                            : null;
+
+
+                    let textWidth =
+                        font.widthOfTextAtSize(
+                            text,
+                            size
+                        );
+
+
+                    /*
+                     * Automatically reduce
+                     * font size if text is
+                     * too long.
+                     */
+
+                    if (
+                        maxWidth &&
+                        textWidth > maxWidth
+                    ) {
+
+                        size *=
+                            maxWidth /
+                            textWidth;
+
+                    }
+
+
+                    page.drawText(
+                        text,
+                        {
+
+                            x:
+                                X(imageX),
+
+                            y:
+                                height -
+                                TOP(imageTop) -
+                                size -
+                                1.5,
+
+                            size:
+                                size,
+
+                            font:
+                                font,
+
+                            color:
+                                color
+
+                        }
+                    );
+
+                }
+
+
+                /* =============================
+                   COLORS
+                ============================= */
+
+                const dark =
+                    PDFLib.rgb(
+                        0.12,
+                        0.15,
+                        0.20
+                    );
+
+
+                const red =
+                    PDFLib.rgb(
+                        0.84,
+                        0.05,
+                        0.08
+                    );
+
+
+                /*
+                 * NO COVER RECTANGLES.
+                 *
+                 * Original PDF background
+                 * remains untouched.
+                 */
+
+
+                /* =============================
+                   DATE
+                ============================= */
+
+                writeText(
+                    invoiceDate,
+                    815,
+                    333,
+                    13,
+                    dark,
+                    180
+                );
+
+
+                /* =============================
+                   NAME
+                ============================= */
+
+                writeText(
+                    customerName,
+                    251,
+                    439,
+                    10,
+                    dark,
+                    218
+                );
+
+
+                /* =============================
+                   PASSPORT
+                ============================= */
+
+                writeText(
+                    passport,
+                    261,
+                    484,
+                    10,
+                    dark,
+                    218
+                );
+
+
+                /* =============================
+                   MANUFACTURER
+                ============================= */
+
+                writeText(
+                    make,
+                    798,
+                    439,
+                    10,
+                    dark,
+                    220
+                );
+
+
+                /* =============================
+                   MODEL
+                ============================= */
+
+                writeText(
+                    model,
+                    751,
+                    483,
+                    10,
+                    dark,
+                    220
+                );
+
+
+                /* =============================
+                   YEAR
+                ============================= */
+
+                writeText(
+                    year,
+                    741,
+                    526,
+                    10,
+                    dark,
+                    220
+                );
+
+
+                /* =============================
+                   VIN
+                ============================= */
+
+                writeText(
+                    vin,
+                    736,
+                    571,
+                    10,
+                    dark,
+                    220
+                );
+
+
+                /* =============================
+                   DUE TO PAYMENT
+                ============================= */
+
+                writeText(
+                    amountWithCurrency,
+                    357,
+                    738,
+                    10,
+                    red,
+                    250
+                );
+
+
+                /* =============================
+                   SAVE PDF
+                ============================= */
+
+                const finalPdf =
+                    await pdfDoc.save();
+
+
+                const blob =
+                    new Blob(
+                        [finalPdf],
+                        {
+                            type:
+                                "application/pdf"
+                        }
+                    );
+
+
+                const url =
+                    URL.createObjectURL(
+                        blob
+                    );
+
+
+                /* =============================
+                   FILE NAME
+                ============================= */
+
+                let safeName =
+                    customerName ||
+                    "Customer";
+
+
+                safeName =
+                    safeName
+                        .replace(
+                            /[\\/:*?"<>|]+/g,
+                            "_"
+                        )
+                        .trim();
+
+
+                const fileName =
+                    "Proforma_Invoice_" +
+                    safeName +
+                    ".pdf";
+
+
+                /* =============================
+                   DOWNLOAD
+                ============================= */
+
+                const link =
+                    document.createElement(
+                        "a"
+                    );
+
+
+                link.href =
+                    url;
+
+
+                link.download =
+                    fileName;
+
+
+                document.body.appendChild(
+                    link
+                );
+
+
+                link.click();
+
+
+                link.remove();
+
+
+                setTimeout(
+                    () => {
+
+                        URL.revokeObjectURL(
+                            url
+                        );
+
+                    },
+                    1000
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "PDF ERROR:",
+                    error
+                );
+
+            }
+
+            finally {
+
+                button.disabled =
+                    false;
+
+            }
+
+        }
+    );
 
 </script>
-</div>
+
 </body>
 </html>
