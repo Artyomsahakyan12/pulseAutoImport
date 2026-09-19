@@ -98,6 +98,7 @@ button {
     color: #202733;
     background: #eef0f3;
     margin-top: 10px;
+    display: none;
 }
 
 .back {
@@ -309,6 +310,37 @@ function getValue(id) {
         .trim();
 
 }
+
+/* =========================================
+   SHOW / HIDE CLEAR BUTTON
+========================================= */
+
+function updateClearButton() {
+
+    const hasText = fields.some(id => {
+
+        return document
+            .getElementById(id)
+            .value
+            .trim() !== "";
+
+    });
+
+document
+    .getElementById("clearBtn")
+    .addEventListener("click", () => {
+
+        fields.forEach(id => {
+
+            document
+                .getElementById(id)
+                .value = "";
+
+        });
+
+        updateClearButton();
+
+    });
 
 /* =========================================
    AUTO DATE SLASHES
