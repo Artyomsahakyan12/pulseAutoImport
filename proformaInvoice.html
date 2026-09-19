@@ -229,13 +229,14 @@ button {
 
 
 .clear {
-    display: none;
-
     color: #202733;
-
     background: #eef0f3;
-
     margin-top: 10px;
+    opacity: 0.35;
+}
+
+.clear.active {
+    opacity: 1;
 }
 
 
@@ -608,7 +609,7 @@ function getValue(id) {
    GLOBAL CLEAR BUTTON VISIBILITY
 ========================================= */
 
-function updateGlobalClearButton() {
+ffunction updateGlobalClearButton() {
 
     const hasText =
         fields.some(id => {
@@ -623,10 +624,10 @@ function updateGlobalClearButton() {
 
     document
         .getElementById("clearBtn")
-        .style.display =
+        .classList.toggle(
+            "active",
             hasText
-                ? "block"
-                : "none";
+        );
 
 }
 
