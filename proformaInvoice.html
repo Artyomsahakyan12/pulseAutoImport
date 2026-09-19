@@ -3,30 +3,15 @@
 <head>
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
->
-
-<meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="default"
->
-
-<meta
-    name="apple-mobile-web-app-title"
-    content="Proforma Invoice"
->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Proforma Invoice">
 
 <title>Proforma Invoice</title>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -34,41 +19,30 @@
 body {
     margin: 0;
     min-height: 100vh;
-
     font-family: Arial, sans-serif;
-
     background: #f4f5f7;
-
     color: #202733;
-
     padding: 20px 14px 30px;
 }
 
 .container {
     width: 100%;
     max-width: 520px;
-
     margin: 0 auto;
 }
 
 h1 {
     margin: 6px 0 18px;
-
     text-align: center;
-
     font-size: 24px;
     font-weight: 700;
 }
 
 .card {
     background: #ffffff;
-
     border-radius: 16px;
-
     padding: 18px;
-
-    box-shadow:
-        0 4px 18px rgba(0,0,0,.08);
+    box-shadow: 0 4px 18px rgba(0,0,0,.08);
 }
 
 .field {
@@ -77,60 +51,40 @@ h1 {
 
 label {
     display: block;
-
     margin-bottom: 7px;
-
     font-size: 13px;
-
     font-weight: 700;
 }
 
 input {
     width: 100%;
-
     height: 46px;
-
     border: 1px solid #d8dce2;
-
     border-radius: 10px;
-
     padding: 0 13px;
-
     font-size: 16px;
-
     outline: none;
-
     background: #ffffff;
 }
 
 input:focus {
     border-color: #d71920;
-
-    box-shadow:
-        0 0 0 3px rgba(215,25,32,.10);
+    box-shadow: 0 0 0 3px rgba(215,25,32,.10);
 }
 
 button {
     width: 100%;
-
     height: 50px;
-
     border: 0;
-
     border-radius: 11px;
-
     font-size: 16px;
-
     font-weight: 700;
-
     cursor: pointer;
 }
 
 .generate {
     color: #ffffff;
-
     background: #d71920;
-
     margin-top: 4px;
 }
 
@@ -140,39 +94,27 @@ button {
 
 .clear {
     color: #202733;
-
     background: #eef0f3;
-
     margin-top: 10px;
 }
 
 .status {
     min-height: 22px;
-
     margin-top: 12px;
-
     text-align: center;
-
     font-size: 13px;
 }
 
 .back {
     display: block;
-
     text-align: center;
-
     margin-top: 16px;
-
     color: #202733;
-
     text-decoration: none;
-
     font-size: 14px;
 }
-
 </style>
 </head>
-
 
 <body>
 
@@ -180,14 +122,10 @@ button {
 
     <h1>Proforma Invoice</h1>
 
-
     <div class="card">
 
-
         <!-- NAME -->
-
         <div class="field">
-
             <label for="customer_name">
                 Name, Surname
             </label>
@@ -197,14 +135,11 @@ button {
                 type="text"
                 autocomplete="name"
             >
-
         </div>
 
 
         <!-- PASSPORT -->
-
         <div class="field">
-
             <label for="passport">
                 Passport / ID card
             </label>
@@ -213,14 +148,11 @@ button {
                 id="passport"
                 type="text"
             >
-
         </div>
 
 
         <!-- MANUFACTURER -->
-
         <div class="field">
-
             <label for="make">
                 Manufacturer
             </label>
@@ -229,14 +161,11 @@ button {
                 id="make"
                 type="text"
             >
-
         </div>
 
 
         <!-- MODEL -->
-
         <div class="field">
-
             <label for="model">
                 Model
             </label>
@@ -245,14 +174,11 @@ button {
                 id="model"
                 type="text"
             >
-
         </div>
 
 
         <!-- YEAR -->
-
         <div class="field">
-
             <label for="year">
                 Year
             </label>
@@ -262,14 +188,11 @@ button {
                 type="text"
                 inputmode="numeric"
             >
-
         </div>
 
 
         <!-- VIN -->
-
         <div class="field">
-
             <label for="vin">
                 VIN
             </label>
@@ -279,14 +202,11 @@ button {
                 type="text"
                 autocapitalize="characters"
             >
-
         </div>
 
 
         <!-- AMOUNT -->
-
         <div class="field">
-
             <label for="amount">
                 Due to payment (AMD)
             </label>
@@ -296,7 +216,6 @@ button {
                 type="text"
                 inputmode="decimal"
             >
-
         </div>
 
 
@@ -337,12 +256,10 @@ button {
 
 
 <!-- PDF-LIB -->
-
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
 
 <script>
-
 
 const PDF_FILE = "./proforma-template.pdf";
 
@@ -352,21 +269,13 @@ const PDF_FILE = "./proforma-template.pdf";
 ========================================= */
 
 const fields = [
-
     "customer_name",
-
     "passport",
-
     "make",
-
     "model",
-
     "year",
-
     "vin",
-
     "amount"
-
 ];
 
 
@@ -411,10 +320,8 @@ document
     .getElementById("generateBtn")
     .addEventListener("click", async () => {
 
-
         const button =
             document.getElementById("generateBtn");
-
 
         const status =
             document.getElementById("status");
@@ -422,16 +329,14 @@ document
 
         try {
 
-
             button.disabled = true;
-
 
             status.textContent =
                 "Creating PDF...";
 
 
             /* =================================
-               LOAD ORIGINAL PDF
+               LOAD TEMPLATE
             ================================= */
 
             const response =
@@ -493,80 +398,66 @@ document
             const customerName =
                 getValue("customer_name");
 
-
             const passport =
                 getValue("passport");
-
 
             const make =
                 getValue("make");
 
-
             const model =
                 getValue("model");
-
 
             const year =
                 getValue("year");
 
-
             const vin =
                 getValue("vin");
-
 
             const amount =
                 getValue("amount");
 
 
             /* =================================
-               FUNCTION:
-               COVER OLD PLACEHOLDER
+               PDF / IMAGE SCALE
+
+               Original artwork:
+               1086 × 1448 px
+
+               PDF:
+               595 × 842 pt
             ================================= */
 
-            function cover(
-                x,
-                top,
-                w,
-                h,
-                backgroundColor = PDFLib.rgb(
-                    1,
-                    1,
-                    1
-                )
-            ) {
+            const IMAGE_WIDTH = 1086;
+            const IMAGE_HEIGHT = 1448;
 
-                page.drawRectangle({
+            const SX =
+                width / IMAGE_WIDTH;
 
-                    x: x,
+            const SY =
+                height / IMAGE_HEIGHT;
 
-                    y:
-                        height -
-                        top -
-                        h,
 
-                    width: w,
+            function X(px) {
+                return px * SX;
+            }
 
-                    height: h,
 
-                    color: backgroundColor
-
-                });
-
+            function TOP(px) {
+                return px * SY;
             }
 
 
             /* =================================
-               FUNCTION:
                WRITE TEXT
             ================================= */
 
             function writeText(
                 text,
-                x,
-                top,
+                imageX,
+                imageTop,
                 fontSize,
                 color,
-                maxWidth
+                maxWidthPx
             ) {
 
                 if (!text) {
@@ -578,6 +469,12 @@ document
                     fontSize;
 
 
+                const maxWidth =
+                    maxWidthPx
+                        ? X(maxWidthPx)
+                        : null;
+
+
                 let textWidth =
                     font.widthOfTextAtSize(
                         text,
@@ -585,18 +482,19 @@ document
                     );
 
 
-                /* =================================
-                   REDUCE FONT IF TEXT IS TOO LONG
-                ================================= */
+                /*
+                 * Automatically reduce font
+                 * if the text is too long.
+                 */
 
                 if (
                     maxWidth &&
                     textWidth > maxWidth
                 ) {
 
-                    size =
-                        size *
-                        (maxWidth / textWidth);
+                    size *=
+                        maxWidth /
+                        textWidth;
 
                 }
 
@@ -605,19 +503,23 @@ document
                     text,
                     {
 
-                        x: x,
+                        x:
+                            X(imageX),
 
                         y:
                             height -
-                            top -
+                            TOP(imageTop) -
                             size -
-                            2,
+                            1.5,
 
-                        size: size,
+                        size:
+                            size,
 
-                        font: font,
+                        font:
+                            font,
 
-                        color: color
+                        color:
+                            color
 
                     }
                 );
@@ -645,37 +547,31 @@ document
                 );
 
 
+            /*
+             * IMPORTANT:
+             *
+             * NO COVER RECTANGLES.
+             *
+             * We do NOT draw white or gray
+             * rectangles over the PDF.
+             *
+             * The original template keeps
+             * its original backgrounds,
+             * including the gray payment row.
+             */
+
+
             /* =================================
-               PAYMENT ROW BACKGROUND
+               1. NAME
             ================================= */
-
-            const paymentGray =
-                PDFLib.rgb(
-                    0.95,
-                    0.95,
-                    0.95
-                );
-
-
-            /* =================================
-               1. CUSTOMER NAME
-            ================================= */
-
-            cover(
-                143,
-                280,
-                64,
-                19
-            );
-
 
             writeText(
                 customerName,
-                143,
-                280,
+                208,
+                459,
                 8.5,
                 dark,
-                64
+                218
             );
 
 
@@ -683,21 +579,13 @@ document
                2. PASSPORT
             ================================= */
 
-            cover(
-                143,
-                308,
-                64,
-                19
-            );
-
-
             writeText(
                 passport,
-                143,
-                308,
+                208,
+                510,
                 8.5,
                 dark,
-                64
+                218
             );
 
 
@@ -705,21 +593,13 @@ document
                3. MANUFACTURER
             ================================= */
 
-            cover(
-                295,
-                280,
-                42,
-                19
-            );
-
-
             writeText(
                 make,
-                295,
-                280,
+                544,
+                459,
                 8.5,
                 dark,
-                42
+                220
             );
 
 
@@ -727,21 +607,13 @@ document
                4. MODEL
             ================================= */
 
-            cover(
-                295,
-                309,
-                42,
-                19
-            );
-
-
             writeText(
                 model,
-                295,
-                309,
+                544,
+                499,
                 8.5,
                 dark,
-                42
+                220
             );
 
 
@@ -749,21 +621,13 @@ document
                5. YEAR
             ================================= */
 
-            cover(
-                295,
-                338,
-                42,
-                19
-            );
-
-
             writeText(
                 year,
-                295,
-                338,
+                544,
+                546,
                 8.5,
                 dark,
-                42
+                220
             );
 
 
@@ -771,50 +635,30 @@ document
                6. VIN
             ================================= */
 
-            cover(
-                295,
-                367,
-                55,
-                19
-            );
-
-
             writeText(
                 vin,
-                295,
-                367,
+                545,
+                600,
                 8.5,
                 dark,
-                55
+                220
             );
 
 
             /* =================================
                7. AMOUNT
 
-               IMPORTANT:
-               The amount is inside the gray
-               payment row, so the old
-               placeholder is covered with
-               the SAME gray background.
+               Original gray background
+               remains untouched.
             ================================= */
-
-            cover(
-                188,
-                476,
-                78,
-                23,
-                paymentGray
-            );
-
 
             writeText(
                 amount,
-                188,
-                476,
+                335,
+                841,
                 10,
                 red,
-                78
+                115
             );
 
 
@@ -912,7 +756,6 @@ document
         }
         catch (error) {
 
-
             console.error(
                 "PDF ERROR:",
                 error
@@ -922,10 +765,8 @@ document
             status.textContent =
                 "Could not create PDF.";
 
-
         }
         finally {
-
 
             button.disabled = false;
 
