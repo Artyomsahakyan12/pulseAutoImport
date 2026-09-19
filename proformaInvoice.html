@@ -137,7 +137,6 @@ button {
             >
         </div>
 
-
         <!-- PASSPORT -->
         <div class="field">
             <label for="passport">
@@ -149,7 +148,6 @@ button {
                 type="text"
             >
         </div>
-
 
         <!-- MANUFACTURER -->
         <div class="field">
@@ -163,7 +161,6 @@ button {
             >
         </div>
 
-
         <!-- MODEL -->
         <div class="field">
             <label for="model">
@@ -175,7 +172,6 @@ button {
                 type="text"
             >
         </div>
-
 
         <!-- YEAR -->
         <div class="field">
@@ -190,7 +186,6 @@ button {
             >
         </div>
 
-
         <!-- VIN -->
         <div class="field">
             <label for="vin">
@@ -203,7 +198,6 @@ button {
                 autocapitalize="characters"
             >
         </div>
-
 
         <!-- AMOUNT -->
         <div class="field">
@@ -218,7 +212,6 @@ button {
             >
         </div>
 
-
         <button
             class="generate"
             id="generateBtn"
@@ -226,7 +219,6 @@ button {
         >
             Generate PDF
         </button>
-
 
         <button
             class="clear"
@@ -236,14 +228,12 @@ button {
             Clear
         </button>
 
-
         <div
             class="status"
             id="status"
         ></div>
 
     </div>
-
 
     <a
         class="back"
@@ -255,7 +245,6 @@ button {
 </div>
 
 
-<!-- PDF-LIB -->
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
 
@@ -325,7 +314,6 @@ document
 
         const status =
             document.getElementById("status");
-
 
         try {
 
@@ -419,12 +407,6 @@ document
 
             /* =================================
                PDF / IMAGE SCALE
-
-               Original artwork:
-               1086 × 1448 px
-
-               PDF:
-               595 × 842 pt
             ================================= */
 
             const IMAGE_WIDTH = 1086;
@@ -448,32 +430,23 @@ document
 
 
             /* =================================
-               WRITE TEXT
+               RIGHT-ALIGNED TEXT
             ================================= */
 
-            function writeText(
+            function writeRightAligned(
                 text,
-                imageX,
-                imageTop,
+                rightX,
+                baselineY,
                 fontSize,
                 color,
-                maxWidthPx
+                maxWidth
             ) {
 
                 if (!text) {
                     return;
                 }
 
-
-                let size =
-                    fontSize;
-
-
-                const maxWidth =
-                    maxWidthPx
-                        ? X(maxWidthPx)
-                        : null;
-
+                let size = fontSize;
 
                 let textWidth =
                     font.widthOfTextAtSize(
@@ -482,10 +455,7 @@ document
                     );
 
 
-                /*
-                 * Automatically reduce font
-                 * if the text is too long.
-                 */
+                /* Automatically reduce font */
 
                 if (
                     maxWidth &&
@@ -496,21 +466,22 @@ document
                         maxWidth /
                         textWidth;
 
+                    textWidth =
+                        font.widthOfTextAtSize(
+                            text,
+                            size
+                        );
                 }
 
 
                 page.drawText(
                     text,
                     {
-
                         x:
-                            X(imageX),
+                            rightX - textWidth,
 
                         y:
-                            height -
-                            TOP(imageTop) -
-                            size -
-                            1.5,
+                            baselineY,
 
                         size:
                             size,
@@ -520,7 +491,6 @@ document
 
                         color:
                             color
-
                     }
                 );
 
@@ -547,45 +517,31 @@ document
                 );
 
 
-            /*
-             * IMPORTANT:
-             *
-             * NO COVER RECTANGLES.
-             *
-             * We do NOT draw white or gray
-             * rectangles over the PDF.
-             *
-             * The original template keeps
-             * its original backgrounds,
-             * including the gray payment row.
-             */
-
-
             /* =================================
-               1. NAME
+               1. NAME, SURNAME
             ================================= */
 
-            writeText(
+            writeRightAligned(
                 customerName,
-                208,
-                459,
+                171,
+                553,
                 8.5,
                 dark,
-                218
+                67
             );
 
 
             /* =================================
-               2. PASSPORT
+               2. PASSPORT / ID CARD
             ================================= */
 
-            writeText(
+            writeRightAligned(
                 passport,
-                208,
-                510,
+                171,
+                527,
                 8.5,
                 dark,
-                218
+                67
             );
 
 
@@ -593,13 +549,13 @@ document
                3. MANUFACTURER
             ================================= */
 
-            writeText(
+            writeRightAligned(
                 make,
-                544,
-                459,
+                310,
+                553,
                 8.5,
                 dark,
-                220
+                58
             );
 
 
@@ -607,13 +563,13 @@ document
                4. MODEL
             ================================= */
 
-            writeText(
+            writeRightAligned(
                 model,
-                544,
-                499,
+                310,
+                528,
                 8.5,
                 dark,
-                220
+                67
             );
 
 
@@ -621,13 +577,13 @@ document
                5. YEAR
             ================================= */
 
-            writeText(
+            writeRightAligned(
                 year,
-                544,
-                546,
+                310,
+                503,
                 8.5,
                 dark,
-                220
+                58
             );
 
 
@@ -635,30 +591,36 @@ document
                6. VIN
             ================================= */
 
-            writeText(
+            writeRightAligned(
                 vin,
-                545,
-                600,
+                310,
+                478,
                 8.5,
                 dark,
-                220
+                82
             );
 
 
             /* =================================
                7. AMOUNT
+               
+               IMPORTANT:
+               No rectangle is drawn here.
 
-               Original gray background
+               The original gray payment-row
+               background remains untouched.
+               
+               AMD in the original PDF also
                remains untouched.
             ================================= */
 
-            writeText(
+            writeRightAligned(
                 amount,
-                335,
-                841,
+                212,
+                354,
                 10,
                 red,
-                115
+                82
             );
 
 
