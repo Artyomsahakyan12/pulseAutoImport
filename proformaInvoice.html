@@ -151,10 +151,15 @@ input:focus {
 
 .field-clear-btn {
     display: none;
+
     position: absolute;
+
     right: 7px;
+
     top: 50%;
-    transform: translateY(-50%);
+
+    transform:
+        translateY(-50%);
 
     width: 30px !important;
     height: 30px !important;
@@ -163,23 +168,31 @@ input:focus {
     padding: 0 !important;
 
     border: 0;
+
     border-radius: 50%;
 
     background: #eef1f5;
+
     color: #697386;
 
     font-size: 19px;
+
     font-weight: 500;
+
     line-height: 30px;
 
     cursor: pointer;
+
     appearance: none;
+
     z-index: 10;
 }
+
 
 .field-clear-btn.visible {
     display: block;
 }
+
 
 /* =========================================
    BUTTONS
@@ -216,6 +229,8 @@ button {
 
 
 .clear {
+    display: none;
+
     color: #202733;
 
     background: #eef0f3;
@@ -515,7 +530,7 @@ button {
 
         <!-- =================================
              GLOBAL CLEAR
-        ================================== -->
+        ================================= -->
 
         <button
             class="clear"
@@ -590,6 +605,33 @@ function getValue(id) {
 
 
 /* =========================================
+   GLOBAL CLEAR BUTTON VISIBILITY
+========================================= */
+
+function updateGlobalClearButton() {
+
+    const hasText =
+        fields.some(id => {
+
+            return document
+                .getElementById(id)
+                .value
+                .trim() !== "";
+
+        });
+
+
+    document
+        .getElementById("clearBtn")
+        .style.display =
+            hasText
+                ? "block"
+                : "none";
+
+}
+
+
+/* =========================================
    INDIVIDUAL FIELD CLEAR BUTTONS
 ========================================= */
 
@@ -601,7 +643,9 @@ document
             button.dataset.clear;
 
         const input =
-            document.getElementById(fieldId);
+            document.getElementById(
+                fieldId
+            );
 
 
         function updateButton() {
@@ -616,7 +660,13 @@ document
 
         input.addEventListener(
             "input",
-            updateButton
+            () => {
+
+                updateButton();
+
+                updateGlobalClearButton();
+
+            }
         );
 
 
@@ -628,6 +678,8 @@ document
 
                 updateButton();
 
+                updateGlobalClearButton();
+
                 input.focus();
 
             }
@@ -637,6 +689,13 @@ document
         updateButton();
 
     });
+
+
+/* =========================================
+   INITIAL GLOBAL CLEAR STATE
+========================================= */
+
+updateGlobalClearButton();
 
 
 /* =========================================
@@ -731,6 +790,9 @@ document
                     );
 
                 });
+
+
+            updateGlobalClearButton();
 
         }
     );
