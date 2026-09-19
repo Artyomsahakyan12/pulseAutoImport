@@ -326,21 +326,27 @@ function updateClearButton() {
 
     });
 
-document
-    .getElementById("clearBtn")
-    .addEventListener("click", () => {
+    document
+        .getElementById("clearBtn")
+        .style.display =
+            hasText ? "block" : "none";
+}
 
-        fields.forEach(id => {
 
-            document
-                .getElementById(id)
-                .value = "";
+/* =========================================
+   WATCH ALL FIELDS
+========================================= */
 
-        });
+fields.forEach(id => {
 
-        updateClearButton();
+    document
+        .getElementById(id)
+        .addEventListener(
+            "input",
+            updateClearButton
+        );
 
-    });
+});
 
 /* =========================================
    AUTO DATE SLASHES
@@ -394,6 +400,9 @@ document
                 .value = "";
 
         });
+
+        updateClearButton();
+
     });
 
 
