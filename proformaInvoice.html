@@ -446,29 +446,6 @@ function writeLeftAligned(
         return;
     }
 
-    let size = fontSize;
-
-    let textWidth =
-        font.widthOfTextAtSize(
-            text,
-            size
-        );
-
-    /*
-     * Եթե տեքստը երկար է,
-     * ավտոմատ փոքրացնում ենք font-ը
-     */
-    if (
-        maxWidth &&
-        textWidth > maxWidth
-    ) {
-
-        size *=
-            maxWidth /
-            textWidth;
-
-    }
-
     page.drawText(
         text,
         {
