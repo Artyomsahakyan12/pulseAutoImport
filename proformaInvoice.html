@@ -100,13 +100,6 @@ button {
     margin-top: 10px;
 }
 
-.status {
-    min-height: 22px;
-    margin-top: 12px;
-    text-align: center;
-    font-size: 13px;
-}
-
 .back {
     display: block;
     text-align: center;
@@ -271,12 +264,6 @@ button {
             Clear
         </button>
 
-
-        <div
-            class="status"
-            id="status"
-        ></div>
-
     </div>
 
 
@@ -375,11 +362,6 @@ document
                 .value = "";
 
         });
-
-        document
-            .getElementById("status")
-            .textContent = "";
-
     });
 
 
@@ -394,17 +376,10 @@ document
         const button =
             document.getElementById("generateBtn");
 
-        const status =
-            document.getElementById("status");
-
 
         try {
 
             button.disabled = true;
-
-            status.textContent =
-                "Creating PDF...";
-
 
             /* =================================
                LOAD TEMPLATE
@@ -855,12 +830,6 @@ document
                 },
                 1000
             );
-
-
-            status.textContent =
-                "PDF created successfully.";
-
-
         }
         catch (error) {
 
@@ -868,11 +837,6 @@ document
                 "PDF ERROR:",
                 error
             );
-
-
-            status.textContent =
-                "Could not create PDF.";
-
         }
         finally {
 
