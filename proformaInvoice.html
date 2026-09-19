@@ -527,7 +527,12 @@ document
                 x,
                 top,
                 w,
-                h
+                h,
+                backgroundColor = PDFLib.rgb(
+                    1,
+                    1,
+                    1
+                )
             ) {
 
                 page.drawRectangle({
@@ -543,12 +548,7 @@ document
 
                     height: h,
 
-                    color:
-                        PDFLib.rgb(
-                            1,
-                            1,
-                            1
-                        )
+                    color: backgroundColor
 
                 });
 
@@ -585,7 +585,9 @@ document
                     );
 
 
-                /* Reduce font if text is too long */
+                /* =================================
+                   REDUCE FONT IF TEXT IS TOO LONG
+                ================================= */
 
                 if (
                     maxWidth &&
@@ -640,6 +642,18 @@ document
                     0.84,
                     0.05,
                     0.08
+                );
+
+
+            /* =================================
+               PAYMENT ROW BACKGROUND
+            ================================= */
+
+            const paymentGray =
+                PDFLib.rgb(
+                    0.95,
+                    0.95,
+                    0.95
                 );
 
 
@@ -777,13 +791,20 @@ document
 
             /* =================================
                7. AMOUNT
+
+               IMPORTANT:
+               The amount is inside the gray
+               payment row, so the old
+               placeholder is covered with
+               the SAME gray background.
             ================================= */
 
             cover(
                 188,
                 476,
                 78,
-                23
+                23,
+                paymentGray
             );
 
 
@@ -853,7 +874,9 @@ document
                 document.createElement("a");
 
 
-            link.href = url;
+            link.href =
+                url;
+
 
             link.download =
                 fileName;
