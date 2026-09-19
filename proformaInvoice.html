@@ -1,31 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
->
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
->
-
-<meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="default"
->
-
-<meta
-    name="apple-mobile-web-app-title"
-    content="Proforma Invoice"
->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Proforma Invoice">
 
 <title>Proforma Invoice</title>
-
 
 <style>
 
@@ -33,19 +18,14 @@
     box-sizing: border-box;
 }
 
-
 body {
     margin: 0;
     min-height: 100vh;
-
     font-family: Arial, sans-serif;
-
     background: #f4f5f7;
     color: #202733;
-
     padding: 20px 14px 30px;
 }
-
 
 .container {
     width: 100%;
@@ -53,165 +33,101 @@ body {
     margin: 0 auto;
 }
 
-
 h1 {
     margin: 6px 0 18px;
-
     text-align: center;
-
     font-size: 24px;
     font-weight: 700;
 }
 
-
 .card {
     background: #ffffff;
-
     border-radius: 16px;
-
     padding: 18px;
-
-    box-shadow:
-        0 4px 18px rgba(0,0,0,.08);
+    box-shadow: 0 4px 18px rgba(0,0,0,.08);
 }
-
 
 .field {
     margin-bottom: 14px;
 }
 
-
 label {
     display: block;
-
     margin-bottom: 7px;
-
     font-size: 13px;
     font-weight: 700;
 }
 
-
 input {
     width: 100%;
-
     height: 46px;
-
-    border:
-        1px solid #d8dce2;
-
+    border: 1px solid #d8dce2;
     border-radius: 10px;
-
     padding: 0 13px;
-
     font-size: 16px;
-
     outline: none;
-
     background: #ffffff;
 }
 
-
 input:focus {
     border-color: #d71920;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(215,25,32,.10);
+    box-shadow: 0 0 0 3px rgba(215,25,32,.10);
 }
-
 
 button {
     width: 100%;
-
     height: 50px;
-
     border: 0;
-
     border-radius: 11px;
-
     font-size: 16px;
     font-weight: 700;
-
     cursor: pointer;
 }
 
-
 .generate {
     color: #ffffff;
-
     background: #d71920;
-
     margin-top: 4px;
 }
-
 
 .generate:disabled {
     opacity: .6;
 }
 
-
 .clear {
     color: #202733;
-
     background: #eef0f3;
-
     margin-top: 10px;
 }
 
-
 .status {
     min-height: 22px;
-
     margin-top: 12px;
-
     text-align: center;
-
     font-size: 13px;
 }
 
-
 .back {
     display: block;
-
     text-align: center;
-
     margin-top: 16px;
-
     color: #202733;
-
     text-decoration: none;
-
     font-size: 14px;
 }
 
-
-/* DATE FIELD */
-
-#invoice_date {
-    letter-spacing: .2px;
-}
-
 </style>
-
 </head>
-
 
 <body>
 
-
 <div class="container">
 
-
-    <h1>
-        Proforma Invoice
-    </h1>
-
+    <h1>Proforma Invoice</h1>
 
     <div class="card">
 
-
         <!-- DATE -->
-
         <div class="field">
 
             <label for="invoice_date">
@@ -222,14 +138,12 @@ button {
                 id="invoice_date"
                 type="text"
                 placeholder="DD/MM/YYYY"
-                autocomplete="off"
             >
 
         </div>
 
 
         <!-- NAME -->
-
         <div class="field">
 
             <label for="customer_name">
@@ -246,7 +160,6 @@ button {
 
 
         <!-- PASSPORT -->
-
         <div class="field">
 
             <label for="passport">
@@ -262,7 +175,6 @@ button {
 
 
         <!-- MANUFACTURER -->
-
         <div class="field">
 
             <label for="make">
@@ -278,7 +190,6 @@ button {
 
 
         <!-- MODEL -->
-
         <div class="field">
 
             <label for="model">
@@ -294,7 +205,6 @@ button {
 
 
         <!-- YEAR -->
-
         <div class="field">
 
             <label for="year">
@@ -311,7 +221,6 @@ button {
 
 
         <!-- VIN -->
-
         <div class="field">
 
             <label for="vin">
@@ -328,7 +237,6 @@ button {
 
 
         <!-- AMOUNT -->
-
         <div class="field">
 
             <label for="amount">
@@ -367,7 +275,6 @@ button {
             id="status"
         ></div>
 
-
     </div>
 
 
@@ -378,26 +285,15 @@ button {
         ‹ Back
     </a>
 
-
 </div>
 
 
-<!-- PDF-LIB -->
-
-<script
-    src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"
-></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
 
 <script>
 
-
-/* =========================================
-   PDF TEMPLATE
-========================================= */
-
-const PDF_FILE =
-    "./proformaInvoice-template.pdf";
+const PDF_FILE = "./proformaInvoice-template.pdf";
 
 
 /* =========================================
@@ -405,23 +301,14 @@ const PDF_FILE =
 ========================================= */
 
 const fields = [
-
     "invoice_date",
-
     "customer_name",
-
     "passport",
-
     "make",
-
     "model",
-
     "year",
-
     "vin",
-
     "amount"
-
 ];
 
 
@@ -441,25 +328,21 @@ function getValue(id) {
 
 document
     .getElementById("clearBtn")
-    .addEventListener(
-        "click",
-        () => {
+    .addEventListener("click", () => {
 
-            fields.forEach(id => {
-
-                document
-                    .getElementById(id)
-                    .value = "";
-
-            });
-
+        fields.forEach(id => {
 
             document
-                .getElementById("status")
-                .textContent = "";
+                .getElementById(id)
+                .value = "";
 
-        }
-    );
+        });
+
+        document
+            .getElementById("status")
+            .textContent = "";
+
+    });
 
 
 /* =========================================
@@ -468,548 +351,498 @@ document
 
 document
     .getElementById("generateBtn")
-    .addEventListener(
-        "click",
-        async () => {
+    .addEventListener("click", async () => {
+
+        const button =
+            document.getElementById("generateBtn");
+
+        const status =
+            document.getElementById("status");
 
 
-            const button =
-                document.getElementById(
-                    "generateBtn"
+        try {
+
+            button.disabled = true;
+
+            status.textContent =
+                "Creating PDF...";
+
+
+            /* =================================
+               LOAD TEMPLATE
+            ================================= */
+
+            const response =
+                await fetch(
+                    PDF_FILE,
+                    {
+                        cache: "no-store"
+                    }
                 );
 
 
-            const status =
-                document.getElementById(
-                    "status"
+            if (!response.ok) {
+
+                throw new Error(
+                    "Could not load proformaInvoice-template.pdf"
+                );
+
+            }
+
+
+            const pdfBytes =
+                await response.arrayBuffer();
+
+
+            /* =================================
+               OPEN PDF
+            ================================= */
+
+            const pdfDoc =
+                await PDFLib.PDFDocument.load(
+                    pdfBytes
                 );
 
 
-            try {
+            const page =
+                pdfDoc.getPages()[0];
 
 
-                button.disabled = true;
+            const {
+                width,
+                height
+            } = page.getSize();
 
 
-                status.textContent =
-                    "Creating PDF...";
+            /* =================================
+               FONT
+            ================================= */
+
+            const font =
+                await pdfDoc.embedFont(
+                    PDFLib.StandardFonts.Helvetica
+                );
 
 
-                /* =================================
-                   LOAD TEMPLATE
-                ================================= */
+            /* =================================
+               USER VALUES
+            ================================= */
 
-                const response =
-                    await fetch(
-                        PDF_FILE,
-                        {
-                            cache: "no-store"
-                        }
-                    );
+            const invoiceDate =
+                getValue("invoice_date");
+
+            const customerName =
+                getValue("customer_name");
+
+            const passport =
+                getValue("passport");
+
+            const make =
+                getValue("make");
+
+            const model =
+                getValue("model");
+
+            const year =
+                getValue("year");
+
+            const vin =
+                getValue("vin");
+
+            const amount =
+                getValue("amount");
 
 
-                if (!response.ok) {
+            /*
+             * AMD is added automatically.
+             */
 
-                    throw new Error(
-                        "Could not load proformaInvoice-template.pdf"
-                    );
+            const amountWithCurrency =
+                amount
+                    ? amount + " AMD"
+                    : "";
 
+
+            /* =================================
+               PDF / IMAGE SCALE
+
+               Original artwork:
+               1086 × 1448 px
+            ================================= */
+
+            const IMAGE_WIDTH = 1086;
+            const IMAGE_HEIGHT = 1448;
+
+
+            const SX =
+                width / IMAGE_WIDTH;
+
+            const SY =
+                height / IMAGE_HEIGHT;
+
+
+            function X(px) {
+
+                return px * SX;
+
+            }
+
+
+            function TOP(px) {
+
+                return px * SY;
+
+            }
+
+
+            /* =================================
+               WRITE TEXT
+            ================================= */
+
+            function writeText(
+                text,
+                imageX,
+                imageTop,
+                fontSize,
+                color,
+                maxWidthPx
+            ) {
+
+                if (!text) {
+                    return;
                 }
 
 
-                const pdfBytes =
-                    await response.arrayBuffer();
+                let size =
+                    fontSize;
 
 
-                /* =================================
-                   OPEN PDF
-                ================================= */
-
-                const pdfDoc =
-                    await PDFLib.PDFDocument.load(
-                        pdfBytes
-                    );
-
-
-                const page =
-                    pdfDoc.getPages()[0];
-
-
-                const {
-                    width,
-                    height
-                } = page.getSize();
-
-
-                /* =================================
-                   FONT
-                ================================= */
-
-                const font =
-                    await pdfDoc.embedFont(
-                        PDFLib.StandardFonts.Helvetica
-                    );
-
-
-                /* =================================
-                   USER VALUES
-                ================================= */
-
-                const invoiceDate =
-                    getValue(
-                        "invoice_date"
-                    );
-
-
-                const customerName =
-                    getValue(
-                        "customer_name"
-                    );
-
-
-                const passport =
-                    getValue(
-                        "passport"
-                    );
-
-
-                const make =
-                    getValue(
-                        "make"
-                    );
-
-
-                const model =
-                    getValue(
-                        "model"
-                    );
-
-
-                const year =
-                    getValue(
-                        "year"
-                    );
-
-
-                const vin =
-                    getValue(
-                        "vin"
-                    );
-
-
-                const amount =
-                    getValue(
-                        "amount"
-                    );
-
-
-                /* =================================
-                   PDF / IMAGE SCALE
-
-                   Original artwork:
-                   1086 × 1448 px
-
-                   PDF:
-                   595 × 842 pt
-                ================================= */
-
-                const IMAGE_WIDTH = 1086;
-
-                const IMAGE_HEIGHT = 1448;
-
-
-                const SX =
-                    width /
-                    IMAGE_WIDTH;
-
-
-                const SY =
-                    height /
-                    IMAGE_HEIGHT;
-
-
-                function X(px) {
-
-                    return px * SX;
-
-                }
-
-
-                function TOP(px) {
-
-                    return px * SY;
-
-                }
-
-
-                /* =================================
-                   WRITE TEXT
-                ================================= */
-
-                function writeText(
-                    text,
-                    imageX,
-                    imageTop,
-                    fontSize,
-                    color,
+                const maxWidth =
                     maxWidthPx
+                        ? X(maxWidthPx)
+                        : null;
+
+
+                let textWidth =
+                    font.widthOfTextAtSize(
+                        text,
+                        size
+                    );
+
+
+                /*
+                 * Automatically reduce font
+                 * if text is too long.
+                 */
+
+                if (
+                    maxWidth &&
+                    textWidth > maxWidth
                 ) {
 
-
-                    if (!text) {
-
-                        return;
-
-                    }
-
-
-                    let size =
-                        fontSize;
-
-
-                    const maxWidth =
-                        maxWidthPx
-                            ? X(maxWidthPx)
-                            : null;
-
-
-                    let textWidth =
-                        font.widthOfTextAtSize(
-                            text,
-                            size
-                        );
-
-
-                    /*
-                     * Automatically reduce
-                     * font size if text is long.
-                     */
-
-                    if (
-                        maxWidth &&
-                        textWidth > maxWidth
-                    ) {
-
-                        size *=
-                            maxWidth /
-                            textWidth;
-
-                    }
-
-
-                    page.drawText(
-                        text,
-                        {
-
-                            x:
-                                X(imageX),
-
-                            y:
-                                height -
-                                TOP(imageTop) -
-                                size -
-                                1.5,
-
-                            size:
-                                size,
-
-                            font:
-                                font,
-
-                            color:
-                                color
-
-                        }
-                    );
+                    size *=
+                        maxWidth /
+                        textWidth;
 
                 }
 
 
-                /* =================================
-                   COLORS
-                ================================= */
+                page.drawText(
+                    text,
+                    {
 
-                const dark =
-                    PDFLib.rgb(
-                        0.12,
-                        0.15,
-                        0.20
-                    );
+                        x:
+                            X(imageX),
 
+                        y:
+                            height -
+                            TOP(imageTop) -
+                            size -
+                            1.5,
 
-                const red =
-                    PDFLib.rgb(
-                        0.84,
-                        0.05,
-                        0.08
-                    );
+                        size:
+                            size,
 
+                        font:
+                            font,
 
-                /* =================================
-                   DATE
+                        color:
+                            color
 
-                   Coordinate:
-                   centered inside Date box.
-                ================================= */
-
-                writeText(
-                    invoiceDate,
-                    847,
-                    302,
-                    12,
-                    dark,
-                    145
+                    }
                 );
-
-
-                /* =================================
-                   NAME
-
-                   Original coordinate:
-                   X = 208
-                   Y = 459
-                ================================= */
-
-                writeText(
-                    customerName,
-                    208,
-                    459,
-                    8.5,
-                    dark,
-                    218
-                );
-
-
-                /* =================================
-                   PASSPORT
-
-                   Original coordinate:
-                   X = 208
-                   Y = 510
-                ================================= */
-
-                writeText(
-                    passport,
-                    208,
-                    510,
-                    8.5,
-                    dark,
-                    218
-                );
-
-
-                /* =================================
-                   MANUFACTURER
-
-                   X = 544
-                   Y = 459
-                ================================= */
-
-                writeText(
-                    make,
-                    544,
-                    459,
-                    8.5,
-                    dark,
-                    220
-                );
-
-
-                /* =================================
-                   MODEL
-
-                   X = 544
-                   Y = 499
-                ================================= */
-
-                writeText(
-                    model,
-                    544,
-                    499,
-                    8.5,
-                    dark,
-                    220
-                );
-
-
-                /* =================================
-                   YEAR
-
-                   X = 544
-                   Y = 546
-                ================================= */
-
-                writeText(
-                    year,
-                    544,
-                    546,
-                    8.5,
-                    dark,
-                    220
-                );
-
-
-                /* =================================
-                   VIN
-
-                   X = 545
-                   Y = 600
-                ================================= */
-
-                writeText(
-                    vin,
-                    545,
-                    600,
-                    8.5,
-                    dark,
-                    220
-                );
-
-
-                /* =================================
-                   DUE TO PAYMENT
-
-                   Red text.
-                   AMD is added automatically.
-
-                   Original coordinate:
-                   X = 335
-                   Y = 841
-                ================================= */
-
-                const amountWithCurrency =
-                    amount
-                        ? amount + " AMD"
-                        : "";
-
-
-                writeText(
-                    amountWithCurrency,
-                    335,
-                    841,
-                    10,
-                    red,
-                    150
-                );
-
-
-                /* =================================
-                   SAVE PDF
-                ================================= */
-
-                const finalPdf =
-                    await pdfDoc.save();
-
-
-                const blob =
-                    new Blob(
-                        [finalPdf],
-                        {
-                            type:
-                                "application/pdf"
-                        }
-                    );
-
-
-                const url =
-                    URL.createObjectURL(
-                        blob
-                    );
-
-
-                /* =================================
-                   FILE NAME
-                ================================= */
-
-                let safeName =
-                    customerName ||
-                    "Customer";
-
-
-                safeName =
-                    safeName
-                        .replace(
-                            /[\\/:*?"<>|]+/g,
-                            "_"
-                        )
-                        .trim();
-
-
-                const fileName =
-                    "Proforma_Invoice_" +
-                    safeName +
-                    ".pdf";
-
-
-                /* =================================
-                   DOWNLOAD
-                ================================= */
-
-                const link =
-                    document.createElement(
-                        "a"
-                    );
-
-
-                link.href =
-                    url;
-
-
-                link.download =
-                    fileName;
-
-
-                document
-                    .body
-                    .appendChild(
-                        link
-                    );
-
-
-                link.click();
-
-
-                link.remove();
-
-
-                setTimeout(
-                    () => {
-
-                        URL.revokeObjectURL(
-                            url
-                        );
-
-                    },
-                    1000
-                );
-
-
-                status.textContent =
-                    "PDF created successfully.";
-
 
             }
-            catch (error) {
 
 
-                console.error(
-                    "PDF ERROR:",
-                    error
+            /* =================================
+               COLORS
+            ================================= */
+
+            const dark =
+                PDFLib.rgb(
+                    0.12,
+                    0.15,
+                    0.20
                 );
 
 
-                status.textContent =
-                    "Could not create PDF.";
+            const red =
+                PDFLib.rgb(
+                    0.84,
+                    0.05,
+                    0.08
+                );
 
-            }
-            finally {
 
-                button.disabled = false;
+            /*
+             * NO COVER RECTANGLES.
+             *
+             * Original PDF design stays untouched.
+             */
 
-            }
+
+            /* =================================
+               DATE
+               
+               FIXED COORDINATE
+            ================================= */
+
+            writeText(
+                invoiceDate,
+                791,
+                309,
+                12,
+                dark,
+                145
+            );
+
+
+            /* =================================
+               CUSTOMER NAME
+
+               FIXED COORDINATE
+            ================================= */
+
+            writeText(
+                customerName,
+                251,
+                439,
+                8.5,
+                dark,
+                218
+            );
+
+
+            /* =================================
+               PASSPORT / ID CARD
+
+               FIXED COORDINATE
+            ================================= */
+
+            writeText(
+                passport,
+                261,
+                484,
+                8.5,
+                dark,
+                218
+            );
+
+
+            /* =================================
+               MANUFACTURER
+
+               FIXED COORDINATE
+            ================================= */
+
+            writeText(
+                make,
+                798,
+                439,
+                8.5,
+                dark,
+                220
+            );
+
+
+            /* =================================
+               MODEL
+
+               FIXED COORDINATE
+            ================================= */
+
+            writeText(
+                model,
+                751,
+                483,
+                8.5,
+                dark,
+                220
+            );
+
+
+            /* =================================
+               YEAR
+
+               FIXED COORDINATE
+            ================================= */
+
+            writeText(
+                year,
+                741,
+                526,
+                8.5,
+                dark,
+                220
+            );
+
+
+            /* =================================
+               VIN
+
+               FIXED COORDINATE
+            ================================= */
+
+            writeText(
+                vin,
+                736,
+                571,
+                8.5,
+                dark,
+                220
+            );
+
+
+            /* =================================
+               DUE TO PAYMENT
+
+               FIXED COORDINATE
+
+               AMD automatically added.
+            ================================= */
+
+            writeText(
+                amountWithCurrency,
+                357,
+                738,
+                10,
+                red,
+                150
+            );
+
+
+            /* =================================
+               SAVE PDF
+            ================================= */
+
+            const finalPdf =
+                await pdfDoc.save();
+
+
+            const blob =
+                new Blob(
+                    [finalPdf],
+                    {
+                        type:
+                            "application/pdf"
+                    }
+                );
+
+
+            const url =
+                URL.createObjectURL(
+                    blob
+                );
+
+
+            /* =================================
+               FILE NAME
+            ================================= */
+
+            let safeName =
+                customerName ||
+                "Customer";
+
+
+            safeName =
+                safeName
+                    .replace(
+                        /[\\/:*?"<>|]+/g,
+                        "_"
+                    )
+                    .trim();
+
+
+            const fileName =
+                "Proforma_Invoice_" +
+                safeName +
+                ".pdf";
+
+
+            /* =================================
+               DOWNLOAD
+            ================================= */
+
+            const link =
+                document.createElement("a");
+
+
+            link.href =
+                url;
+
+
+            link.download =
+                fileName;
+
+
+            document.body.appendChild(
+                link
+            );
+
+
+            link.click();
+
+
+            link.remove();
+
+
+            setTimeout(
+                () => {
+
+                    URL.revokeObjectURL(
+                        url
+                    );
+
+                },
+                1000
+            );
+
+
+            status.textContent =
+                "PDF created successfully.";
+
 
         }
-    );
+        catch (error) {
+
+            console.error(
+                "PDF ERROR:",
+                error
+            );
+
+
+            status.textContent =
+                "Could not create PDF.";
+
+        }
+        finally {
+
+            button.disabled = false;
+
+        }
+
+    });
 
 </script>
 
