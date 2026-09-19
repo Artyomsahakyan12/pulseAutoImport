@@ -746,6 +746,21 @@ document
             this.value = this.value.toUpperCase();
         }
     );
+    
+    document
+    .getElementById("customer_name")
+    .addEventListener(
+        "input",
+        function () {
+
+            this.value =
+                this.value
+                    .replace(/\b\p{L}/gu, letter =>
+                        letter.toUpperCase()
+                    );
+
+        }
+    );
 
 
 /* =========================================
