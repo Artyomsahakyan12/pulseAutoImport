@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Proforma Invoice — Pulse AutoImport</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --red:#df1f2d;
+    --dark:#182130;
+    --gray:#f0f1f3;
+    --line:#d5d8dc;
+}
+
+body{
+    margin:0;
+    background:#eef0f4;
+    font-family:Arial,Helvetica,sans-serif;
+    color:var(--dark);
+}
+
+/* =========================
+   EDITOR
+   ========================= */
+
+.editor{
+    max-width:900px;
+    margin:20px auto;
+    padding:20px;
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 5px 25px rgba(0,0,0,.10);
+}
+
+.editor h2{
+    margin:0 0 16px;
+    font-size:20px;
+}
+
+.fields{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.field label{
+    font-size:13px;
+    font-weight:700;
+}
+
+.field input{
+    width:100%;
+    height:44px;
+    border:1px solid #d5d9df;
+    border-radius:9px;
+    padding:0 12px;
+    font-size:15px;
+    outline:none;
+}
+
+.field input:focus{
+    border-color:var(--red);
+}
+
+.actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:15px;
+}
+
+button{
+    border:0;
+    border-radius:9px;
+    padding:11px 18px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.reset{
+    background:#eceef1;
+    color:var(--dark);
+}
+
+.print{
+    background:var(--red);
+    color:#fff;
+}
+
+
+/* =========================
+   INVOICE TEMPLATE
+   768 × 1024
+   ========================= */
+
+.invoice{
+    width:768px;
+    height:1024px;
+    margin:20px auto;
+    position:relative;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:0 5px 25px rgba(0,0,0,.14);
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+.logo{
+    position:absolute;
+    left:39px;
+    top:39px;
+    width:300px;
+    height:auto;
+}
+
+.contact{
+    position:absolute;
+    left:386px;
+    top:59px;
+    font-size:12px;
+    line-height:1.85;
+    white-space:nowrap;
+}
+
+.contact-row{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.contact-icon{
+    color:var(--red);
+    width:18px;
+    text-align:center;
+    font-weight:700;
+}
+
+.slogan{
+    position:absolute;
+    left:600px;
+    top:59px;
+    border-left:2px solid var(--red);
+    padding-left:17px;
+    font-size:13px;
+    line-height:1.45;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+}
+
+.slogan-line{
+    width:48px;
+    height:2px;
+    background:var(--red);
+    margin-top:9px;
+}
+
+.header-line{
+    position:absolute;
+    left:40px;
+    right:40px;
+    top:149px;
+    height:3px;
+    background:var(--dark);
+}
+
+.header-line::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:67px;
+    height:3px;
+    background:var(--red);
+}
+
+
+/* =========================
+   TITLE
+   ========================= */
+
+.title{
+    position:absolute;
+    left:40px;
+    top:181px;
+    margin:0;
+    font-size:35px;
+    line-height:1;
+    font-weight:700;
+}
+
+.title .red{
+    color:var(--red);
+}
+
+.date-box{
+    position:absolute;
+    left:541px;
+    top:175px;
+    width:186px;
+    height:60px;
+    background:#f0f1f3;
+    border-radius:9px;
+    text-align:center;
+    padding-top:9px;
+    font-size:15px;
+}
+
+.date-value{
+    display:block;
+    margin-top:4px;
+    font-size:19px;
+    font-weight:700;
+}
+
+
+/* =========================
+   CARDS
+   ========================= */
+
+.card{
+    position:absolute;
+    border:1.5px solid #d0d3d8;
+    border-radius:8px;
+    background:#fff;
+    overflow:hidden;
+}
+
+.card-header{
+    height:43px;
+    background:linear-gradient(#f2f3f4,#e9eaec);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 9px;
+    font-size:14px;
+    font-weight:700;
+}
+
+.icon{
+    width:39px;
+    height:39px;
+    border-radius:50%;
+    background:var(--red);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    flex:none;
+}
+
+.card-body{
+    padding:3px 10px 5px;
+}
+
+.row{
+    min-height:38px;
+    display:grid;
+    grid-template-columns:max-content 1fr;
+    gap:10px;
+    align-items:center;
+    border-bottom:1px solid #e4e5e7;
+    font-size:12px;
+}
+
+.row:last-child{
+    border-bottom:0;
+}
+
+.value{
+    min-width:0;
+    overflow:hidden;
+    white-space:nowrap;
+}
+
+
+/* =========================
+   FIXED PDF POSITIONS
+   ========================= */
+
+.customer{
+    left:30px;
+    top:262px;
+    width:238px;
+    height:129px;
+}
+
+.bank{
+    left:279px;
+    top:262px;
+    width:206px;
+    height:129px;
+}
+
+.vehicle{
+    left:494px;
+    top:262px;
+    width:244px;
+    height:194px;
+}
+
+
+/* =========================
+   PAYMENT
+   ========================= */
+
+.payment{
+    position:absolute;
+    left:30px;
+    top:473px;
+    width:708px;
+    height:147px;
+    border:1.5px solid #d0d3d8;
+    border-radius:8px;
+    overflow:hidden;
+}
+
+.payment-header{
+    height:43px;
+    background:linear-gradient(#f2f3f4,#e9eaec);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 9px;
+    font-size:14px;
+    font-weight:700;
+}
+
+.payment-body{
+    padding:7px 10px 8px;
+}
+
+.payment-row{
+    height:38px;
+    margin-bottom:6px;
+    border-radius:5px;
+    background:#f0f1f3;
+    display:grid;
+    grid-template-columns:180px 1fr;
+    align-items:center;
+    padding:0 11px;
+    font-size:14px;
+}
+
+.payment-row:last-child{
+    margin-bottom:0;
+}
+
+.payment-label{
+    font-weight:700;
+}
+
+.payment-value{
+    font-weight:700;
+    color:var(--red);
+}
+
+
+/* =========================
+   IMPORTANT NOTE
+   ========================= */
+
+.note{
+    position:absolute;
+    left:30px;
+    top:643px;
+    width:708px;
+    height:101px;
+    border:1.5px solid #d0d3d8;
+    border-radius:8px;
+    overflow:hidden;
+}
+
+.note-header{
+    height:43px;
+    background:linear-gradient(#f2f3f4,#e9eaec);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 9px;
+    font-size:14px;
+    font-weight:700;
+}
+
+.note-body{
+    padding:9px 11px;
+    font-size:11px;
+    line-height:1.55;
+}
+
+
+/* =========================
+   CLOSING
+   ========================= */
+
+.closing{
+    position:absolute;
+    left:40px;
+    bottom:104px;
+    font-size:13px;
+}
+
+.closing p{
+    margin:0 0 6px;
+}
+
+.closing .team{
+    font-weight:700;
+}
+
+.closing-line{
+    width:49px;
+    height:3px;
+    background:var(--red);
+    margin-top:17px;
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.footer{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:75px;
+    background:#111a29;
+    color:#fff;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    align-items:center;
+    padding:0 40px;
+}
+
+.site{
+    font-size:11px;
+    letter-spacing:2.4px;
+}
+
+.footer-line{
+    height:2px;
+    background:var(--red);
+}
+
+.services{
+    text-align:right;
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.services span{
+    margin-left:10px;
+}
+
+.services span:not(:last-child)::after{
+    content:"/";
+    color:var(--red);
+    margin-left:10px;
+}
+
+
+/* =========================
+   PRINT
+   ========================= */
+
+@page{
+    size:768px 1024px;
+    margin:0;
+}
+
+@media print{
+
+    body{
+        background:#fff;
+    }
+
+    .editor{
+        display:none!important;
+    }
+
+    .invoice{
+        margin:0;
+        box-shadow:none;
+    }
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media(max-width:800px){
+
+    .invoice{
+        transform-origin:top left;
+    }
+
+    .editor{
+        margin:10px;
+    }
+
+    .fields{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     EDITOR
+     ========================= -->
+
+<section class="editor">
+
+    <h2>Proforma Invoice</h2>
+
+    <div class="fields">
+
+        <div class="field">
+            <label>Date</label>
+            <input
+                id="dateInput"
+                type="text"
+                placeholder="DD/MM/YYYY"
+            >
+        </div>
+
+        <div class="field">
+            <label>Name, Surname</label>
+            <input
+                id="nameInput"
+                type="text"
+            >
+        </div>
+
+        <div class="field">
+            <label>Passport / ID Card</label>
+            <input
+                id="passportInput"
+                type="text"
+            >
+        </div>
+
+        <div class="field">
+            <label>Manufacturer</label>
+            <input
+                id="manufacturerInput"
+                type="text"
+            >
+        </div>
+
+        <div class="field">
+            <label>Model</label>
+            <input
+                id="modelInput"
+                type="text"
+            >
+        </div>
+
+        <div class="field">
+            <label>Year</label>
+            <input
+                id="yearInput"
+                type="text"
+            >
+        </div>
+
+        <div class="field">
+            <label>VIN</label>
+            <input
+                id="vinInput"
+                type="text"
+            >
+        </div>
+
+        <div class="field">
+            <label>Due to payment</label>
+            <input
+                id="amountInput"
+                type="text"
+                inputmode="numeric"
+            >
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="reset"
+            id="resetBtn"
+            type="button"
+        >
+            Reset
+        </button>
+
+        <button
+            class="print"
+            type="button"
+            onclick="window.print()"
+        >
+            Print / Save PDF
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     INVOICE
+     ========================= -->
+
+<main class="invoice">
+
+
+    <!-- HEADER -->
+
+    <img
+        class="logo"
+        src="./pulseAutoImport-logo.PNG"
+        alt="Pulse AutoImport"
+    >
+
+
+    <div class="contact">
+
+        <div class="contact-row">
+            <span class="contact-icon">☎</span>
+            <span>+374 77 939967</span>
+        </div>
+
+        <div class="contact-row">
+            <span class="contact-icon">✉</span>
+            <span>pulseautoimport@gmail.com</span>
+        </div>
+
+        <div class="contact-row">
+            <span class="contact-icon">◎</span>
+            <span>pulseautoimport.online</span>
+        </div>
+
+    </div>
+
+
+    <div class="slogan">
+
+        FEEL THE PULSE<br>
+        OF PERFORMANCE
+
+        <div class="slogan-line"></div>
+
+    </div>
+
+
+    <div class="header-line"></div>
+
+
+    <!-- TITLE -->
+
+    <h1 class="title">
+        <span class="red">PROFORMA</span> INVOICE
+    </h1>
+
+
+    <div class="date-box">
+
+        Date :
+
+        <span
+            class="date-value"
+            id="datePreview"
+        >
+            —
+        </span>
+
+    </div>
+
+
+    <!-- CUSTOMER -->
+
+    <section class="card customer">
+
+        <div class="card-header">
+
+            <div class="icon">
+                ●
+            </div>
+
+            CUSTOMER DETAILS
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div>
+                    Name, Surname :
+                </div>
+
+                <div
+                    class="value"
+                    id="namePreview"
+                ></div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div>
+                    Passport / ID card :
+                </div>
+
+                <div
+                    class="value"
+                    id="passportPreview"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BANK -->
+
+    <section class="card bank">
+
+        <div class="card-header">
+
+            <div class="icon">
+                ♜
+            </div>
+
+            BANK DETAILS
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div>
+                    Bank Name :
+                </div>
+
+                <div class="value">
+                    Ameriabank CJSC
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div>
+                    Account Name :
+                </div>
+
+                <div class="value">
+                    PULSE AUTOIMPORT LLC
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div>
+                    Account Number :
+                </div>
+
+                <div class="value">
+                    1570029989519800
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- VEHICLE -->
+
+    <section class="card vehicle">
+
+        <div class="card-header">
+
+            <div class="icon">
+                ▣
+            </div>
+
+            VEHICLE DETAILS
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div>
+                    Manufacturer :
+                </div>
+
+                <div
+                    class="value"
+                    id="manufacturerPreview"
+                ></div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div>
+                    Model :
+                </div>
+
+                <div
+                    class="value"
+                    id="modelPreview"
+                ></div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div>
+                    Year :
+                </div>
+
+                <div
+                    class="value"
+                    id="yearPreview"
+                ></div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div>
+                    VIN :
+                </div>
+
+                <div
+                    class="value"
+                    id="vinPreview"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PAYMENT -->
+
+    <section class="payment">
+
+        <div class="payment-header">
+
+            <div class="icon">
+                ▤
+            </div>
+
+            PAYMENT DESCRIPTION
+
+        </div>
+
+
+        <div class="payment-body">
+
+            <div class="payment-row">
+
+                <div class="payment-label">
+                    Aim :
+                </div>
+
+                <div class="payment-value">
+                    Prepayment price for car.
+                </div>
+
+            </div>
+
+
+            <div class="payment-row">
+
+                <div class="payment-label">
+                    Due to payment :
+                </div>
+
+                <div
+                    class="payment-value"
+                    id="amountPreview"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- IMPORTANT NOTE -->
+
+    <section class="note">
+
+        <div class="note-header">
+
+            <div class="icon">
+                i
+            </div>
+
+            IMPORTANT NOTE
+
+        </div>
+
+
+        <div class="note-body">
+
+            <strong>
+                To Bank Operator :
+            </strong>
+
+            Please send money, so the receiving account will get the corresponding amount,
+            wire fees are on the payer’s side.<br>
+
+            Thank you in advance.
+
+        </div>
+
+    </section>
+
+
+    <!-- CLOSING -->
+
+    <div class="closing">
+
+        <p>
+            Best regards
+        </p>
+
+        <p class="team">
+            Pulse AutoImport Team
+        </p>
+
+        <div class="closing-line"></div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="site">
+            pulseautoimport.online
+        </div>
+
+        <div class="footer-line"></div>
+
+        <div class="services">
+
+            <span>IMPORT</span>
+            <span>TRANSPORT</span>
+            <span>SOLUTIONS</span>
+
+        </div>
+
+    </footer>
+
+</main>
+
+
+<script>
+
+/* =========================
+   INPUT → PDF FIELD
+   ========================= */
+
+const bindings = {
+
+    dateInput:
+        "datePreview",
+
+    nameInput:
+        "namePreview",
+
+    passportInput:
+        "passportPreview",
+
+    manufacturerInput:
+        "manufacturerPreview",
+
+    modelInput:
+        "modelPreview",
+
+    yearInput:
+        "yearPreview",
+
+    vinInput:
+        "vinPreview"
+
+};
+
+
+Object.entries(bindings).forEach(
+    ([inputId, previewId]) => {
+
+        const input =
+            document.getElementById(inputId);
+
+        const preview =
+            document.getElementById(previewId);
+
+
+        input.addEventListener(
+            "input",
+            () => {
+
+                preview.textContent =
+                    input.value;
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================
+   AMOUNT
+   ========================= */
+
+const amountInput =
+    document.getElementById(
+        "amountInput"
+    );
+
+const amountPreview =
+    document.getElementById(
+        "amountPreview"
+    );
+
+
+amountInput.addEventListener(
+    "input",
+    () => {
+
+        const value =
+            amountInput.value.trim();
+
+
+        /*
+         * User enters only the number.
+         * AMD is automatically added.
+         */
+
+        amountPreview.textContent =
+            value
+                ? value + " AMD"
+                : "";
+
+    }
+);
+
+
+/* =========================
+   RESET
+   ========================= */
+
+document
+    .getElementById("resetBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            document
+                .querySelectorAll(
+                    ".editor input"
+                )
+                .forEach(
+                    input => {
+                        input.value = "";
+                    }
+                );
+
+
+            Object.values(bindings)
+                .forEach(
+                    previewId => {
+
+                        document
+                            .getElementById(
+                                previewId
+                            )
+                            .textContent = "";
+
+                    }
+                );
+
+
+            amountPreview.textContent =
+                "";
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
