@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Proforma Invoice">
+
+<title>Proforma Invoice</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: #f4f5f7;
+    color: #202733;
+    padding: 20px 14px 30px;
+}
+
+.container {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin: 6px 0 18px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.field {
+    margin-bottom: 14px;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+input {
+    width: 100%;
+    height: 46px;
+    border: 1px solid #d8dce2;
+    border-radius: 10px;
+    padding: 0 13px;
+    font-size: 16px;
+    outline: none;
+    background: #fff;
+}
+
+input:focus {
+    border-color: #d71920;
+    box-shadow: 0 0 0 3px rgba(215, 25, 32, 0.10);
+}
+
+button {
+    width: 100%;
+    height: 50px;
+    border: 0;
+    border-radius: 11px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.generate {
+    color: #ffffff;
+    background: #d71920;
+    margin-top: 4px;
+}
+
+.generate:disabled {
+    opacity: 0.6;
+}
+
+.clear {
+    color: #202733;
+    background: #eef0f3;
+    margin-top: 10px;
+}
+
+.status {
+    min-height: 22px;
+    margin-top: 12px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.back {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    color: #202733;
+    text-decoration: none;
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Proforma Invoice</h1>
+
+    <div class="card">
+
+        <div class="field">
+            <label for="customer_name">Name, Surname</label>
+            <input
+                id="customer_name"
+                type="text"
+                autocomplete="name"
+            >
+        </div>
+
+        <div class="field">
+            <label for="passport">Passport / ID card</label>
+            <input
+                id="passport"
+                type="text"
+            >
+        </div>
+
+        <div class="field">
+            <label for="make">Manufacturer</label>
+            <input
+                id="make"
+                type="text"
+            >
+        </div>
+
+        <div class="field">
+            <label for="model">Model</label>
+            <input
+                id="model"
+                type="text"
+            >
+        </div>
+
+        <div class="field">
+            <label for="year">Year</label>
+            <input
+                id="year"
+                type="text"
+                inputmode="numeric"
+            >
+        </div>
+
+        <div class="field">
+            <label for="vin">VIN</label>
+            <input
+                id="vin"
+                type="text"
+                autocapitalize="characters"
+            >
+        </div>
+
+        <div class="field">
+            <label for="amount">Due to payment (AMD)</label>
+            <input
+                id="amount"
+                type="text"
+                inputmode="decimal"
+            >
+        </div>
+
+        <button
+            class="generate"
+            id="generateBtn"
+            type="button"
+        >
+            Generate PDF
+        </button>
+
+        <button
+            class="clear"
+            id="clearBtn"
+            type="button"
+        >
+            Clear
+        </button>
+
+        <div
+            class="status"
+            id="status"
+        ></div>
+
+    </div>
+
+    <a
+        class="back"
+        href="./entry.html"
+    >
+        ‹ Back
+    </a>
+
+</div>
+
+
+<!-- PDF-LIB -->
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+<script>
+
+const PDF_FILE = "./proforma-template.pdf";
+
+const fields = [
+    "customer_name",
+    "passport",
+    "make",
+    "model",
+    "year",
+    "vin",
+    "amount"
+];
+
+const getField = (id) => {
+    return document.getElementById(id);
+};
+
+
+/* =========================
+   CLEAR
+========================= */
+
+document
+    .getElementById("clearBtn")
+    .addEventListener("click", () => {
+
+        fields.forEach((id) => {
+            getField(id).value = "";
+        });
+
+        document.getElementById("status").textContent = "";
+    });
+
+
+/* =========================
+   GENERATE PDF
+========================= */
+
+document
+    .getElementById("generateBtn")
+    .addEventListener("click", async () => {
+
+        const status =
+            document.getElementById("status");
+
+        const button =
+            document.getElementById("generateBtn");
+
+        try {
+
+            button.disabled = true;
+
+            status.textContent =
+                "Creating PDF...";
+
+
+            /* -------------------------
+               READ TEMPLATE PDF
+            ------------------------- */
+
+            const response = await fetch(
+                PDF_FILE,
+                {
+                    cache: "no-store"
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    "Could not load proforma-template.pdf"
+                );
+            }
+
+
+            const pdfBytes =
+                await response.arrayBuffer();
+
+
+            /* -------------------------
+               LOAD PDF
+            ------------------------- */
+
+            const pdfDoc =
+                await PDFLib.PDFDocument.load(
+                    pdfBytes
+                );
+
+
+            const form =
+                pdfDoc.getForm();
+
+
+            /* -------------------------
+               READ USER DATA
+            ------------------------- */
+
+            const values = {};
+
+            fields.forEach((id) => {
+
+                values[id] =
+                    getField(id)
+                        .value
+                        .trim();
+
+            });
+
+
+            /* -------------------------
+               FILL PDF FIELDS
+            ------------------------- */
+
+            fields.forEach((id) => {
+
+                const pdfField =
+                    form.getTextField(id);
+
+                pdfField.setText(
+                    values[id]
+                );
+
+            });
+
+
+            /* -------------------------
+               FLATTEN FORM
+               Makes final PDF non-editable
+            ------------------------- */
+
+            form.flatten();
+
+
+            /* -------------------------
+               SAVE FINAL PDF
+            ------------------------- */
+
+            const finalPdf =
+                await pdfDoc.save();
+
+
+            const blob =
+                new Blob(
+                    [finalPdf],
+                    {
+                        type: "application/pdf"
+                    }
+                );
+
+
+            const url =
+                URL.createObjectURL(blob);
+
+
+            /* -------------------------
+               FILE NAME
+            ------------------------- */
+
+            let customerName =
+                values.customer_name ||
+                "Customer";
+
+
+            customerName =
+                customerName
+                    .replace(
+                        /[\\/:*?"<>|]+/g,
+                        "_"
+                    )
+                    .trim();
+
+
+            const fileName =
+                `Proforma_Invoice_${customerName}.pdf`;
+
+
+            /* -------------------------
+               DOWNLOAD
+            ------------------------- */
+
+            const link =
+                document.createElement("a");
+
+            link.href = url;
+            link.download = fileName;
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            link.remove();
+
+
+            setTimeout(() => {
+
+                URL.revokeObjectURL(url);
+
+            }, 1000);
+
+
+            status.textContent =
+                "PDF created successfully.";
+
+        }
+        catch (error) {
+
+            console.error(error);
+
+            status.textContent =
+                "Could not create PDF.";
+
+        }
+        finally {
+
+            button.disabled = false;
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
