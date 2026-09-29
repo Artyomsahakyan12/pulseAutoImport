@@ -396,7 +396,14 @@
                 container: "Отслеживание",
                 tracking: "контейнера"
             }
+        };
 
+        const translationElements = {
+              transportation: "transportationText",
+              price: "priceText",
+              bidcars: "bidcarsText",
+              container: "containerText",
+              tracking: "trackingText"
         };
 
         const languageSelect =
@@ -404,44 +411,17 @@
                 "languageSelect"
             );
 
-        function applyLanguage(language) {
-            const selectedLanguage =
-                translations[language] ||
-                translations.en;
+function applyLanguage(language) {
+    const selectedLanguage = translations[language] || translations.en;
 
-            document.getElementById(
-                "transportationText"
-            ).textContent =
-                selectedLanguage.transportation;
+    Object.entries(translationElements).forEach(([key, elementId]) => {
+        document.getElementById(elementId).textContent =
+            selectedLanguage[key];
+    });
 
-            document.getElementById(
-                "priceText"
-            ).textContent =
-                selectedLanguage.price;
-
-            document.getElementById(
-                "bidcarsText"
-            ).textContent =
-                selectedLanguage.bidcars;
-
-            document.getElementById(
-                "containerText"
-            ).textContent =
-                selectedLanguage.container;
-
-            document.getElementById(
-                "trackingText"
-            ).textContent =
-                selectedLanguage.tracking;
-
-            document.documentElement.lang =
-                language;
-
-            localStorage.setItem(
-                "pulseAutoImportLanguage",
-                language
-            );
-        }
+    document.documentElement.lang = language;
+    localStorage.setItem("pulseAutoImportLanguage", language);
+}
 
         const savedLanguage =
             localStorage.getItem(
