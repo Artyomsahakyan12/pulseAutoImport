@@ -82,67 +82,29 @@
             gap: 18px;
         }
 
-        .tool-button {
-            width: 72%;
-            max-width: 360px;
-            min-width: 0;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 22px;
-            text-decoration: none;
-            text-align: center;
-            font-size: 18px;
-            font-weight: 700;
-            transition:
-                background 0.15s ease,
-                box-shadow 0.15s ease,
-                transform 0.15s ease;
-        }
-
-        .tool-button:hover {
-            background: #1d4ed8;
-        }
-
-        .tool-button:active {
-            transform: scale(0.99);
-        }
-
-        .tool-button:focus {
-            outline: none;
-        }
-
         .transport-button,
         .bidcars-button,
-        .caucasusContainerTracking-button,
-        .proforma-button {
+        .caucasusContainerTracking-button {
             width: 72%;
             max-width: 360px;
             min-width: 0;
             height: 64px;
             padding: 6px 10px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             box-sizing: border-box;
             border: 1px solid rgba(190, 201, 218, 0.75);
             border-radius: 22px;
-
             background: #ffffff;
             color: #172033;
             text-decoration: none;
-
             box-shadow:
                 0 2px 4px rgba(35, 55, 85, 0.08),
                 0 8px 18px rgba(35, 55, 85, 0.14),
                 0 0 0 1px rgba(255, 255, 255, 0.95) inset,
                 -4px -4px 12px rgba(255, 255, 255, 0.95);
-
             overflow: hidden;
-
             transition:
                 box-shadow 0.15s ease,
                 transform 0.15s ease;
@@ -150,8 +112,7 @@
 
         .transport-button:hover,
         .bidcars-button:hover,
-        .caucasusContainerTracking-button:hover,
-        .proforma-button:hover {
+        .caucasusContainerTracking-button:hover {
             box-shadow:
                 0 3px 5px rgba(35, 55, 85, 0.10),
                 0 10px 22px rgba(35, 55, 85, 0.18),
@@ -161,8 +122,7 @@
 
         .transport-button:active,
         .bidcars-button:active,
-        .caucasusContainerTracking-button:active,
-        .proforma-button:active {
+        .caucasusContainerTracking-button:active {
             transform: scale(0.99);
         }
 
@@ -199,12 +159,10 @@
         .caucasusContainerTracking-text {
             flex: 1;
             min-width: 0;
-
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-
             text-align: center;
             font-size: 15px;
             font-weight: 700;
@@ -241,38 +199,7 @@
             transform: translateX(30px);
         }
 
-        /* Proforma Invoice */
-        .proforma-button {
-            color: #172033;
-            background: #ffffff;
-            font-size: 18px;
-        }
-
-        .proforma-button .proforma-text {
-            flex: 1;
-            min-width: 0;
-            text-align: center;
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .proforma-divider {
-            width: 2px;
-            height: 42px;
-            flex-shrink: 0;
-            margin: 0 12px;
-            background: #d9e0e9;
-        }
-
-        .proforma-arrow {
-            flex-shrink: 0;
-            margin-left: 8px;
-            color: #172033;
-            font-size: 30px;
-        }
-
         @media (max-width: 420px) {
-
             .language-selector {
                 top: 14px;
                 right: 14px;
@@ -291,8 +218,7 @@
 
             .transport-button,
             .bidcars-button,
-            .caucasusContainerTracking-button,
-            .proforma-button {
+            .caucasusContainerTracking-button {
                 width: 72%;
             }
 
@@ -340,7 +266,6 @@
         }
     </style>
 </head>
-
 <body>
 
     <!-- Language selector -->
@@ -352,7 +277,6 @@
         </select>
     </div>
 
-
     <!-- Pulse AutoImport logo -->
     <img
         class="brand-logo"
@@ -360,9 +284,8 @@
         alt="Pulse AutoImport"
     >
 
-
     <div class="buttons">
-
+        
         <!-- Transportation Price -->
         <a
             class="transport-button"
@@ -392,7 +315,6 @@
             </div>
         </a>
 
-
         <!-- BidCars -->
         <a
             class="bidcars-button"
@@ -419,7 +341,6 @@
                 ›
             </div>
         </a>
-
 
         <!-- Container Tracking -->
         <a
@@ -450,117 +371,71 @@
                 ›
             </div>
         </a>
-
-
-        <!-- Proforma Invoice -->
-        <a
-            class="proforma-button"
-            href="./proformaInvoice.html"
-            target="_self"
-        >
-            <div
-                class="proforma-text"
-                id="proformaText"
-            >
-                Proforma Invoice
-            </div>
-
-            <div class="proforma-divider"></div>
-
-            <div class="proforma-arrow">
-                ›
-            </div>
-        </a>
-
     </div>
-
-
     <script>
-
+        
         const translations = {
-
             en: {
                 transportation: "Transportation",
                 price: "price",
                 bidcars: "BidCars",
                 container: "Container",
-                tracking: "tracking",
-                proforma: "Proforma Invoice"
+                tracking: "tracking"
             },
-
             hy: {
                 transportation: "Փոխադրման",
                 price: "արժեք",
                 bidcars: "ԲիդՔարս",
                 container: "Կոնտեյների",
-                tracking: "հետևում",
-                proforma: "Պրոֆորմա հաշիվ"
+                tracking: "հետևում"
             },
-
             ru: {
                 transportation: "Стоимость",
                 price: "транспортировки",
                 bidcars: "БидКарс",
                 container: "Отслеживание",
-                tracking: "контейнера",
-                proforma: "Проформа-инвойс"
+                tracking: "контейнера"
             }
 
         };
-
 
         const languageSelect =
             document.getElementById(
                 "languageSelect"
             );
 
-
         function applyLanguage(language) {
-
             const selectedLanguage =
                 translations[language] ||
                 translations.en;
-
 
             document.getElementById(
                 "transportationText"
             ).textContent =
                 selectedLanguage.transportation;
 
-
             document.getElementById(
                 "priceText"
             ).textContent =
                 selectedLanguage.price;
-
 
             document.getElementById(
                 "bidcarsText"
             ).textContent =
                 selectedLanguage.bidcars;
 
-
             document.getElementById(
                 "containerText"
             ).textContent =
                 selectedLanguage.container;
-
 
             document.getElementById(
                 "trackingText"
             ).textContent =
                 selectedLanguage.tracking;
 
-
-            document.getElementById(
-                "proformaText"
-            ).textContent =
-                selectedLanguage.proforma;
-
-
             document.documentElement.lang =
                 language;
-
 
             localStorage.setItem(
                 "pulseAutoImportLanguage",
@@ -568,34 +443,27 @@
             );
         }
 
-
         const savedLanguage =
             localStorage.getItem(
                 "pulseAutoImportLanguage"
             ) || "en";
 
-
         languageSelect.value =
             savedLanguage;
-
 
         applyLanguage(
             savedLanguage
         );
 
-
         languageSelect.addEventListener(
             "change",
             function () {
-
                 applyLanguage(
                     this.value
                 );
-
             }
         );
 
     </script>
-
 </body>
 </html>
