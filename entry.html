@@ -93,7 +93,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-sizing: border-box;
             border: 1px solid rgba(190, 201, 218, 0.75);
             border-radius: 22px;
             background: #ffffff;
@@ -122,9 +121,7 @@
 
         .transport-button:active,
         .bidcars-button:active,
-        .caucasusContainerTracking-button:active {
-            transform: scale(0.99);
-        }
+        .caucasusContainerTracking-button:active {transform: scale(0.99);}
 
         .transport-logo,
         .caucasusContainerTracking-logo {
@@ -170,15 +167,9 @@
             transform: translateX(12px);
         }
 
-        .transport-text span,
-        .caucasusContainerTracking-text span {
-            display: block;
-        }
-
         .bidcars-text {
             flex: 1;
             min-width: 0;
-            color: #172033;
             text-align: center;
             font-size: 18px;
             font-weight: 700;
@@ -195,9 +186,9 @@
 
         /* Preserve the original divider positioning */
         .transport-button .transport-divider,
-        .caucasusContainerTracking-button .caucasusContainerTracking-divider {
-            transform: translateX(30px);
-        }
+        .caucasusContainerTracking-button .caucasusContainerTracking-divider {transform: translateX(30px);}
+
+        
 
         @media (max-width: 420px) {
             .language-selector {
@@ -210,47 +201,23 @@
                 font-size: 13px;
             }
 
-            .transport-button {
-                padding: 6px 10px;
-            }
-
-            .transport-logo,
-            .caucasusContainerTracking-logo {
-                width: 48px;
-                height: 48px;
-            }
-
             .transport-divider,
             .bidcars-divider,
-            .caucasusContainerTracking-divider {
-                margin: 0 10px;
-            }
-
-            .transport-text,
-            .caucasusContainerTracking-text {
-                font-size: 15px;
-            }
+            .caucasusContainerTracking-divider {margin: 0 10px;}
 
             .bidcars-logo {
                 width: 72px;
                 height: 46px;
             }
 
-            .bidcars-text {
-                font-size: 17px;
-            }
+            .bidcars-text {font-size: 17px;}
 
             .transport-arrow,
             .bidcars-arrow,
-            .caucasusContainerTracking-arrow {
-                margin-left: 6px;
-                font-size: 30px;
-            }
+            .caucasusContainerTracking-arrow {margin-left: 6px;}
 
             .transport-button .transport-divider,
-            .caucasusContainerTracking-button .caucasusContainerTracking-divider {
-                transform: translateX(24px);
-            }
+            .caucasusContainerTracking-button .caucasusContainerTracking-divider {transform: translateX(24px);}
         }
     </style>
 </head>
@@ -278,8 +245,8 @@
         <a
             class="transport-button"
             href="./access.html"
-            target="_self"
         >
+            
             <img
                 class="transport-logo"
                 src="./auctions-logo.jpeg"
@@ -394,10 +361,7 @@
               tracking: "trackingText"
         };
 
-        const languageSelect =
-            document.getElementById(
-                "languageSelect"
-            );
+        const languageSelect = document.getElementById("languageSelect");
 
 function applyLanguage(language) {
     const selectedLanguage = translations[language] || translations.en;
@@ -411,25 +375,15 @@ function applyLanguage(language) {
     localStorage.setItem("pulseAutoImportLanguage", language);
 }
 
-        const savedLanguage =
-            localStorage.getItem(
-                "pulseAutoImportLanguage"
-            ) || "en";
+        const savedLanguage = localStorage.getItem("pulseAutoImportLanguage") || "en";
 
-        languageSelect.value =
-            savedLanguage;
+        languageSelect.value = savedLanguage;
 
-        applyLanguage(
-            savedLanguage
-        );
+        applyLanguage(savedLanguage);
 
         languageSelect.addEventListener(
             "change",
-            function () {
-                applyLanguage(
-                    this.value
-                );
-            }
+            function () { applyLanguage(this.value);}
         );
 
     </script>
