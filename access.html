@@ -7,9 +7,7 @@
   <title>Access Request</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * {box-sizing: border-box;}
 
     body {
       margin: 0;
@@ -78,20 +76,11 @@
       white-space: pre-line;
     }
 
-    .waiting {
-      color: #b7791f;
-    }
-
-    .rejected {
-      color: #d93025;
-    }
-
-    .approved {
-      color: #188038;
-    }
+    .waiting {color: #b7791f;}
+    .rejected {color: #d93025;}
+    .approved {color: #188038;}
   </style>
 </head>
-
 <body>
   <div class="card">
     <h1 id="title">Access Request</h1>
@@ -114,9 +103,7 @@
   </div>
 
   <script>
-    const FUNCTION_URL =
-      "https://yusznijfwkdcvrrqqapz.supabase.co/functions/v1/telegram-access";
-
+    const FUNCTION_URL = "https://yusznijfwkdcvrrqqapz.supabase.co/functions/v1/telegram-access";
     const STORAGE_KEY = "pulseAutoImportDeviceId";
     const LANGUAGE_KEY = "pulseAutoImportLanguage";
 
@@ -147,7 +134,7 @@
         verificationError: "An error occurred during verification.",
         generalError: "An error occurred. Please try again."
       },
-
+      
       hy: {
         title: "Մուտքի հարցում",
         description: "Մուտքի հարցում ուղարկելու համար ստեղծեք 6-անիշ ID",
@@ -181,8 +168,7 @@
       }
     };
 
-    const currentLanguage =
-      localStorage.getItem(LANGUAGE_KEY) || "en";
+    const currentLanguage = localStorage.getItem(LANGUAGE_KEY) || "en";
 
     const t = translations[currentLanguage] || translations.en;
 
@@ -198,24 +184,18 @@
       message.className = "message " + className;
     }
 
-    function validDeviceId(id) {
-      return /^[A-Z0-9]{6}$/.test(id);
-    }
+    function validDeviceId(id) {return /^[A-Z0-9]{6}$/.test(id);}
 
     async function callFunction(body) {
       const response = await fetch(FUNCTION_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(body)
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || "Request failed");
-      }
+      if (!response.ok) {throw new Error(data.error || "Request failed");}
 
       return data;
     }
@@ -228,9 +208,7 @@
     }
 
     function showApproved() {
-      if (redirecting) {
-        return;
-      }
+      if (redirecting) {return;}
 
       redirecting = true;
       stopStatusPolling();
@@ -243,9 +221,7 @@
     }
 
     function showRejected() {
-      if (redirecting) {
-        return;
-      }
+      if (redirecting) {return;}
 
       redirecting = true;
       stopStatusPolling();
@@ -287,28 +263,30 @@
     }
 
     function showStatus(status) {
-      if (status === "approved") {
+      switch (status) {
+    case "approved":
         showApproved();
+        break;
 
-      } else if (status === "pending") {
+    case "pending":
         deviceInput.disabled = true;
         submitBtn.disabled = true;
         submitBtn.textContent = t.request;
-
         setMessage(t.pending, "waiting");
+        break;
 
-      } else if (status === "rejected") {
+    case "rejected":
         showRejected();
+        break;
 
-      } else if (status === "not_found") {
+    case "not_found":
         showBlocked();
-      }
+        break;
+}
     }
 
     async function pollStatus() {
-      if (!currentDeviceId || redirecting) {
-        return;
-      }
+      if (!currentDeviceId || redirecting) {return;}
 
       try {
         const data = await callFunction({
@@ -318,9 +296,7 @@
 
         showStatus(data.status);
 
-      } catch (error) {
-        console.error("Status polling error:", error);
-      }
+      } catch (error) {console.error("Status polling error:", error);}
     }
 
     function startStatusPolling(deviceId) {
@@ -338,9 +314,7 @@
     async function checkSavedDevice() {
       const savedId = localStorage.getItem(STORAGE_KEY);
 
-      if (!savedId) {
-        return;
-      }
+      if (!savedId) {return;}
 
       deviceInput.value = savedId;
       deviceInput.disabled = true;
@@ -356,9 +330,7 @@
 
         showStatus(data.status);
 
-        if (data.status === "pending") {
-          startStatusPolling(savedId);
-        }
+        if (data.status === "pending") {startStatusPolling(savedId);}
 
       } catch (error) {
         setMessage(t.verificationError, "rejected");
@@ -409,9 +381,7 @@
 
         showStatus(data.status);
 
-        if (data.status === "pending") {
-          startStatusPolling(deviceId);
-        }
+        if (data.status === "pending") {startStatusPolling(deviceId);}
 
       } catch (error) {
         deviceInput.disabled = false;
