@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <title>Devices</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 24px;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            background: var(--tg-theme-secondary-bg-color, #f1f1f1);
+            word-break: break-word;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Devices</h1>
+
+    <div class="status" id="status">
+        Checking Telegram authorization...
+    </div>
+</div>
+
+<script>
+    const tg = window.Telegram.WebApp;
+
+    tg.ready();
+    tg.expand();
+
+    const initData = tg.initData;
+    const status = document.getElementById("status");
+
+    async function checkTelegramAuth() {
+        if (!initData) {
+            status.textContent =
+                "This page must be opened from Telegram.";
+            return;
+        }
+
+        status.textContent =
+            "Checking Telegram authorization...";
+
+        try {
+            const response = await fetch(
+                https://yusznijfwkdcvrrqqapz.supabase.co/functions/v1/telegram-miniapp-auth,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        initData: initData
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            console.log("Telegram auth result:", result);
+
+            if (result.valid === true) {
+                status.textContent =
+                    "Telegram authorization successful.";
+            } else {
+                status.textContent =
+                    "Telegram authorization failed.";
+            }
+
+        } catch (error) {
+            console.error("Telegram auth error:", error);
+
+            status.textContent =
+                "Connection error.";
+        }
+    }
+
+    checkTelegramAuth();
+    
+</script>
+</body>
+</html>
