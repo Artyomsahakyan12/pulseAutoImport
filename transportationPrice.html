@@ -87,6 +87,12 @@ input{
     background:transparent
 }
 
+input[type="search"]::-webkit-search-cancel-button{
+    -webkit-appearance:none;
+    appearance:none;
+    display:none;
+}
+
 .label{
     margin-top:28px;
     margin-bottom:10px;
@@ -331,8 +337,6 @@ function getAuctionLogo(auction){
 }
 
 let searchRequestId = 0;
-
-    let searchRequestId = 0;
 
 async function doSearch(){
     const requestId = ++searchRequestId;
