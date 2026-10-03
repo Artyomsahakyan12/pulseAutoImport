@@ -1,26 +1,66 @@
 // ==UserScript==
 // @name         Copart Buy Now Test
 // @namespace    copart-buy-now-filter
-// @version      2.0
+// @version      3.0
 // @description  Detect Buy It Now prices on Copart
 // @match        https://www.copart.com/*
-// @run-at       document-idle
+// @run-at       document-start
 // ==/UserScript==
 
 (function () {
     "use strict";
 
+    let box = null;
+
+    function createBox() {
+        if (box && document.body.contains(box)) return;
+
+        box = document.createElement("div");
+        box.id = "copart-buy-now-test";
+
+        Object.assign(box.style, {
+            position: "fixed",
+            top: "10px",
+            right: "10px",
+            zIndex: "2147483647",
+            background: "#ffffff",
+            color: "#111111",
+            padding: "12px",
+            border: "3px solid #1769ff",
+            borderRadius: "12px",
+            fontFamily: "-apple-system, BlinkMacSystemFont, Arial, sans-serif",
+            fontSize: "16px",
+            boxShadow: "0 4px 20px rgba(0,0,0,.35)"
+        });
+
+        box.innerHTML = `
+            <b>Copart Buy Now Test v3</b>
+            <br><br>
+            Waiting for Copart vehicles...
+        `;
+
+        document.body.appendChild(box);
+    }
+
     function scan() {
 
-        const pageText = document.body.innerText || "";
+        if (!document.body) return;
 
+        createBox();
+
+        const text = document.body.innerText || "";
+
+        /*
+         * Copart may put the price on a separate line,
+         * so allow whitespace/newlines between everything.
+         */
         const regex =
             /buy\s*it\s*now\s*price\s*:\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/gi;
 
         const prices = [];
         let match;
 
-        while ((match = regex.exec(pageText)) !== null) {
+        while ((match = regex.exec(text)) !== null) {
 
             const price = Number(
                 match[1].replace(/,/g, "")
@@ -34,103 +74,46 @@
             }
         }
 
-        let box =
-            document.getElementById("copart-buy-now-test");
+        if (prices.length === 0) {
 
-        if (!box) {
+            box.innerHTML = `
+                <b>Copart Buy Now Test v3</b>
+                <br><br>
+                Waiting for vehicle prices...
+            `;
 
-            box = document.createElement("div");
-
-            box.id = "copart-buy-now-test";
-
-            Object.assign(box.style, {
-
-                position: "fixed",
-                top: "10px",
-                right: "10px",
-
-                zIndex: "2147483647",
-
-                background: "white",
-                color: "black",
-
-                padding: "12px",
-
-                border: "3px solid #1769ff",
-                borderRadius: "12px",
-
-                fontFamily:
-                    "-apple-system, BlinkMacSystemFont, Arial",
-
-                fontSize: "16px",
-
-                boxShadow:
-                    "0 4px 20px rgba(0,0,0,.35)"
-            });
-
-            document.body.appendChild(box);
+            return;
         }
 
-        box.innerHTML =
-            "<b>Copart Buy Now Test v2</b>" +
-            "<br><br>" +
-
-            "Detected: <b>" +
-            prices.length +
-            "</b>" +
-
-            "<br><br>" +
-
-            (
-                prices.length
-                    ? prices.map(function (price, index) {
-
-                        return (
-                            (index + 1) +
-                            ". <b>$" +
-                            price.toLocaleString() +
-                            "</b>"
-                        );
-
-                    }).join("<br>")
-
-                    : "No Buy It Now prices detected."
-            );
+        box.innerHTML = `
+            <b>Copart Buy Now Test v3</b>
+            <br><br>
+            Detected: <b>${prices.length}</b>
+            <br><br>
+            ${prices.map((price, i) =>
+                `${i + 1}. <b>$${price.toLocaleString()}</b>`
+            ).join("<br>")}
+        `;
     }
 
     function start() {
 
+        // Check immediately
         scan();
 
-        let timer;
-
-        new MutationObserver(function () {
-
-            clearTimeout(timer);
-
-            timer = setTimeout(
-                scan,
-                700
-            );
-
-        }).observe(document.body, {
-
-            childList: true,
-            subtree: true
-
-        });
+        // Then keep checking because Copart loads results dynamically
+        setInterval(scan, 1000);
     }
 
-    if (document.readyState === "loading") {
+    function waitForBody() {
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            start
-        );
-
-    } else {
-
-        start();
+        if (document.body) {
+            start();
+        } else {
+            setTimeout(waitForBody, 100);
+        }
     }
+
+    waitForBody();
 
 })();
