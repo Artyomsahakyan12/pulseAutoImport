@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Copart Buy Now Test
 // @namespace    copart-buy-now-filter
-// @version      1.0
-// @description  Test detection of Buy It Now prices on Copart
+// @version      2.0
+// @description  Detect Buy It Now prices on Copart
 // @match        https://www.copart.com/*
 // @run-at       document-idle
 // ==/UserScript==
@@ -10,28 +10,17 @@
 (function () {
     "use strict";
 
-    const PRICE_RE =
-        /buy\s*it\s*now\s*price\s*:\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/i;
-
     function scan() {
+
+        const pageText = document.body.innerText || "";
+
+        const regex =
+            /buy\s*it\s*now\s*price\s*:\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/gi;
+
         const prices = [];
+        let match;
 
-        document.querySelectorAll("body *").forEach(function (el) {
-
-            if (el.children.length > 8) return;
-
-            const text = (el.innerText || "")
-                .replace(/\s+/g, " ")
-                .trim();
-
-            const match = text.match(PRICE_RE);
-
-            if (!match) return;
-
-            if (
-                el.parentElement &&
-                PRICE_RE.test(el.parentElement.innerText || "")
-            ) return;
+        while ((match = regex.exec(pageText)) !== null) {
 
             const price = Number(
                 match[1].replace(/,/g, "")
@@ -43,19 +32,16 @@
             ) {
                 prices.push(price);
             }
-        });
+        }
 
         let box =
-            document.getElementById(
-                "copart-buy-now-test"
-            );
+            document.getElementById("copart-buy-now-test");
 
         if (!box) {
 
             box = document.createElement("div");
 
-            box.id =
-                "copart-buy-now-test";
+            box.id = "copart-buy-now-test";
 
             Object.assign(box.style, {
 
@@ -65,46 +51,50 @@
 
                 zIndex: "2147483647",
 
-                background: "#ffffff",
-                color: "#111111",
+                background: "white",
+                color: "black",
 
                 padding: "12px",
 
-                border: "2px solid #1769ff",
+                border: "3px solid #1769ff",
                 borderRadius: "12px",
 
                 fontFamily:
-                    "-apple-system, BlinkMacSystemFont, Arial, sans-serif",
+                    "-apple-system, BlinkMacSystemFont, Arial",
 
-                fontSize: "15px",
+                fontSize: "16px",
 
                 boxShadow:
-                    "0 4px 18px rgba(0,0,0,.3)"
+                    "0 4px 20px rgba(0,0,0,.35)"
             });
 
             document.body.appendChild(box);
         }
 
         box.innerHTML =
-            "<b>Copart Buy Now Test</b><br>" +
+            "<b>Copart Buy Now Test v2</b>" +
+            "<br><br>" +
+
             "Detected: <b>" +
             prices.length +
-            "</b><br><br>" +
+            "</b>" +
+
+            "<br><br>" +
 
             (
                 prices.length
-                    ? prices.map(function (p, i) {
+                    ? prices.map(function (price, index) {
 
                         return (
-                            (i + 1) +
+                            (index + 1) +
                             ". <b>$" +
-                            p.toLocaleString() +
+                            price.toLocaleString() +
                             "</b>"
                         );
 
                     }).join("<br>")
 
-                    : "No Buy It Now prices detected yet."
+                    : "No Buy It Now prices detected."
             );
     }
 
@@ -120,7 +110,7 @@
 
             timer = setTimeout(
                 scan,
-                500
+                700
             );
 
         }).observe(document.body, {
@@ -131,10 +121,7 @@
         });
     }
 
-    if (
-        document.readyState ===
-        "loading"
-    ) {
+    if (document.readyState === "loading") {
 
         document.addEventListener(
             "DOMContentLoaded",
