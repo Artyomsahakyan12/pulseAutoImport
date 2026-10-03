@@ -42,92 +42,142 @@
 
         panel.innerHTML = `
 
-            <div style="
-                font-size:18px;
-                font-weight:700;
-                margin-bottom:10px;
-            ">
-                Copart Buy Now Filter
-            </div>
-
-            <div style="margin-bottom:8px;">
-                From:
-                <input
-                    id="copart-min"
-                    type="number"
-                    inputmode="decimal"
-                    placeholder="Min"
-                    style="
-                        width:150px;
-                        margin-left:6px;
-                        padding:7px;
-                        border:1px solid #aaa;
-                        border-radius:7px;
-                        font-size:15px;
-                    "
-                >
-            </div>
-
-            <div style="margin-bottom:10px;">
-                To:
-                <input
-                    id="copart-max"
-                    type="number"
-                    inputmode="decimal"
-                    placeholder="Max"
-                    style="
-                        width:150px;
-                        margin-left:13px;
-                        padding:7px;
-                        border:1px solid #aaa;
-                        border-radius:7px;
-                        font-size:15px;
-                    "
-                >
-            </div>
-
-            <button id="copart-apply"
+            <div id="copart-filter-header"
                 style="
-                    width:48%;
-                    padding:9px;
-                    border:0;
-                    border-radius:8px;
-                    background:#1769ff;
-                    color:white;
-                    font-size:15px;
-                    font-weight:600;
-                ">
-                APPLY
-            </button>
-
-            <button id="copart-clear"
-                style="
-                    width:48%;
-                    padding:9px;
-                    border:0;
-                    border-radius:8px;
-                    background:#ddd;
-                    color:#111;
-                    font-size:15px;
-                    font-weight:600;
-                ">
-                SHOW ALL
-            </button>
-
-            <div
-                id="copart-status"
-                style="
-                    margin-top:10px;
-                    padding-top:8px;
-                    border-top:1px solid #ddd;
-                    line-height:1.4;
+                    display:flex;
+                    align-items:center;
+                    justify-content:space-between;
+                    font-size:18px;
+                    font-weight:700;
+                    margin-bottom:10px;
                 "
             >
-                Waiting for vehicles...
+                <span>Copart Buy Now Filter</span>
+
+                <button id="copart-toggle"
+                    style="
+                        border:0;
+                        background:#1769ff;
+                        color:white;
+                        width:32px;
+                        height:32px;
+                        border-radius:8px;
+                        font-size:20px;
+                        font-weight:bold;
+                    "
+                >
+                    −
+                </button>
+            </div>
+
+            <div id="copart-filter-content">
+
+                <div style="margin-bottom:8px;">
+                    From:
+                    <input
+                        id="copart-min"
+                        type="number"
+                        inputmode="decimal"
+                        placeholder="Min"
+                        style="
+                            width:150px;
+                            margin-left:6px;
+                            padding:7px;
+                            border:1px solid #aaa;
+                            border-radius:7px;
+                            font-size:15px;
+                        "
+                    >
+                </div>
+
+                <div style="margin-bottom:10px;">
+                    To:
+                    <input
+                        id="copart-max"
+                        type="number"
+                        inputmode="decimal"
+                        placeholder="Max"
+                        style="
+                            width:150px;
+                            margin-left:13px;
+                            padding:7px;
+                            border:1px solid #aaa;
+                            border-radius:7px;
+                            font-size:15px;
+                        "
+                    >
+                </div>
+
+                <button id="copart-apply"
+                    style="
+                        width:48%;
+                        padding:9px;
+                        border:0;
+                        border-radius:8px;
+                        background:#1769ff;
+                        color:white;
+                        font-size:15px;
+                        font-weight:600;
+                    ">
+                    APPLY
+                </button>
+
+                <button id="copart-clear"
+                    style="
+                        width:48%;
+                        padding:9px;
+                        border:0;
+                        border-radius:8px;
+                        background:#ddd;
+                        color:#111;
+                        font-size:15px;
+                        font-weight:600;
+                    ">
+                    SHOW ALL
+                </button>
+
+                <div
+                    id="copart-status"
+                    style="
+                        margin-top:10px;
+                        padding-top:8px;
+                        border-top:1px solid #ddd;
+                        line-height:1.4;
+                    "
+                >
+                    Waiting for vehicles...
+                </div>
+
             </div>
         `;
 
         document.body.appendChild(panel);
+
+        // Collapse / expand button
+        document
+            .getElementById("copart-toggle")
+            .addEventListener("click", function () {
+
+                const content =
+                    document.getElementById("copart-filter-content");
+
+                const toggle =
+                    document.getElementById("copart-toggle");
+
+                if (content.style.display === "none") {
+
+                    content.style.display = "block";
+                    toggle.textContent = "−";
+                    panel.style.width = "260px";
+
+                } else {
+
+                    content.style.display = "none";
+                    toggle.textContent = "+";
+                    panel.style.width = "52px";
+
+                }
+            });
 
         document
             .getElementById("copart-apply")
