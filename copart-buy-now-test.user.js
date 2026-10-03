@@ -186,8 +186,9 @@
                     title.style.display = "none";
                     toggle.textContent = "+";
 
-                    panel.style.width = "35px";
-                    panel.style.padding = "4px";
+                    panel.style.width = "30px";
+                     panel.style.height = "30px";
+                    panel.style.padding = "0px";
                 }
             });
 
