@@ -59,10 +59,10 @@
                         border:0;
                         background:#1769ff;
                         color:white;
-                        width:32px;
-                        height:32px;
-                        border-radius:8px;
-                        font-size:20px;
+                        width:22px;
+                        height:22px;
+                        border-radius:5px;
+                        font-size:15px;
                         font-weight:bold;
                     "
                 >
