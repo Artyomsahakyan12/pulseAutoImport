@@ -52,7 +52,7 @@
                     margin-bottom:10px;
                 "
             >
-                <span>Copart Buy Now Filter</span>
+                <span style="display:inline;">Copart Buy Now Filter</span>
 
                 <button id="copart-toggle"
                     style="
@@ -164,18 +164,30 @@
                 const toggle =
                     document.getElementById("copart-toggle");
 
+                const title =
+                    document.querySelector(
+                        "#copart-filter-header span"
+                    );
+
                 if (content.style.display === "none") {
 
+                    // OPEN
                     content.style.display = "block";
+                    title.style.display = "inline";
                     toggle.textContent = "−";
+
                     panel.style.width = "260px";
+                    panel.style.padding = "12px";
 
                 } else {
 
+                    // CLOSED
                     content.style.display = "none";
+                    title.style.display = "none";
                     toggle.textContent = "+";
-                    panel.style.width = "52px";
 
+                    panel.style.width = "52px";
+                    panel.style.padding = "8px";
                 }
             });
 
