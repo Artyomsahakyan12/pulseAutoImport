@@ -177,7 +177,7 @@
                     toggle.textContent = "−";
 
                     panel.style.width = "250px";
-                    panel.style.padding = "10px";
+                    panel.style.height = "250px";
 
                 } else {
 
@@ -186,9 +186,9 @@
                     title.style.display = "none";
                     toggle.textContent = "+";
 
-                    panel.style.width = "30px";
-                     panel.style.height = "30px";
-                    panel.style.padding = "0px";
+                    panel.style.width = "35px";
+                     panel.style.height = "35px";
+    
                 }
             });
 
