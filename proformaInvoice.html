@@ -162,11 +162,11 @@ if (canvasRatio > pageRatio) {
     offsetX = (pageWidth - imgWidth) / 2;
 }
 
-const imgData = cv.toDataURL('image/png');
+const imgData = cv.toDataURL('image/jpeg', 1);
 
 pdf.addImage(
     imgData,
-    'PNG',
+    'JPEG',
     offsetX,
     offsetY,
     imgWidth,
