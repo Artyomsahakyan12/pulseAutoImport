@@ -207,18 +207,18 @@
       }
     }
 
-    function showApproved() {
-      if (redirecting) {return;}
+ function showApproved() {
+    if (redirecting) {return;}
 
-      redirecting = true;
-      stopStatusPolling();
+    redirecting = true;
+    stopStatusPolling();
 
-      setMessage(t.accessGranted, "approved");
+    setMessage(t.accessGranted, "approved");
 
-      redirectTimer = setTimeout(() => {
-        window.location.href = "./transportationPrice.html";
-      }, 500);
-    }
+    redirectTimer = setTimeout(() => {
+        window.location.href = "./entry.html";
+    }, 350);
+}}
 
     function showRejected() {
       if (redirecting) {return;}
