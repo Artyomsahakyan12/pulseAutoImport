@@ -24,6 +24,7 @@ body.access-granted {
 </style></head><body class="access-checking"><div class="w"><div id="f"></div>
 <button id="b">Ներբեռնել PDF</button><div id="m"></div><canvas id="c"></canvas></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 const FONT='system-ui,-apple-system,"Noto Sans Armenian",sans-serif',S=1086/952,K=2;
 const F=[['date','Ամսաթիվ'],['name','Անուն, Ազգանուն'],['pass','Անձնագիր / ID քարտ'],['maker','Արտադրող'],['model','Մոդել'],['year','Տարի'],['vin','VIN'],['sum','Վճարման գումար']];
@@ -133,8 +134,52 @@ const set=()=>cx.font=(b?'600 ':'')+s*S*K+'px '+FONT;set();while(cx.measureText(
 cx.textAlign=a==='c'?'center':(a==='r'?'right':'left');cx.fillText(t,x*S*K,y*S*K+s*0.04*S*K)}
 const sum=v.sum.trim();if(sum){cx.fillStyle='#e8141c';cx.font='600 '+19*S*K+'px '+FONT;cx.textAlign='left';cx.textBaseline='middle';cx.fillText(sum+' ֏',370*S*K,733*S*K)}}
 document.getElementById('b').onclick=async()=>{msg.textContent='Պատրաստվում է...';
-try{const element=cv,opt={margin:0,filename:'Invoice_'+(v.date||'').replace(/\./g,'-')+'.pdf',image:{type:'jpeg',quality:.93},html2canvas:{scale:2},jsPDF:{format:'a4',orientation:'portrait',unit:'pt',compress:true}};
-await html2pdf().set(opt).from(element).save();msg.textContent=''}
+try{const pdf = new jspdf.jsPDF({
+    orientation: 'portrait',
+    unit: 'pt',
+    format: 'a4',
+    compress: true
+});
+
+const pageWidth = pdf.internal.pageSize.getWidth();
+const pageHeight = pdf.internal.pageSize.getHeight();
+
+const canvasRatio = cv.width / cv.height;
+const pageRatio = pageWidth / pageHeight;
+
+let imgWidth;
+let imgHeight;
+let offsetX = 0;
+let offsetY = 0;
+
+if (canvasRatio > pageRatio) {
+    imgWidth = pageWidth;
+    imgHeight = pageWidth / canvasRatio;
+    offsetY = (pageHeight - imgHeight) / 2;
+} else {
+    imgHeight = pageHeight;
+    imgWidth = pageHeight * canvasRatio;
+    offsetX = (pageWidth - imgWidth) / 2;
+}
+
+const imgData = cv.toDataURL('image/png');
+
+pdf.addImage(
+    imgData,
+    'PNG',
+    offsetX,
+    offsetY,
+    imgWidth,
+    imgHeight
+);
+
+pdf.save(
+    'Invoice_' +
+    (v.date || '').replace(/\./g, '-') +
+    '.pdf'
+);
+
+msg.textContent = '';}
 catch(e){msg.textContent='Չհաջողվեց ստեղծել PDF'}};
 
 </script>
