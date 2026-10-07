@@ -87,6 +87,12 @@ if(k==='year'){
     select.style.borderRadius='10px';
     select.style.background='var(--card)';
     select.style.color='var(--tx)';
+    
+    const empty=document.createElement('option');
+empty.value='';
+empty.textContent='';
+empty.selected=true;
+select.appendChild(empty);
 
     for(let y=2020;y<=new Date().getFullYear();y++){
         const option=document.createElement('option');
@@ -94,9 +100,8 @@ if(k==='year'){
         option.textContent=y;
         select.appendChild(option);
     }
-
-    select.value=new Date().getFullYear();
-    v.year=select.value;
+    
+    v.year='';
 
     select.onchange=()=>{
         v.year=select.value;
