@@ -12,7 +12,16 @@ input[type=date]{min-height:48px;text-align:left;-webkit-appearance:none;appeara
 button{width:100%;margin-top:18px;padding:14px;border:0;border-radius:12px;background:var(--red);color:#fff;font:600 17px system-ui,sans-serif}
 canvas{width:100%;height:auto;border:1px solid var(--bd);border-radius:8px;margin-top:18px;background:#fff}
 #m{color:var(--mut);font-size:14px;margin-top:10px;min-height:20px}
-</style></head><body><div class="w"><div id="f"></div>
+
+body.access-checking {
+    visibility: hidden;
+}
+
+body.access-granted {
+    visibility: visible;
+}
+
+</style></head><body class="access-checking"><div class="w"><div id="f"></div>
 <button id="b">Ներբեռնել PDF</button><div id="m"></div><canvas id="c"></canvas></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
@@ -176,6 +185,10 @@ catch(e){msg.textContent='Չհաջողվեց ստեղծել PDF'}};
                 return;
             }
 
+            // Access confirmed → show the page
+            document.body.classList.remove("access-checking");
+            document.body.classList.add("access-granted");
+
         } catch (error) {
 
             console.error(
@@ -183,8 +196,6 @@ catch(e){msg.textContent='Չհաջողվեց ստեղծել PDF'}};
                 error
             );
 
-            // If access cannot be verified,
-            // do not allow the page to remain open.
             window.location.replace("./entry.html");
         }
     }
