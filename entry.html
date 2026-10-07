@@ -588,13 +588,16 @@ async function checkAccess() {
 
         const data = await response.json();
 
-        if (
-            response.ok &&
-            data.status === "approved"
-        ) {
-            transportButton.style.display = "flex";
-            proformaButton.style.display = "flex";
-        }
+       if (
+    response.ok &&
+    data.status === "approved"
+) {
+    transportButton.style.display = "flex";
+    proformaButton.style.display = "flex";
+
+    userButton.classList.remove("access-denied");
+    userButton.classList.add("access-granted");
+}
 
     } catch (error) {
 
