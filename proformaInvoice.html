@@ -35,39 +35,62 @@ if(k==='vin'){
     const paste=document.createElement('button');
     paste.type='button';
     paste.setAttribute('aria-label','Paste VIN');
+    paste.setAttribute('tabindex','-1');
+
     paste.innerHTML=`
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="9" y="3" width="6" height="4" rx="1"/>
             <path d="M9 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3"/>
-        </svg>
-    `;
+        </svg>`;
 
-    paste.style.position='absolute';
-    paste.style.right='8px';
-    paste.style.top='50%';
-    paste.style.transform='translateY(-50%)';
-    paste.style.width='36px';
-    paste.style.height='36px';
-    paste.style.margin='0';
-    paste.style.padding='0';
-    paste.style.border='0';
-    paste.style.borderRadius='8px';
-    paste.style.background='transparent';
-    paste.style.color='var(--mut)';
-    paste.style.display='flex';
-    paste.style.alignItems='center';
-    paste.style.justifyContent='center';
-    paste.style.cursor='pointer';
+    Object.assign(paste.style,{
+        position:'absolute',
+        right:'8px',
+        top:'50%',
+        transform:'translateY(-50%)',
+        width:'36px',
+        height:'36px',
+        margin:'0',
+        padding:'0',
+        border:'0',
+        borderRadius:'8px',
+        background:'transparent',
+        color:'var(--mut)',
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+        cursor:'pointer',
+        WebkitTapHighlightColor:'transparent'
+    });
 
-    paste.onclick=async()=>{
+    paste.addEventListener('pointerdown',e=>{
+        e.preventDefault();
+    });
+
+    paste.addEventListener('touchstart',e=>{
+        e.preventDefault();
+    },{passive:false});
+
+    paste.addEventListener('click',async e=>{
+        e.preventDefault();
+        e.stopPropagation();
+
         try{
-            const text=await navigator.clipboard.readText();
-            i.value=text.trim();
-            v[k]=i.value;
+            if(!navigator.clipboard || !navigator.clipboard.readText) return;
+
+            const text=(await navigator.clipboard.readText()).trim();
+
+            if(!text) return;
+
+            i.value=text;
+            v[k]=text;
             draw();
-        }catch(e){}
-    };
+
+        }catch(err){
+            console.log('Clipboard access:',err);
+        }
+    });
 
     wrap.appendChild(i);
     wrap.appendChild(paste);
