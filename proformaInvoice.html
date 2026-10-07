@@ -25,7 +25,37 @@ const inputs=[];
 F.forEach(([k,t],idx)=>{const l=document.createElement('label');l.textContent=t;const i=document.createElement('input');i.autocomplete='off';
 if(k==='date'){i.type='date';i.value=iso}
 if(k==='vin')i.autocapitalize='characters';
-if(k==='year'){i.inputMode='numeric';i.maxLength=4}
+if(k==='year'){
+    const select=document.createElement('select');
+
+    select.style.width='100%';
+    select.style.boxSizing='border-box';
+    select.style.font='inherit';
+    select.style.padding='12px';
+    select.style.border='1px solid var(--bd)';
+    select.style.borderRadius='10px';
+    select.style.background='var(--card)';
+    select.style.color='var(--tx)';
+
+    for(let y=2020;y<=new Date().getFullYear();y++){
+        const option=document.createElement('option');
+        option.value=y;
+        option.textContent=y;
+        select.appendChild(option);
+    }
+
+    select.value=new Date().getFullYear();
+    v.year=select.value;
+
+    select.onchange=()=>{
+        v.year=select.value;
+        draw();
+    };
+
+    inputs.push(select);
+    f.append(l,select);
+    return;
+}
 if(k==='sum')i.inputMode='decimal';
 i.enterKeyHint=idx<F.length-1?'next':'done';
 i.oninput=()=>{if(k==='year')i.value=i.value.replace(/\D/g,'').slice(0,4);if(k==='sum')i.value=i.value.replace(/\./g,',').replace(/[^0-9,]/g,'');v[k]=k==='date'?fmt(i.value):i.value;draw()};
