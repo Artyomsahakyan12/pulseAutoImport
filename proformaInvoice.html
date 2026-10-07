@@ -127,4 +127,66 @@ document.getElementById('b').onclick=async()=>{msg.textContent='Պատրաստվ
 try{const element=cv,opt={margin:0,filename:'Invoice_'+(v.date||'').replace(/\./g,'-')+'.pdf',image:{type:'jpeg',quality:.93},html2canvas:{scale:2},jsPDF:{format:'a4',orientation:'portrait',unit:'pt',compress:true}};
 await html2pdf().set(opt).from(element).save();msg.textContent=''}
 catch(e){msg.textContent='Չհաջողվեց ստեղծել PDF'}};
+
+<script>
+    const ACCESS_FUNCTION_URL =
+        "https://yusznijfwkdcvrrqqapz.supabase.co/functions/v1/telegram-access";
+
+    const ACCESS_STORAGE_KEY =
+        "pulseAutoImportDeviceId";
+
+    async function checkProformaAccess() {
+
+        const deviceId =
+            localStorage.getItem(ACCESS_STORAGE_KEY);
+
+        // No saved ID → back to entry
+        if (!deviceId) {
+            window.location.replace("./entry.html");
+            return;
+        }
+
+        try {
+
+            const response = await fetch(
+                ACCESS_FUNCTION_URL,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        action: "check",
+                        device_id: deviceId
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            // Only approved users can enter
+            if (
+                !response.ok ||
+                data.status !== "approved"
+            ) {
+                window.location.replace("./entry.html");
+                return;
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Proforma access check error:",
+                error
+            );
+
+            // If access cannot be verified,
+            // do not allow the page to remain open.
+            window.location.replace("./entry.html");
+        }
+    }
+
+    checkProformaAccess();
+</script>
+
 </script></body></html>
