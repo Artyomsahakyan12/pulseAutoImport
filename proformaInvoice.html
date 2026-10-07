@@ -128,6 +128,9 @@ try{const element=cv,opt={margin:0,filename:'Invoice_'+(v.date||'').replace(/\./
 await html2pdf().set(opt).from(element).save();msg.textContent=''}
 catch(e){msg.textContent='Չհաջողվեց ստեղծել PDF'}};
 
+</script>
+
+
 <script>
     const ACCESS_FUNCTION_URL =
         "https://yusznijfwkdcvrrqqapz.supabase.co/functions/v1/telegram-access";
@@ -188,5 +191,4 @@ catch(e){msg.textContent='Չհաջողվեց ստեղծել PDF'}};
 
     checkProformaAccess();
 </script>
-
-</script></body></html>
+</body></html>
