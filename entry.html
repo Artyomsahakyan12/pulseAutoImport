@@ -257,10 +257,46 @@
                 transform: translateX(24px);
             }
         }
+        
+        .user-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #d9e0e9;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #172033;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    text-decoration: none;
+    box-shadow:
+        0 2px 4px rgba(35, 55, 85, 0.08),
+        0 5px 12px rgba(35, 55, 85, 0.08);
+    z-index: 10;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.user-button:active {
+    transform: scale(0.96);
+}
+        
     </style>
 </head>
 
 <body>
+
+    <!-- User / Access -->
+    <a
+        class="user-button"
+        href="./access.html"
+        aria-label="Access"
+    >
+        👤
+    </a>
 
     <!-- Language selector -->
     <div class="language-selector">
