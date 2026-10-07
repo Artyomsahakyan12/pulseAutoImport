@@ -180,12 +180,17 @@
         }
 
         .proforma-text {
-            flex: 1;
-            min-width: 0;
-            text-align: center;
-            font-size: 18px;
-            font-weight: 700;
-        }
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.15;
+}
 
         .transport-arrow,
         .proforma-arrow,
@@ -227,10 +232,9 @@
             .bidcars-text {
                 font-size: 17px;
             }
-
-            .proforma-text {
-                font-size: 17px;
-            }
+            .transport-text {
+                font-size: 16px;
+                }
 
             .transport-arrow,
             .proforma-arrow,
@@ -302,12 +306,10 @@
             class="proforma-button"
             href="./proformaInvoice.html"
         >
-            <div
-                class="proforma-text"
-                id="proformaText"
-            >
-                Proforma Invoice
-            </div>
+           <div class="proforma-text">
+    <span id="proformaTextLine1">Proforma</span>
+    <span id="proformaTextLine2">Invoice</span>
+</div>
 
             <div class="proforma-arrow">
                 ›
@@ -380,42 +382,46 @@
 
         const translations = {
             en: {
-                transportation: "Transportation",
-                price: "price",
-                proforma: "Proforma Invoice",
-                bidcars: "BidCars",
-                container: "Container",
-                tracking: "tracking"
-            },
+    transportation: "Transportation",
+    price: "price",
+    proformaLine1: "Proforma",
+    proformaLine2: "invoice",
+    bidcars: "BidCars",
+    container: "Container",
+    tracking: "tracking"
+},
 
-            hy: {
-                transportation: "Փոխադրման",
-                price: "արժեք",
-                proforma: "Հաշիվ Ապրանքագիր",
-                bidcars: "ԲիդՔարս",
-                container: "Կոնտեյների",
-                tracking: "հետևում"
-            },
+hy: {
+    transportation: "Փոխադրման",
+    price: "արժեք",
+    proformaLine1: "Հաշիվ",
+    proformaLine2: "ապրանքագիր",
+    bidcars: "ԲիդՔարս",
+    container: "Կոնտեյների",
+    tracking: "հետևում"
+},
 
-            ru: {
-                transportation: "Стоимость",
-                price: "транспортировки",
-                proforma: "Счёт проформа",
-                bidcars: "БидКарс",
-                container: "Отслеживание",
-                tracking: "контейнера"
-            }
+ru: {
+    transportation: "Стоимость",
+    price: "транспортировки",
+    proformaLine1: "Счёт",
+    proformaLine2: "проформа",
+    bidcars: "БидКарс",
+    container: "Отслеживание",
+    tracking: "контейнера"
+}
         };
 
 
-        const translationElements = {
-            transportation: "transportationText",
-            price: "priceText",
-            proforma: "proformaText",
-            bidcars: "bidcarsText",
-            container: "containerText",
-            tracking: "trackingText"
-        };
+       const translationElements = {
+    transportation: "transportationText",
+    price: "priceText",
+    proformaLine1: "proformaTextLine1",
+    proformaLine2: "proformaTextLine2",
+    bidcars: "bidcarsText",
+    container: "containerText",
+    tracking: "trackingText"
+};
 
 
         const languageSelect =
