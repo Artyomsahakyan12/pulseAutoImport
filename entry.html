@@ -83,6 +83,7 @@
         }
 
         .transport-button,
+        .proforma-button,
         .bidcars-button,
         .caucasusContainerTracking-button {
             width: 72%;
@@ -110,6 +111,7 @@
         }
 
         .transport-button:hover,
+        .proforma-button:hover,
         .bidcars-button:hover,
         .caucasusContainerTracking-button:hover {
             box-shadow:
@@ -120,8 +122,11 @@
         }
 
         .transport-button:active,
+        .proforma-button:active,
         .bidcars-button:active,
-        .caucasusContainerTracking-button:active {transform: scale(0.99);}
+        .caucasusContainerTracking-button:active {
+            transform: scale(0.99);
+        }
 
         .transport-logo,
         .caucasusContainerTracking-logo {
@@ -174,7 +179,16 @@
             font-weight: 700;
         }
 
+        .proforma-text {
+            flex: 1;
+            min-width: 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
         .transport-arrow,
+        .proforma-arrow,
         .bidcars-arrow,
         .caucasusContainerTracking-arrow {
             flex-shrink: 0;
@@ -184,9 +198,9 @@
 
         /* Preserve the original divider positioning */
         .transport-button .transport-divider,
-        .caucasusContainerTracking-button .caucasusContainerTracking-divider {transform: translateX(30px);}
-
-        
+        .caucasusContainerTracking-button .caucasusContainerTracking-divider {
+            transform: translateX(30px);
+        }
 
         @media (max-width: 420px) {
             .language-selector {
@@ -201,24 +215,38 @@
 
             .transport-divider,
             .bidcars-divider,
-            .caucasusContainerTracking-divider {margin: 0 10px;}
+            .caucasusContainerTracking-divider {
+                margin: 0 10px;
+            }
 
             .bidcars-logo {
                 width: 72px;
                 height: 46px;
             }
 
-            .bidcars-text {font-size: 17px;}
+            .bidcars-text {
+                font-size: 17px;
+            }
+
+            .proforma-text {
+                font-size: 17px;
+            }
 
             .transport-arrow,
+            .proforma-arrow,
             .bidcars-arrow,
-            .caucasusContainerTracking-arrow {margin-left: 6px;}
+            .caucasusContainerTracking-arrow {
+                margin-left: 6px;
+            }
 
             .transport-button .transport-divider,
-            .caucasusContainerTracking-button .caucasusContainerTracking-divider {transform: translateX(24px);}
+            .caucasusContainerTracking-button .caucasusContainerTracking-divider {
+                transform: translateX(24px);
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- Language selector -->
@@ -238,13 +266,13 @@
     >
 
     <div class="buttons">
-        
+
         <!-- Transportation Price -->
         <a
             class="transport-button"
             href="./access.html"
         >
-            
+
             <img
                 class="transport-logo"
                 src="./auctions-logo.jpeg"
@@ -267,6 +295,25 @@
                 ›
             </div>
         </a>
+
+
+        <!-- Proforma Invoice -->
+        <a
+            class="proforma-button"
+            href="./proformaInvoice.html"
+        >
+            <div
+                class="proforma-text"
+                id="proformaText"
+            >
+                Proforma Invoice
+            </div>
+
+            <div class="proforma-arrow">
+                ›
+            </div>
+        </a>
+
 
         <!-- BidCars -->
         <a
@@ -294,6 +341,7 @@
                 ›
             </div>
         </a>
+
 
         <!-- Container Tracking -->
         <a
@@ -324,66 +372,97 @@
                 ›
             </div>
         </a>
+
     </div>
+
+
     <script>
-        
+
         const translations = {
             en: {
                 transportation: "Transportation",
                 price: "price",
+                proforma: "Proforma Invoice",
                 bidcars: "BidCars",
                 container: "Container",
                 tracking: "tracking"
             },
+
             hy: {
                 transportation: "Փոխադրման",
                 price: "արժեք",
+                proforma: "Հաշիվ Ապրանքագիր",
                 bidcars: "ԲիդՔարս",
                 container: "Կոնտեյների",
                 tracking: "հետևում"
             },
+
             ru: {
                 transportation: "Стоимость",
                 price: "транспортировки",
+                proforma: "Счёт проформа",
                 bidcars: "БидКарс",
                 container: "Отслеживание",
                 tracking: "контейнера"
             }
         };
 
+
         const translationElements = {
-              transportation: "transportationText",
-              price: "priceText",
-              bidcars: "bidcarsText",
-              container: "containerText",
-              tracking: "trackingText"
+            transportation: "transportationText",
+            price: "priceText",
+            proforma: "proformaText",
+            bidcars: "bidcarsText",
+            container: "containerText",
+            tracking: "trackingText"
         };
 
-        const languageSelect = document.getElementById("languageSelect");
 
-function applyLanguage(language) {
-    const selectedLanguage = translations[language] || translations.en;
+        const languageSelect =
+            document.getElementById("languageSelect");
 
-    Object.entries(translationElements).forEach(([key, elementId]) => {
-        document.getElementById(elementId).textContent =
-            selectedLanguage[key];
-    });
 
-    document.documentElement.lang = language;
-    localStorage.setItem("pulseAutoImportLanguage", language);
-}
+        function applyLanguage(language) {
 
-        const savedLanguage = localStorage.getItem("pulseAutoImportLanguage") || "en";
+            const selectedLanguage =
+                translations[language] || translations.en;
+
+            Object.entries(translationElements).forEach(
+                ([key, elementId]) => {
+
+                    document.getElementById(elementId).textContent =
+                        selectedLanguage[key];
+
+                }
+            );
+
+            document.documentElement.lang = language;
+
+            localStorage.setItem(
+                "pulseAutoImportLanguage",
+                language
+            );
+        }
+
+
+        const savedLanguage =
+            localStorage.getItem("pulseAutoImportLanguage") || "en";
+
 
         languageSelect.value = savedLanguage;
 
+
         applyLanguage(savedLanguage);
+
 
         languageSelect.addEventListener(
             "change",
-            function () { applyLanguage(this.value);}
+            function () {
+                applyLanguage(this.value);
+            }
         );
 
     </script>
+
 </body>
 </html>
