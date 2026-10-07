@@ -281,10 +281,11 @@
     <div class="buttons">
 
         <!-- Transportation Price -->
-        <a
-            class="transport-button"
-            href="./access.html"
-        >
+<a
+    id="transportButton"
+    class="transport-button"
+    href="./transportationPrice.html"
+>
 
             <img
                 class="transport-logo"
@@ -311,7 +312,8 @@
 
 
         <!-- Proforma Invoice -->
-     <a
+<a
+    id="proformaButton"
     class="proforma-button"
     href="./proformaInvoice.html"
 >
@@ -484,6 +486,72 @@ ru: {
                 applyLanguage(this.value);
             }
         );
+        
+        const FUNCTION_URL =
+    "https://yusznijfwkdcvrrqqapz.supabase.co/functions/v1/telegram-access";
+
+const STORAGE_KEY =
+    "pulseAutoImportDeviceId";
+
+const transportButton =
+    document.getElementById("transportButton");
+
+const proformaButton =
+    document.getElementById("proformaButton");
+
+
+function hideProtectedButtons() {
+    transportButton.style.display = "none";
+    proformaButton.style.display = "none";
+}
+
+
+async function checkAccess() {
+
+    hideProtectedButtons();
+
+    const deviceId =
+        localStorage.getItem(STORAGE_KEY);
+
+    if (!deviceId) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(FUNCTION_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                action: "check",
+                device_id: deviceId
+            })
+        });
+
+        const data = await response.json();
+
+        if (
+            response.ok &&
+            data.status === "approved"
+        ) {
+            transportButton.style.display = "flex";
+            proformaButton.style.display = "flex";
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Access check error:",
+            error
+        );
+
+    }
+}
+
+
+checkAccess();
 
     </script>
 
