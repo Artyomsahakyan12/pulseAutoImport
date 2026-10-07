@@ -207,7 +207,7 @@
       }
     }
 
- function showApproved() {
+function showApproved() {
     if (redirecting) {return;}
 
     redirecting = true;
@@ -218,7 +218,7 @@
     redirectTimer = setTimeout(() => {
         window.location.href = "./entry.html";
     }, 350);
-}}
+}
 
     function showRejected() {
       if (redirecting) {return;}
