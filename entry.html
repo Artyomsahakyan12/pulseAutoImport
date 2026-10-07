@@ -155,6 +155,7 @@
         }
 
         .transport-divider,
+        .proforma-divider,
         .bidcars-divider,
         .caucasusContainerTracking-divider {
             width: 2px;
@@ -187,7 +188,7 @@
             font-weight: 700;
         }
 
-        .proforma-text {
+    .proforma-text {
     flex: 1;
     min-width: 0;
     display: flex;
@@ -198,6 +199,7 @@
     font-size: 15px;
     font-weight: 700;
     line-height: 1.15;
+    transform: translateX(12px);
 }
 
         .transport-arrow,
@@ -211,9 +213,10 @@
 
         /* Preserve the original divider positioning */
         .transport-button .transport-divider,
-        .caucasusContainerTracking-button .caucasusContainerTracking-divider {
-            transform: translateX(30px);
-        }
+.proforma-button .proforma-divider,
+.caucasusContainerTracking-button .caucasusContainerTracking-divider {
+    transform: translateX(30px);
+}
 
         @media (max-width: 420px) {
             .language-selector {
