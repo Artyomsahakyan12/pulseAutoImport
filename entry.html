@@ -258,7 +258,7 @@
             }
         }
         
-        .user-button {
+     .user-button {
     position: absolute;
     top: 20px;
     left: 20px;
@@ -283,6 +283,20 @@
 .user-button:active {
     transform: scale(0.96);
 }
+
+.user-button.access-granted {
+    box-shadow:
+        0 0 6px rgba(34, 197, 94, 0.65),
+        0 0 14px rgba(34, 197, 94, 0.45),
+        0 0 24px rgba(34, 197, 94, 0.25);
+}
+
+.user-button.access-denied {
+    box-shadow:
+        0 0 6px rgba(239, 68, 68, 0.65),
+        0 0 14px rgba(239, 68, 68, 0.45),
+        0 0 24px rgba(239, 68, 68, 0.25);
+}
         
     </style>
 </head>
@@ -290,11 +304,12 @@
 <body>
 
     <!-- User / Access -->
-    <a
-        class="user-button"
-        href="./access.html"
-        aria-label="Access"
-    >
+ <a
+    id="userButton"
+    class="user-button"
+    href="./access.html"
+    aria-label="Access"
+>
         👤
     </a>
 
@@ -535,10 +550,15 @@ const transportButton =
 const proformaButton =
     document.getElementById("proformaButton");
 
+const userButton =
+    document.getElementById("userButton");
 
 function hideProtectedButtons() {
     transportButton.style.display = "none";
     proformaButton.style.display = "none";
+
+    userButton.classList.remove("access-granted");
+    userButton.classList.add("access-denied");
 }
 
 
