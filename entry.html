@@ -34,37 +34,6 @@
             position: relative;
         }
 
-        .language-selector {
-            position: absolute;
-            top: 40px;
-            right: 20px;
-            z-index: 10;
-        }
-
-        .language-selector select {
-            appearance: none;
-            -webkit-appearance: none;
-            padding: 9px 32px 9px 12px;
-            border: 1px solid #d9e0e9;
-            border-radius: 12px;
-            background:
-                #ffffff
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23172033' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
-                no-repeat right 10px center;
-            color: #172033;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow:
-                0 2px 4px rgba(35, 55, 85, 0.08),
-                0 5px 12px rgba(35, 55, 85, 0.08);
-        }
-
-        .language-selector select:focus {
-            outline: none;
-            border-color: #9aa8bd;
-        }
-
         .brand-logo {
             width: 260px;
             max-width: 70%;
@@ -220,12 +189,7 @@
 }
 
         @media (max-width: 420px) {
-
-            .language-selector select {
-                padding: 8px 30px 8px 10px;
-                font-size: 13px;
-            }
-
+            
             .transport-divider,
             .proforma-divider,
             .bidcars-divider,
@@ -293,6 +257,88 @@
         0 0 9px rgba(239, 68, 68, 0.45),
         0 0 15px rgba(239, 68, 68, 0.25);
 }
+
+.language-selector {
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    z-index: 100;
+}
+
+.language-button {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid #d9e0e9;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #172033;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 23px;
+    line-height: 1;
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 4px rgba(35, 55, 85, 0.08),
+        0 5px 12px rgba(35, 55, 85, 0.08);
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+.language-button:focus {
+    outline: none;
+}
+
+.language-menu {
+    position: absolute;
+    top: 56px;
+    right: 0;
+
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+
+    padding: 7px;
+
+    border-radius: 16px;
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+.language-menu.show {
+    display: flex;
+}
+
+.language-menu button {
+    width: 42px;
+    height: 42px;
+
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+.language-menu button:active {
+    background: rgba(40, 100, 232, 0.12);
+}
         
     </style>
 </head>
@@ -308,15 +354,24 @@
 >
         👤
     </a>
-
+    
     <!-- Language selector -->
-    <div class="language-selector">
-        <select id="languageSelect" aria-label="Select language">
-            <option value="en">English 🇬🇧</option>
-            <option value="hy">Հայերեն 🇦🇲</option>
-            <option value="ru">Русский 🇷🇺</option>
-        </select>
+<div class="language-selector">
+    <button
+        id="languageButton"
+        class="language-button"
+        type="button"
+        aria-label="Select language"
+    >
+        🇬🇧
+    </button>
+
+    <div id="languageMenu" class="language-menu">
+        <button type="button" data-language="en">🇬🇧</button>
+        <button type="button" data-language="hy">🇦🇲</button>
+        <button type="button" data-language="ru">🇷🇺</button>
     </div>
+</div>
 
     <!-- Pulse AutoImport logo -->
     <img
@@ -489,50 +544,90 @@ ru: {
     tracking: "trackingText"
 };
 
+const languageButton =
+    document.getElementById("languageButton");
 
-        const languageSelect =
-            document.getElementById("languageSelect");
+const languageMenu =
+    document.getElementById("languageMenu");
 
+const languageFlags = {
+    en: "🇬🇧",
+    hy: "🇦🇲",
+    ru: "🇷🇺"
+};
 
-        function applyLanguage(language) {
+function applyLanguage(language) {
 
-            const selectedLanguage =
-                translations[language] || translations.en;
+    const selectedLanguage =
+        translations[language] || translations.en;
 
-            Object.entries(translationElements).forEach(
-                ([key, elementId]) => {
+    Object.entries(translationElements).forEach(
+        ([key, elementId]) => {
 
-                    document.getElementById(elementId).textContent =
-                        selectedLanguage[key];
+            document.getElementById(elementId).textContent =
+                selectedLanguage[key];
 
-                }
-            );
+        }
+    );
 
-            document.documentElement.lang = language;
+    document.documentElement.lang = language;
 
-            localStorage.setItem(
-                "pulseAutoImportLanguage",
-                language
-            );
+    localStorage.setItem(
+        "pulseAutoImportLanguage",
+        language
+    );
+
+    languageButton.textContent =
+        languageFlags[language] || languageFlags.en;
+}
+
+const savedLanguage =
+    localStorage.getItem("pulseAutoImportLanguage") || "en";
+
+applyLanguage(savedLanguage);
+
+languageButton.addEventListener(
+    "click",
+    function (event) {
+
+        event.stopPropagation();
+
+        languageMenu.classList.toggle("show");
+
+    }
+);
+
+languageMenu.addEventListener(
+    "click",
+    function (event) {
+
+        const button =
+            event.target.closest("[data-language]");
+
+        if (!button) return;
+
+        const language =
+            button.dataset.language;
+
+        applyLanguage(language);
+
+        languageMenu.classList.remove("show");
+
+    }
+);
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        if (
+            !event.target.closest(".language-selector")
+        ) {
+            languageMenu.classList.remove("show");
         }
 
-
-        const savedLanguage =
-            localStorage.getItem("pulseAutoImportLanguage") || "en";
-
-
-        languageSelect.value = savedLanguage;
-
-
-        applyLanguage(savedLanguage);
-
-
-        languageSelect.addEventListener(
-            "change",
-            function () {
-                applyLanguage(this.value);
-            }
-        );
+    }
+);
         
         const FUNCTION_URL =
     "https://yusznijfwkdcvrrqqapz.supabase.co/functions/v1/telegram-access";
