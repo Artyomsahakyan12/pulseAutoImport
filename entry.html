@@ -423,6 +423,31 @@
             </div>
         </a>
 
+<!-- Caucasus Management -->
+<a
+  id="caucasusManagementButton"
+  class="caucasusManagement-button"
+  href="https://login.caucasusauto.com/admin.php?cat=invoice&action=add"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <img
+    class="caucasusManagement-logo"
+    src="./caucasus-management.PNG"
+    alt="Caucasus Management"
+  >
+
+  <div class="caucasusManagement-divider"></div>
+
+  <div class="caucasusManagement-text">
+    <span>Caucasus</span>
+    <span>Management</span>
+  </div>
+
+  <div class="caucasusManagement-arrow">
+    ›
+  </div>
+</a>
 
         <!-- Proforma Invoice -->
 <a
@@ -652,15 +677,19 @@ const transportButton =
 const proformaButton =
     document.getElementById("proformaButton");
 
+const caucasusManagementButton =
+document.getElementById("caucasusManagementButton");
+
 const userButton =
     document.getElementById("userButton");
 
 function hideProtectedButtons() {
-    transportButton.style.display = "none";
-    proformaButton.style.display = "none";
+  transportButton.style.display = "none";
+  proformaButton.style.display = "none";
+  caucasusManagementButton.style.display = "none";
 
-    userButton.classList.remove("access-granted");
-    userButton.classList.add("access-denied");
+  userButton.classList.remove("access-granted");
+  userButton.classList.add("access-denied");
 }
 
 
@@ -695,7 +724,8 @@ async function checkAccess() {
     data.status === "approved"
 ) {
     transportButton.style.display = "flex";
-    proformaButton.style.display = "flex";
+proformaButton.style.display = "flex";
+caucasusManagementButton.style.display = "flex";
 
     userButton.classList.remove("access-denied");
     userButton.classList.add("access-granted");
