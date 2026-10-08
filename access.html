@@ -315,7 +315,8 @@ function showApproved() {
       const savedId = localStorage.getItem(STORAGE_KEY);
 
       if (!savedId) {return;}
-
+      
+      deviceInput.value = savedId;
       deviceInput.disabled = true;
       submitBtn.disabled = true;
 
