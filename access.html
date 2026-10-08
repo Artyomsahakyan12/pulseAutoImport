@@ -214,10 +214,6 @@ function showApproved() {
     stopStatusPolling();
 
     setMessage(t.accessGranted, "approved");
-
-    redirectTimer = setTimeout(() => {
-        window.location.href = "./entry.html";
-    }, 350);
 }
 
     function showRejected() {
@@ -227,10 +223,6 @@ function showApproved() {
       stopStatusPolling();
 
       setMessage(t.accessDenied, "rejected");
-
-      redirectTimer = setTimeout(() => {
-        window.location.href = "./entry.html";
-      }, 500);
     }
 
     function showBlocked() {
