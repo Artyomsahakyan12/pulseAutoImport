@@ -54,7 +54,8 @@
         .transport-button,
         .proforma-button,
         .bidcars-button,
-        .caucasusContainerTracking-button {
+        .caucasusContainerTracking-button,
+        .caucasusManagement-button {
             width: 72%;
             max-width: 360px;
             min-width: 0;
@@ -82,7 +83,8 @@
         .transport-button:hover,
         .proforma-button:hover,
         .bidcars-button:hover,
-        .caucasusContainerTracking-button:hover {
+        .caucasusContainerTracking-button:hover,
+        .caucasusManagement-button:hover {
             box-shadow:
                 0 3px 5px rgba(35, 55, 85, 0.10),
                 0 10px 22px rgba(35, 55, 85, 0.18),
@@ -93,7 +95,8 @@
         .transport-button:active,
         .proforma-button:active,
         .bidcars-button:active,
-        .caucasusContainerTracking-button:active {
+        .caucasusContainerTracking-button:active,
+        .caucasusManagement-button:active {
             transform: scale(0.99);
         }
 
@@ -106,6 +109,15 @@
             object-fit: contain;
             transform: translateX(12px) scale(1.5);
         }
+        
+        .caucasusManagement-logo {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  object-fit: contain;
+  transform: translateX(12px);
+}
         
   .proforma-logo {
     width: 48px;
@@ -127,7 +139,8 @@
         .transport-divider,
         .proforma-divider,
         .bidcars-divider,
-        .caucasusContainerTracking-divider {
+        .caucasusContainerTracking-divider,
+        .caucasusManagement-divider {
             width: 2px;
             height: 42px;
             flex-shrink: 0;
@@ -184,7 +197,8 @@
         /* Preserve the original divider positioning */
         .transport-button .transport-divider,
         .proforma-button .proforma-divider,
-.caucasusContainerTracking-button .caucasusContainerTracking-divider {
+.caucasusContainerTracking-button .caucasusContainerTracking-divider,
+.caucasusManagement-button .caucasusManagement-divider {
     transform: translateX(30px);
 }
 
@@ -444,9 +458,7 @@
     <span>Management</span>
   </div>
 
-  <div class="caucasusManagement-arrow">
-    ›
-  </div>
+  <div class="caucasusManagement-arrow">›</div>
 </a>
 
         <!-- Proforma Invoice -->
