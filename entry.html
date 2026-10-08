@@ -295,20 +295,24 @@
 
 .language-menu {
     position: absolute;
-    top: 56px;
-    right: 0;
+    top: 0;
+    right: 56px;
 
     display: none;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
     gap: 6px;
 
-    padding: 7px;
+    height: 48px;
+    padding: 3px 7px;
 
-    border-radius: 16px;
+    border-radius: 24px;
     background: #ffffff;
 
     box-shadow:
         0 8px 25px rgba(0, 0, 0, 0.18);
+
+    z-index: 1000;
 }
 
 .language-menu.show {
