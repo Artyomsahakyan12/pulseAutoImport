@@ -244,18 +244,21 @@
     transform: scale(0.96);
 }
 
-.user-button.access-granted {
-    box-shadow:
-        0 0 4px rgba(34, 197, 94, 0.65),
-        0 0 9px rgba(34, 197, 94, 0.45),
-        0 0 15px rgba(34, 197, 94, 0.25);
+.user-icon {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #ef4444;
+    stroke-width: 2;
+    stroke-linecap: round;
 }
 
-.user-button.access-denied {
-    box-shadow:
-        0 0 4px rgba(239, 68, 68, 0.65),
-        0 0 9px rgba(239, 68, 68, 0.45),
-        0 0 15px rgba(239, 68, 68, 0.25);
+.user-button.access-granted .user-icon {
+    stroke: #22c55e;
+}
+
+.user-button.access-denied .user-icon {
+    stroke: #ef4444;
 }
 
 .language-selector {
@@ -356,8 +359,11 @@
     href="./access.html"
     aria-label="Access"
 >
-        👤
-    </a>
+    <svg class="user-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="8" r="4"></circle>
+        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"></path>
+    </svg>
+</a>
     
     <!-- Language selector -->
 <div class="language-selector">
