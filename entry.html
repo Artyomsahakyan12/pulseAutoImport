@@ -375,7 +375,7 @@
     text-align: center;
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.45s ease, visibility 0s linear 0.45s;
+transition: none;
 }
 
 #entry-loader.is-hidden {
@@ -398,7 +398,6 @@
     height: auto;
     object-fit: contain;
     margin-bottom: 34px;
-    animation: entry-logo-pulse 2.2s ease-in-out infinite;
 }
 
 .entry-loader-title {
@@ -431,18 +430,7 @@
     height: 100%;
     border-radius: inherit;
     background: #e8141c;
-    animation: entry-progress-flow 1.5s ease-in-out infinite;
-}
-
-@keyframes entry-logo-pulse {
-    0%, 100% {
-        opacity: 0.8;
-        transform: scale(0.98);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1);
-    }
+    animation: entry-progress-flow 1.0s ease-in-out infinite;
 }
 
 @keyframes entry-progress-flow {
@@ -451,13 +439,6 @@
     }
     100% {
         transform: translateX(380%);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .entry-loader-logo,
-    .entry-loader-progress span {
-        animation-duration: 3s;
     }
 }
         
