@@ -359,11 +359,159 @@
 .language-menu button:active {
     background: rgba(40, 100, 232, 0.12);
 }
+
+/* Entry loading screen */
+#entry-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+    background: #ffffff;
+    color: #111111;
+    text-align: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.45s ease, visibility 0s linear 0.45s;
+}
+
+#entry-loader.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.entry-loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 320px;
+}
+
+.entry-loader-logo {
+    display: block;
+    width: min(260px, 80%);
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 34px;
+    animation: entry-logo-pulse 2.2s ease-in-out infinite;
+}
+
+.entry-loader-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111111;
+    letter-spacing: 0.1px;
+}
+
+.entry-loader-subtitle {
+    margin-top: 10px;
+    color: #e8141c;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.entry-loader-progress {
+    overflow: hidden;
+    width: 150px;
+    height: 3px;
+    margin-top: 26px;
+    border-radius: 10px;
+    background: #e5e5e5;
+}
+
+.entry-loader-progress span {
+    display: block;
+    width: 40%;
+    height: 100%;
+    border-radius: inherit;
+    background: #e8141c;
+    animation: entry-progress-flow 1.5s ease-in-out infinite;
+}
+
+/* Protected buttons appear smoothly after access is approved */
+#transportButton.is-revealed,
+#proformaButton.is-revealed,
+#caucasusManagementButton.is-revealed {
+    animation: protected-button-enter 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes entry-logo-pulse {
+    0%, 100% {
+        opacity: 0.8;
+        transform: scale(0.98);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes entry-progress-flow {
+    0% {
+        transform: translateX(-110%);
+    }
+    100% {
+        transform: translateX(380%);
+    }
+}
+
+@keyframes protected-button-enter {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .entry-loader-logo,
+    .entry-loader-progress span {
+        animation-duration: 3s;
+    }
+
+    #transportButton.is-revealed,
+    #proformaButton.is-revealed,
+    #caucasusManagementButton.is-revealed {
+        animation: none;
+    }
+}
         
     </style>
 </head>
 
 <body>
+    
+    <!-- Entry loading screen -->
+<div id="entry-loader" role="status" aria-live="polite">
+    <div class="entry-loader-content">
+        <img
+            src="./pulseAutoImport-logo.PNG"
+            alt="Pulse AutoImport"
+            class="entry-loader-logo"
+        >
+
+        <div id="entry-loader-title" class="entry-loader-title">
+            Welcome to PulseAutoImport
+        </div>
+
+        <div class="entry-loader-subtitle">
+            Feel the pulse of performance
+        </div>
+
+        <div class="entry-loader-progress">
+            <span></span>
+        </div>
+    </div>
+</div>
 
     <!-- User / Access -->
  <a
@@ -601,6 +749,12 @@ ru: {
 management: "managementText"
 };
 
+const welcomeTranslations = {
+    en: "Welcome to PulseAutoImport",
+    hy: "Բարի գալուստ PulseAutoImport",
+    ru: "Добро пожаловать в PulseAutoImport"
+};
+
 const languageButton =
     document.getElementById("languageButton");
 
@@ -617,6 +771,9 @@ function applyLanguage(language) {
 
     const selectedLanguage =
         translations[language] || translations.en;
+
+document.getElementById("entry-loader-title").textContent =
+    welcomeTranslations[language] || welcomeTranslations.en;
 
     Object.entries(translationElements).forEach(
         ([key, elementId]) => {
@@ -714,19 +871,20 @@ function hideProtectedButtons() {
 }
 
 
+
 async function checkAccess() {
+    const accessLoader = document.getElementById("entry-loader");
 
     hideProtectedButtons();
 
-    const deviceId =
-        localStorage.getItem(STORAGE_KEY);
+    const deviceId = localStorage.getItem(STORAGE_KEY);
 
     if (!deviceId) {
+        accessLoader.classList.add("is-hidden");
         return;
     }
 
     try {
-
         const response = await fetch(FUNCTION_URL, {
             method: "POST",
             headers: {
@@ -740,28 +898,29 @@ async function checkAccess() {
 
         const data = await response.json();
 
-       if (
-    response.ok &&
-    data.status === "approved"
-) {
-    transportButton.style.display = "flex";
-proformaButton.style.display = "flex";
-caucasusManagementButton.style.display = "flex";
+        if (response.ok && data.status === "approved") {
+            const protectedButtons = [
+                transportButton,
+                proformaButton,
+                caucasusManagementButton
+            ];
 
-    userButton.classList.remove("access-denied");
-    userButton.classList.add("access-granted");
-}
+            protectedButtons.forEach(button => {
+                button.classList.remove("is-revealed");
+                button.style.display = "flex";
+                void button.offsetWidth;
+                button.classList.add("is-revealed");
+            });
 
+            userButton.classList.remove("access-denied");
+            userButton.classList.add("access-granted");
+        }
     } catch (error) {
-
-        console.error(
-            "Access check error:",
-            error
-        );
-
+        console.error("Access check error:", error);
+    } finally {
+        accessLoader.classList.add("is-hidden");
     }
 }
-
 
 checkAccess();
 
