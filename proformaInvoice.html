@@ -13,15 +13,138 @@ button{width:100%;margin-top:18px;padding:14px;border:0;border-radius:12px;backg
 canvas{width:100%;height:auto;border:1px solid var(--bd);border-radius:8px;margin-top:18px;background:#fff}
 #m{color:var(--mut);font-size:14px;margin-top:10px;min-height:20px}
 
+/* Keep the page hidden while access is being checked */
 body.access-checking {
+    visibility: visible;
+}
+body.access-checking .w {
     visibility: hidden;
 }
-
+/* Full-screen loading screen */
+#access-loader {
+    display: none;
+}
+body.access-checking #access-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+    background: #10141c;
+    color: #ffffff;
+    text-align: center;
+    visibility: visible;
+}
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 320px;
+}
+.loader-logo {
+    display: block;
+    width: min(260px, 80%);
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 34px;
+    animation: logo-pulse 2.2s ease-in-out infinite;
+}
+.loader-spinner {
+    width: 38px;
+    height: 38px;
+    border: 3px solid rgba(255, 255, 255, 0.12);
+    border-top-color: #e8141c;
+    border-right-color: #e8141c;
+    border-radius: 50%;
+    animation: loader-spin 0.9s linear infinite;
+}
+.loader-title {
+    margin-top: 24px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+}
+.loader-subtitle {
+    margin-top: 8px;
+    color: #9aa3b2;
+    font-size: 13px;
+}
+.loader-progress {
+    overflow: hidden;
+    width: 150px;
+    height: 3px;
+    margin-top: 26px;
+    border-radius: 10px;
+    background: #2c3445;
+}
+.loader-progress span {
+    display: block;
+    width: 40%;
+    height: 100%;
+    border-radius: inherit;
+    background: #e8141c;
+    animation: progress-flow 1.5s ease-in-out infinite;
+}
 body.access-granted {
     visibility: visible;
 }
+@keyframes loader-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+@keyframes logo-pulse {
+    0%, 100% {
+        opacity: 0.8;
+        transform: scale(0.98);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+@keyframes progress-flow {
+    0% {
+        transform: translateX(-110%);
+    }
+    100% {
+        transform: translateX(380%);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .loader-logo,
+    .loader-spinner,
+    .loader-progress span {
+        animation-duration: 3s;
+    }
+}
 
-</style></head><body class="access-checking"><div class="w"><div id="f"></div>
+</style></head><body class="access-checking">
+<div id="access-loader" role="status" aria-live="polite">
+    <div class="loader-content">
+        <img
+            src="./pulseAutoImport-logo.PNG"
+            alt="Pulse AutoImport"
+            class="loader-logo"
+        >
+        <div class="loader-spinner"></div>
+        <div class="loader-title">
+            Ստուգվում է հասանելիությունը
+        </div>
+        <div class="loader-subtitle">
+            Խնդրում ենք սպասել…
+        </div>
+        <div class="loader-progress">
+            <span></span>
+        </div>
+    </div>
+</div>
+<div class="w"><div id="f"></div>
+    <div id="f"></div>
 <button id="b"></button><div id="m"></div><canvas id="c"></canvas></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
