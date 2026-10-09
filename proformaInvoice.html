@@ -22,12 +22,61 @@ body.access-granted {
 }
 
 </style></head><body class="access-checking"><div class="w"><div id="f"></div>
-<button id="b">Ներբեռնել PDF</button><div id="m"></div><canvas id="c"></canvas></div>
+<button id="b"></button><div id="m"></div><canvas id="c"></canvas></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 const FONT='system-ui,-apple-system,"Noto Sans Armenian",sans-serif',S=1086/952,K=2;
-const F=[['date','Ամսաթիվ'],['name','Անուն, Ազգանուն'],['pass','Անձնագիր / ID քարտ'],['maker','Արտադրող'],['model','Մոդել'],['year','Տարի'],['vin','VIN'],['sum','Վճարման գումար']];
+const LANG = {
+  en: {
+    date: 'Date',
+    name: 'Name, Surname',
+    pass: 'Անձնագիր / ID քարտ',
+    maker: 'Manufacturer',
+    model: 'Model',
+    year: 'Year',
+    vin: 'VIN',
+    sum: 'Due to Payment',
+    download: 'Download PDF'
+  },
+  hy: {
+    date: 'Ամսաթիվ',
+    name: 'Անուն, Ազգանուն',
+    pass: 'Անձնագիր / ID քարտ',
+    maker: 'Արտադրող',
+    model: 'Մոդել',
+    year: 'Տարեթիվ',
+    vin: 'VIN կոդ',
+    sum: 'Վճարման ենթակա գումար',
+    download: 'Ներբեռնել PDF'
+  },
+  ru: {
+    date: 'Дата',
+    name: 'Имя, Фамилия',
+    pass: 'Անձնագիր / ID քարտ',
+    maker: 'Производитель',
+    model: 'Модель',
+    year: 'Год выпуска',
+    vin: 'VIN-код',
+    sum: 'Сумма к оплате',
+    download: 'Скачать PDF'
+  }
+};
+
+const language = localStorage.getItem('pulseAutoImportLanguage') || 'en';
+const T = LANG[language] || LANG.en;
+document.getElementById('b').textContent = T.download;
+
+const F = [
+  ['date', T.date],
+  ['name', T.name],
+  ['pass', T.pass],
+  ['maker', T.maker],
+  ['model', T.model],
+  ['year', T.year],
+  ['vin', T.vin],
+  ['sum', T.sum]
+];
 const L={date:[779,268,'c',19,1,150],name:[248,410,'c',15.5,0,322],pass:[248,452,'c',15.5,0,322],maker:[738,407,'l',16,0,900],model:[692,448,'l',16,0,900],year:[692,488,'l',16,0,900],vin:[666,529,'l',16,0,900],sum:[370,733,'l',19,1,895]};
 const d=new Date(),p=n=>String(n).padStart(2,'0'),iso=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()),fmt=x=>x?x.split('-').reverse().join('.'):'',v={date:fmt(iso)};
 const f=document.getElementById('f'),cv=document.getElementById('c'),cx=cv.getContext('2d'),msg=document.getElementById('m');
