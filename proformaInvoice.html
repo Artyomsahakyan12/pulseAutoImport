@@ -122,12 +122,13 @@ src="./pulseAutoImportwhite-logo.PNG"
             alt="Pulse AutoImport"
             class="loader-logo"
         >
-        <div class="loader-title">
-            Ստուգվում է հասանելիությունը
-        </div>
-        <div class="loader-subtitle">
-            Խնդրում ենք սպասել…
-        </div>
+       
+<div class="loader-title" id="loader-title">
+    Checking access
+</div>
+<div class="loader-subtitle" id="loader-subtitle">
+    Please wait…
+</div>
         <div class="loader-progress">
             <span></span>
         </div>
@@ -176,8 +177,30 @@ const LANG = {
   }
 };
 
+
 const language = localStorage.getItem('pulseAutoImportLanguage') || 'en';
 const T = LANG[language] || LANG.en;
+
+const LOADER_LANG = {
+  en: {
+    title: 'Checking access',
+    subtitle: 'Please wait…'
+  },
+  hy: {
+    title: 'Ստուգվում է հասանելիությունը',
+    subtitle: 'Խնդրում ենք սպասել…'
+  },
+  ru: {
+    title: 'Проверка доступа',
+    subtitle: 'Пожалуйста подождите…'
+  }
+};
+
+const LT = LOADER_LANG[language] || LOADER_LANG.en;
+
+document.getElementById('loader-title').textContent = LT.title;
+document.getElementById('loader-subtitle').textContent = LT.subtitle;
+
 document.getElementById('b').textContent = T.download;
 
 const F = [
