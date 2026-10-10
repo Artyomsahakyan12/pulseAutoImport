@@ -817,12 +817,12 @@ async function checkAccess() {
         const response = await fetch(FUNCTION_URL, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                action: "check",
-                device_id: deviceId
-            })
+    "Content-Type": "text/plain;charset=UTF-8"
+},
+body: JSON.stringify({
+    action: "check",
+    device_id: deviceId
+})
         });
 
         const data = await response.json();
