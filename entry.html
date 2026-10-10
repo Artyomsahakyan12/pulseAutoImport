@@ -420,11 +420,14 @@ transition: none;
     <!-- Entry loading screen -->
 <div id="entry-loader" role="status" aria-live="polite">
     <div class="entry-loader-content">
-        <img
-            src="./pulseAutoImport-logo.PNG"
-            alt="Pulse AutoImport"
-            class="entry-loader-logo"
-        >
+       <img
+    src="./pulseAutoImport-logo.PNG"
+    alt="Pulse AutoImport"
+    class="entry-loader-logo"
+    fetchpriority="high"
+    loading="eager"
+    decoding="sync"
+>
 
         <div id="entry-loader-title" class="entry-loader-title">
             Welcome to PulseAutoImport
