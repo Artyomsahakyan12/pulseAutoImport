@@ -803,6 +803,8 @@ function hideProtectedButtons() {
 
 
 async function checkAccess() {
+    console.time("ACCESS_CHECK_TOTAL");
+console.log("ACCESS_CHECK_STARTED", performance.now());
     const accessLoader = document.getElementById("entry-loader");
 
     hideProtectedButtons();
@@ -828,6 +830,8 @@ async function checkAccess() {
 
         const data = await response.json();
 
+        console.log("SUPABASE_RESPONSE_RECEIVED", performance.now());
+
         if (response.ok && data.status === "approved") {
             const protectedButtons = [
                 transportButton,
@@ -845,8 +849,10 @@ async function checkAccess() {
     } catch (error) {
         console.error("Access check error:", error);
     } finally {
-        accessLoader.classList.add("is-hidden");
-    }
+    accessLoader.classList.add("is-hidden");
+    console.log("LOADING_SCREEN_HIDDEN", performance.now());
+    console.timeEnd("ACCESS_CHECK_TOTAL");
+}
 }
 
 checkAccess();
