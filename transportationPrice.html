@@ -363,14 +363,14 @@ async function doSearch(){
     try{
         const response = await fetch(TRANSPORTATION_SEARCH_URL,{
             method:"POST",
-            headers:{
-                "Content-Type":"application/json",
-                "apikey":"sb_publishable_hPQ-h9wv8YtlJggfurEbmA_owlsTsY8"
-            },
-            body:JSON.stringify({
-                device_id:deviceId,
-                query
-            })
+     headers:{
+    "Content-Type":"text/plain;charset=UTF-8",
+    "apikey":"sb_publishable_hPQ-h9wv8YtlJggfurEbmA_owlsTsY8"
+},
+body:JSON.stringify({
+    device_id:deviceId,
+    query
+})
         });
 
         const data = await response.json();
