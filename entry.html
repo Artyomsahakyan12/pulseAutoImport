@@ -352,11 +352,36 @@
 }
 
 .entry-loader-content {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: min(520px, 88vw);
+    aspect-ratio: 2 / 1;
+}
+
+.entry-loader-drawing {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    padding: 24px;
+    height: 100%;
+}
+
+.entry-loader-p {
+    fill: none;
+    stroke: #ed1c24;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 620;
+    stroke-dashoffset: 620;
+    animation: draw-p 1.2s ease-in-out forwards;
+}
+
+@keyframes draw-p {
+    to {
+        stroke-dashoffset: 0;
+    }
 }
 
 .entry-loader-logo {
@@ -366,7 +391,7 @@
     object-fit: contain;
     margin: 0;
     opacity: 0;
-    animation: logoReveal 0.6s ease 0.4s forwards;
+animation: logoReveal 0.6s ease 1.2s forwards;
 }
 
 @keyframes logoReveal {
@@ -396,6 +421,20 @@
 <!-- Entry loading animation -->
 <div id="entry-loader" role="status" aria-label="Loading Pulse AutoImport">
     <div class="entry-loader-content">
+      <svg
+    class="entry-loader-drawing"
+    viewBox="0 0 520 260"
+    aria-hidden="true"
+>
+    <path
+        class="entry-loader-p"
+        d="M 65 210 L 65 55
+           C 65 35 85 30 110 30
+           L 170 30
+           C 220 30 220 100 170 110
+           L 65 125"
+    />
+</svg>
     <img
         src="./pulseAutoImport-logo.PNG"
         alt="Pulse AutoImport"
@@ -665,9 +704,6 @@ function applyLanguage(language) {
 
     const selectedLanguage =
         translations[language] || translations.en;
-
-document.getElementById("entry-loader-title").textContent =
-    welcomeTranslations[language] || welcomeTranslations.en;
 
     Object.entries(translationElements).forEach(
         ([key, elementId]) => {
