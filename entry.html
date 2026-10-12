@@ -769,7 +769,7 @@ async function checkAccess() {
     } finally {
         const remaining = Math.max(
             0,
-            600 - (Date.now() - loadingStartedAt)
+            550 - (Date.now() - loadingStartedAt)
         );
 
         if (remaining > 0) {
@@ -811,7 +811,7 @@ if (loadingLogo && logoPlaceholder) {
 
         
 loadingLogo.style.transition =
-    "transform 450ms cubic-bezier(.10,.8,.10,1)";
+    "transform 500ms cubic-bezier(.10,.8,.10,1)";
 
 await new Promise(resolve => {
     requestAnimationFrame(() => {
@@ -821,7 +821,7 @@ await new Promise(resolve => {
         loadingLogo.style.transform =
             `translate(${dx}px, ${dy}px) scale(${scale})`;
 
-        setTimeout(resolve, 400);
+        setTimeout(resolve, 500);
     });
 });
 
