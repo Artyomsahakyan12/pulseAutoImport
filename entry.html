@@ -338,6 +338,7 @@
     align-items: center;
     justify-content: center;
     background: #ffffff;
+   transition: background-color 500ms linear;
 }
 
 #entry-loader.is-hidden {
@@ -353,6 +354,10 @@
     animation: logoReveal 0.7s linear forwards;
     transform-origin: center center;
     will-change: transform;
+}
+
+#entry-loader.is-transitioning {
+    background-color: transparent;
 }
 
 @keyframes logoReveal {
@@ -804,17 +809,22 @@ if (loadingLogo && logoPlaceholder) {
 
         const scale = target.width / start.width;
 
-        loadingLogo.style.transition =
-            "transform 650ms cubic-bezier(.22,.8,.25,1)";
+        
+loadingLogo.style.transition =
+    "transform 500ms cubic-bezier(.22,.8,.25,1)";
 
-        await new Promise(resolve => {
-            requestAnimationFrame(() => {
-                loadingLogo.style.transform =
-                    `translate(${dx}px, ${dy}px) scale(${scale})`;
+await new Promise(resolve => {
+    requestAnimationFrame(() => {
+        // Logo movement and background fade start together.
+        loadingScreen.classList.add("is-transitioning");
 
-                setTimeout(resolve, 700);
-            });
-        });
+        loadingLogo.style.transform =
+            `translate(${dx}px, ${dy}px) scale(${scale})`;
+
+        setTimeout(resolve, 500);
+    });
+});
+
 
         // Keep the same image; move it into its final position.
         loadingLogo.classList.remove("loading-logo");
