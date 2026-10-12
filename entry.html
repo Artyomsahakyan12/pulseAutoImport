@@ -341,6 +341,11 @@
    transition: background-color 500ms linear;
 }
 
+/* iOS Web App only */
+@media (display-mode: standalone) {
+#entry-loader { height: 100dvh; }
+}
+
 #entry-loader.is-hidden {
     display: none;
 }
