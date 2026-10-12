@@ -330,119 +330,10 @@
 
     -webkit-tap-highlight-color: transparent;
 }
-
-/* Entry loading screen */
-#entry-loader {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    box-sizing: border-box;
-    background: #ffffff;
-    color: #111111;
-    text-align: center;
-    opacity: 1;
-    visibility: visible;
-transition: none;
-}
-
-#entry-loader.is-hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.entry-loader-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 320px;
-}
-
-.entry-loader-logo {
-    display: block;
-    width: min(260px, 80%);
-    height: auto;
-    object-fit: contain;
-    margin-bottom: 34px;
-}
-
-.entry-loader-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #111111;
-    letter-spacing: 0.1px;
-}
-
-.entry-loader-subtitle {
-    margin-top: 10px;
-    color: #e8141c;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-.entry-loader-progress {
-    overflow: hidden;
-    width: 150px;
-    height: 3px;
-    margin-top: 26px;
-    border-radius: 10px;
-    background: #e5e5e5;
-}
-
-.entry-loader-progress span {
-    display: block;
-    width: 40%;
-    height: 100%;
-    border-radius: inherit;
-    background: #e8141c;
-    animation: entry-progress-flow 1.0s ease-in-out infinite;
-}
-
-@keyframes entry-progress-flow {
-    0% {
-        transform: translateX(-110%);
-    }
-    100% {
-        transform: translateX(380%);
-    }
-}
         
     </style>
 </head>
-
 <body>
-    
-    <!-- Entry loading screen -->
-<div id="entry-loader" role="status" aria-live="polite">
-    <div class="entry-loader-content">
-       <img
-    src="./pulseAutoImport-logo.PNG"
-    alt="Pulse AutoImport"
-    class="entry-loader-logo"
-    fetchpriority="high"
-    loading="eager"
-    decoding="sync"
->
-
-        <div id="entry-loader-title" class="entry-loader-title">
-            Welcome to PulseAutoImport
-        </div>
-
-        <div class="entry-loader-subtitle">
-            Feel the pulse of performance
-        </div>
-
-        <div class="entry-loader-progress">
-            <span></span>
-        </div>
-    </div>
-</div>
 
     <!-- User / Access -->
  <a
@@ -680,12 +571,6 @@ ru: {
 management: "managementText"
 };
 
-const welcomeTranslations = {
-    en: "Welcome to PulseAutoImport",
-    hy: "Բարի գալուստ PulseAutoImport",
-    ru: "Добро пожаловать в PulseAutoImport"
-};
-
 const languageButton =
     document.getElementById("languageButton");
 
@@ -702,9 +587,6 @@ function applyLanguage(language) {
 
     const selectedLanguage =
         translations[language] || translations.en;
-
-document.getElementById("entry-loader-title").textContent =
-    welcomeTranslations[language] || welcomeTranslations.en;
 
     Object.entries(translationElements).forEach(
         ([key, elementId]) => {
@@ -802,14 +684,12 @@ function hideProtectedButtons() {
 }
 
 async function checkAccess() {
-    const accessLoader = document.getElementById("entry-loader");
 
     hideProtectedButtons();
 
     const deviceId = localStorage.getItem(STORAGE_KEY);
 
     if (!deviceId) {
-        accessLoader.classList.add("is-hidden");
         return;
     }
 
@@ -844,7 +724,6 @@ body: JSON.stringify({
     } catch (error) {
         console.error("Access check error:", error);
     } finally {
-    accessLoader.classList.add("is-hidden");
 }
 }
 
