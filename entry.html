@@ -340,81 +340,15 @@
     display: block;
     width: min(86vw, 420px);
     height: auto;
-    overflow: visible;
+    object-fit: contain;
+    clip-path: inset(0 100% 0 0);
+    animation: logoReveal 2s ease-in-out forwards;
 }
 
-/* Կարմիր սրտագրի գիծ */
-#entry-loader .pulse-line {
-    fill: none;
-    stroke: #ff002b;
-    stroke-width: 9;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 480;
-    stroke-dashoffset: 480;
-    animation: pulseDraw 0.65s ease-out 0.05s forwards;
-}
-
-/* Մեքենայի վերին ուրվագիծ */
-#entry-loader .car-line {
-    fill: none;
-    stroke: #171717;
-    stroke-width: 4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 600;
-    stroke-dashoffset: 600;
-    animation: carDraw 0.65s ease-out 0.48s forwards;
-}
-
-/* Մեքենայի կարմիր հետևի հատված */
-#entry-loader .car-red-line {
-    fill: none;
-    stroke: #ff002b;
-    stroke-width: 4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 150;
-    stroke-dashoffset: 150;
-    animation: redCarDraw 0.3s ease-out 0.95s forwards;
-}
-
-/* Pulse AutoImport գրությունը */
-#entry-loader .logo-text {
-    opacity: 0;
-    animation: logoTextShow 0.35s ease-out 0.78s forwards;
-}
-
-#entry-loader .pulse-word {
-    fill: #171717;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 56px;
-    font-weight: 400;
-    letter-spacing: 2px;
-}
-
-#entry-loader .auto-word {
-    fill: #171717;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 7px;
-}
-
-@keyframes pulseDraw {
-    to { stroke-dashoffset: 0; }
-}
-
-@keyframes carDraw {
-    to { stroke-dashoffset: 0; }
-}
-
-@keyframes redCarDraw {
-    to { stroke-dashoffset: 0; }
-}
-
-@keyframes logoTextShow {
-    to { opacity: 1; }
+@keyframes logoReveal {
+    to {
+        clip-path: inset(0 0 0 0);
+    }
 }
         
     </style>
@@ -422,62 +356,11 @@
 <body>
    
    <div id="entry-loader" role="status" aria-label="Loading">
-    <svg
+    <img
         class="loading-logo"
-        viewBox="0 0 520 260"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
+        src="./pulseAutoImport-logo.PNG"
+        alt="Pulse AutoImport"
     >
-        <!-- Կարմիր սրտագրի նշան -->
-        <path
-            class="pulse-line"
-            d="M 12,136
-               L 67,136
-               L 77,124
-               L 86,148
-               L 108,88
-               L 126,158
-               L 140,135
-               L 190,129
-               C 205,128 210,139 203,149
-               C 199,155 188,158 171,162
-               L 128,172
-               L 128,225"
-        />
-
-        <!-- Մեքենայի վերին ուրվագիծ -->
-        <path
-            class="car-line"
-            d="M 70,119
-               C 123,86 180,72 238,76
-               C 278,79 311,91 341,103
-               C 375,105 418,105 452,111
-               C 470,114 484,119 494,126"
-        />
-
-        <!-- Մեքենայի կարմիր հետևի հատված -->
-        <path
-            class="car-red-line"
-            d="M 397,122
-               C 426,116 458,119 481,128
-               C 489,131 490,136 485,144"
-        />
-
-        <!-- Բրենդի անվանում -->
-        <g class="logo-text">
-            <text
-                class="pulse-word"
-                x="139"
-                y="177"
-            >Pulse</text>
-
-            <text
-                class="auto-word"
-                x="145"
-                y="208"
-            >AUTOIMPORT</text>
-        </g>
-    </svg>
 </div>
 
     <!-- User / Access -->
@@ -871,7 +754,7 @@ async function checkAccess() {
     } finally {
         const remaining = Math.max(
             0,
-            1500 - (Date.now() - loadingStartedAt)
+            2000 - (Date.now() - loadingStartedAt)
         );
 
         if (remaining > 0) {
