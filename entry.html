@@ -754,7 +754,7 @@ async function checkAccess() {
     } finally {
         const remaining = Math.max(
             0,
-            2000 - (Date.now() - loadingStartedAt)
+            1500 - (Date.now() - loadingStartedAt)
         );
 
         if (remaining > 0) {
