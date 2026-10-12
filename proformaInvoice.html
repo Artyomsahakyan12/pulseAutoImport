@@ -368,15 +368,13 @@ pdf.addImage(
     imgHeight
 );
 
-
-
-
 const fullName = (v.name || '').trim();
-const firstName = fullName.split(/\s+/)[0] || 'PulseAutoImport';
-const manufacturer = (v.maker || '').trim() || 'Invoice';
+const firstName = fullName.split(/\s+/)[0] || 'Invoice';
+const manufacturer = (v.maker || '').trim() || 'Unknown';
 const year = (v.year || '').trim();
 
 const fileName = `${firstName} - ${manufacturer}${year ? ' ' + year : ''}.pdf`;
+
 
 const pdfBlob = pdf.output('blob');
 const pdfFile = new File([pdfBlob], fileName, {
