@@ -352,88 +352,39 @@
 }
 
 .entry-loader-content {
-    position: relative;
-    width: min(520px, 88vw);
-    aspect-ratio: 2 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.entry-loader-drawing {
-    position: absolute;
     width: 100%;
-    height: 100%;
-    inset: 0;
-}
-
-.entry-loader-p {
-    fill: none;
-    stroke: #ed1c24;
-    stroke-width: 8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 620;
-    stroke-dashoffset: 620;
-    animation: draw-p 1.2s ease-in-out forwards;
-}
-
-.entry-loader-ulse {
-    position: absolute;
-    left: 25%;
-    top: 38%;
-    color: #111111;
-    font-family: Arial, sans-serif;
-    font-size: clamp(34px, 9vw, 64px);
-    font-weight: 500;
-    letter-spacing: -2px;
-    opacity: 0;
-    animation: show-ulse 0.55s ease 1.05s forwards;
+    padding: 24px;
 }
 
 .entry-loader-logo {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    inset: 0;
+    display: block;
+    width: min(360px, 88vw);
+    height: auto;
     object-fit: contain;
+    margin: 0;
     opacity: 0;
-    animation: show-full-logo 0.6s ease 1.8s forwards;
+    animation: logoReveal 0.6s ease 0.4s forwards;
 }
 
-@keyframes draw-p {
-    to {
-        stroke-dashoffset: 0;
+@keyframes logoReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
     }
-}
 
-@keyframes show-ulse {
     to {
         opacity: 1;
-    }
-}
-
-@keyframes show-full-logo {
-    to {
-        opacity: 1;
+        transform: scale(1);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .entry-loader-p {
-        animation-duration: 0.01ms;
-        stroke-dashoffset: 0;
-    }
-
-    .entry-loader-ulse {
-        animation-duration: 0.01ms;
-        animation-delay: 0s;
-        opacity: 1;
-    }
-
     .entry-loader-logo {
         animation-duration: 0.01ms;
-        animation-delay: 0.1s;
+        animation-delay: 0s;
     }
 }
         
@@ -445,40 +396,15 @@
 <!-- Entry loading animation -->
 <div id="entry-loader" role="status" aria-label="Loading Pulse AutoImport">
     <div class="entry-loader-content">
-
-        <svg
-            class="entry-loader-drawing"
-            viewBox="0 0 520 260"
-            aria-hidden="true"
-        >
-            <path
-                class="entry-loader-p"
-                d="M 12 137
-                   L 68 137
-                   L 80 121
-                   L 94 158
-                   L 121 86
-                   L 130 158
-                   L 143 137
-                   L 190 137
-                   C 211 137 211 153 190 158
-                   L 130 171
-                   L 129 225"
-            />
-        </svg>
-
-        <span class="entry-loader-ulse" aria-hidden="true">ulse</span>
-
-        <img
-            src="./pulseAutoImport-logo.PNG"
-            alt="Pulse AutoImport"
-            class="entry-loader-logo"
-            fetchpriority="high"
-            loading="eager"
-            decoding="sync"
-        >
-
-    </div>
+    <img
+        src="./pulseAutoImport-logo.PNG"
+        alt="Pulse AutoImport"
+        class="entry-loader-logo"
+        fetchpriority="high"
+        loading="eager"
+        decoding="sync"
+    >
+</div>
 </div>
 
     <!-- User / Access -->
@@ -824,9 +750,12 @@ function tryHideEntryLoader() {
 
 window.addEventListener("load", function () {
     setTimeout(function () {
-        entryAnimationFinished = true;
-        tryHideEntryLoader();
-    }, 2600);
+    entryAnimationFinished = true;
+
+    document
+        .getElementById("entry-loader")
+        .classList.add("is-hidden");
+}, 2200);
 });
         
         const FUNCTION_URL =
