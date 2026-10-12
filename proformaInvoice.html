@@ -21,127 +21,16 @@ input{width:100%;box-sizing:border-box;font:inherit;padding:12px;border:1px soli
 input[type=date]{min-height:48px;text-align:left;-webkit-appearance:none;appearance:none}
 button{width:100%;margin-top:18px;padding:14px;border:0;border-radius:12px;background:var(--red);color:#fff;font:600 17px system-ui,sans-serif}
 
-/* Keep the page hidden while access is being checked */
-body.access-checking {
-    visibility: visible;
-}
+/* Hide the form until access is approved */
 body.access-checking .w {
     visibility: hidden;
 }
-/* Full-screen loading screen */
-#access-loader {
-    display: none;
-}
-body.access-checking #access-loader {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    box-sizing: border-box;
-    background: #10141c;
-    color: #ffffff;
-    text-align: center;
-    visibility: visible;
-}
-.loader-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 320px;
-}
-.loader-logo {
-    display: block;
-    width: min(260px, 80%);
-    height: auto;
-    object-fit: contain;
-    margin-bottom: 34px;
-    animation: logo-pulse 2.2s ease-in-out infinite;
-}
 
-.loader-title {
-    margin-top: 24px;
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0.1px;
-}
-.loader-subtitle {
-    margin-top: 8px;
-    color: #9aa3b2;
-    font-size: 13px;
-}
-.loader-progress {
-    overflow: hidden;
-    width: 150px;
-    height: 3px;
-    margin-top: 26px;
-    border-radius: 10px;
-    background: #2c3445;
-}
-.loader-progress span {
-    display: block;
-    width: 40%;
-    height: 100%;
-    border-radius: inherit;
-    background: #e8141c;
-    animation: progress-flow 1.5s ease-in-out infinite;
-}
-body.access-granted {
+body.access-granted .w {
     visibility: visible;
-}
-@keyframes loader-spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-@keyframes logo-pulse {
-    0%, 100% {
-        opacity: 0.8;
-        transform: scale(0.98);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-@keyframes progress-flow {
-    0% {
-        transform: translateX(-110%);
-    }
-    100% {
-        transform: translateX(380%);
-    }
-}
-@media (prefers-reduced-motion: reduce) {
-    .loader-logo,
-    .loader-progress span {
-        animation-duration: 3s;
-    }
 }
 
 </style></head><body class="access-checking">
-<div id="access-loader" role="status" aria-live="polite">
-    <div class="loader-content">
-        <img
-src="./pulseAutoImportwhite-logo.PNG"
-            alt="Pulse AutoImport"
-            class="loader-logo"
-        >
-       
-<div class="loader-title" id="loader-title">
-    Checking access
-</div>
-<div class="loader-subtitle" id="loader-subtitle">
-    Please wait…
-</div>
-        <div class="loader-progress">
-            <span></span>
-        </div>
-    </div>
-</div>
 <div class="w"><div id="f"></div>
 
 <button id="b"></button>
@@ -188,26 +77,6 @@ const LANG = {
 
 const language = localStorage.getItem('pulseAutoImportLanguage') || 'en';
 const T = LANG[language] || LANG.en;
-
-const LOADER_LANG = {
-  en: {
-    title: 'Checking access',
-    subtitle: 'Please wait…'
-  },
-  hy: {
-    title: 'Ստուգվում է հասանելիությունը',
-    subtitle: 'Խնդրում ենք սպասել…'
-  },
-  ru: {
-    title: 'Проверка доступа',
-    subtitle: 'Пожалуйста подождите…'
-  }
-};
-
-const LT = LOADER_LANG[language] || LOADER_LANG.en;
-
-document.getElementById('loader-title').textContent = LT.title;
-document.getElementById('loader-subtitle').textContent = LT.subtitle;
 
 document.getElementById('b').textContent = T.download;
 
