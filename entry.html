@@ -35,6 +35,23 @@
             font-family: Arial, sans-serif;
             position: relative;
         }
+      
+              .logo-placeholder {
+            width: 260px;
+            max-width: 70%;
+            aspect-ratio: 2 / 1;
+            flex: 0 0 auto;
+            margin-bottom: 50px;
+            transform: translateY(20px);
+        }
+
+        .logo-placeholder .brand-logo {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            margin: 0;
+        }
 
         .buttons {
             width: 100%;
@@ -334,6 +351,8 @@
     object-fit: contain;
     clip-path: inset(0 100% 0 0);
     animation: logoReveal 0.7s linear forwards;
+    transform-origin: center center;
+    will-change: transform;
 }
 
 @keyframes logoReveal {
@@ -384,6 +403,15 @@
         <button type="button" data-language="ru">🇷🇺</button>
     </div>
 </div>
+
+
+
+</div>
+
+<!-- Final logo position -->
+<div id="logoPlaceholder" class="logo-placeholder" aria-hidden="true"></div>
+
+<div class="buttons">
 
         <!-- Transportation Price -->
 <a
@@ -743,7 +771,73 @@ async function checkAccess() {
             await new Promise(resolve => setTimeout(resolve, remaining));
         }
 
-        loadingScreen.classList.add("is-hidden");
+
+const loadingLogo = loadingScreen.querySelector(".loading-logo");
+const logoPlaceholder = document.getElementById("logoPlaceholder");
+
+if (loadingLogo && logoPlaceholder) {
+    if (!loadingLogo.complete) {
+        await new Promise(resolve => {
+            loadingLogo.addEventListener("load", resolve, { once: true });
+            loadingLogo.addEventListener("error", resolve, { once: true });
+        });
+    }
+
+    const start = loadingLogo.getBoundingClientRect();
+    const target = logoPlaceholder.getBoundingClientRect();
+
+    if (start.width > 0 && target.width > 0 && loadingLogo.naturalWidth > 0) {
+        loadingLogo.style.animation = "none";
+        loadingLogo.style.clipPath = "inset(0)";
+        loadingLogo.style.transition = "none";
+        loadingLogo.style.transform = "none";
+
+        void loadingLogo.offsetWidth;
+
+        const dx =
+            target.left + target.width / 2 -
+            (start.left + start.width / 2);
+
+        const dy =
+            target.top + target.height / 2 -
+            (start.top + start.height / 2);
+
+        const scale = target.width / start.width;
+
+        loadingLogo.style.transition =
+            "transform 650ms cubic-bezier(.22,.8,.25,1)";
+
+        await new Promise(resolve => {
+            requestAnimationFrame(() => {
+                loadingLogo.style.transform =
+                    `translate(${dx}px, ${dy}px) scale(${scale})`;
+
+                setTimeout(resolve, 700);
+            });
+        });
+
+        // Keep the same image; move it into its final position.
+        loadingLogo.classList.remove("loading-logo");
+        loadingLogo.classList.add("brand-logo");
+
+        loadingLogo.style.animation = "none";
+        loadingLogo.style.clipPath = "none";
+        loadingLogo.style.transition = "none";
+        loadingLogo.style.transform = "none";
+        loadingLogo.style.width = "100%";
+        loadingLogo.style.maxWidth = "none";
+        loadingLogo.style.height = "auto";
+        loadingLogo.style.objectFit = "contain";
+        loadingLogo.style.display = "block";
+        loadingLogo.style.margin = "0";
+
+        logoPlaceholder.appendChild(loadingLogo);
+        logoPlaceholder.removeAttribute("aria-hidden");
+    }
+}
+
+loadingScreen.classList.add("is-hidden");
+
     }
 }
 
