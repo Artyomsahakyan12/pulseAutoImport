@@ -356,12 +356,6 @@
     will-change: transform;
 }
 
-
-body.is-standalone #entry-loader .loading-logo {
-    position: relative;
-    top: -20px;
-}
-
 #entry-loader.is-transitioning {
     background-color: transparent;
 }
@@ -855,15 +849,6 @@ await new Promise(resolve => {
 loadingScreen.classList.add("is-hidden");
 
     }
-}
-
-
-const isStandalone =
-    window.matchMedia("(display-mode: standalone)").matches ||
-    window.navigator.standalone === true;
-
-if (isStandalone) {
-    document.body.classList.add("is-standalone");
 }
 
 checkAccess();
