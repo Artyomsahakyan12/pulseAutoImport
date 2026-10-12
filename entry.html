@@ -342,7 +342,7 @@
     height: auto;
     object-fit: contain;
     clip-path: inset(0 100% 0 0);
-    animation: logoReveal 0.5s linear forwards;
+    animation: logoReveal 0.7s linear forwards;
 }
 
 @keyframes logoReveal {
@@ -754,7 +754,7 @@ async function checkAccess() {
     } finally {
         const remaining = Math.max(
             0,
-            600 - (Date.now() - loadingStartedAt)
+            800 - (Date.now() - loadingStartedAt)
         );
 
         if (remaining > 0) {
