@@ -368,11 +368,34 @@ pdf.addImage(
     imgHeight
 );
 
-pdf.save(
-    'Invoice_' +
+
+const fileName = 'Invoice_' +
     (v.date || '').replace(/\./g, '-') +
-    '.pdf'
-);
+    '.pdf';
+
+const pdfBlob = pdf.output('blob');
+const pdfFile = new File([pdfBlob], fileName, {
+    type: 'application/pdf'
+});
+
+if (navigator.canShare &&
+    navigator.canShare({ files: [pdfFile] }) &&
+    navigator.share) {
+
+    await navigator.share({
+        files: [pdfFile],
+        title: fileName
+    });
+
+} else {
+    const url = URL.createObjectURL(pdfBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 
 }
 catch(e){
