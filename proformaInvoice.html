@@ -20,7 +20,6 @@ label{display:block;font-size:13px;color:var(--mut);margin:12px 0 4px}
 input{width:100%;box-sizing:border-box;font:inherit;padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx)}
 input[type=date]{min-height:48px;text-align:left;-webkit-appearance:none;appearance:none}
 button{width:100%;margin-top:18px;padding:14px;border:0;border-radius:12px;background:var(--red);color:#fff;font:600 17px system-ui,sans-serif}
-#m{color:var(--mut);font-size:14px;margin-top:10px;min-height:20px}
 
 /* Keep the page hidden while access is being checked */
 body.access-checking {
@@ -146,7 +145,7 @@ src="./pulseAutoImportwhite-logo.PNG"
 <div class="w"><div id="f"></div>
     <div id="f"></div>
 
-<button id="b"></button><div id="m"></div>
+<button id="b"></button>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
@@ -227,9 +226,7 @@ const L={date:[779,268,'c',19,1,150],name:[248,410,'c',15.5,0,322],pass:[248,452
 const d=new Date(),p=n=>String(n).padStart(2,'0'),iso=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()),fmt=x=>x?x.split('-').reverse().join('.'):'',v={date:fmt(iso)};
 const f=document.getElementById('f'),
       cv=document.createElement('canvas'),
-      cx=cv.getContext('2d'),
-      msg=document.getElementById('m');
-
+      cx=cv.getContext('2d');
 const inputs=[];
 F.forEach(([k,t],idx)=>{const l=document.createElement('label');l.textContent=t;const i=document.createElement('input');i.autocomplete='off';
 if(k==='date'){i.type='date';i.value=iso}
@@ -332,7 +329,7 @@ for(const k in L){if(k==='sum')continue;const t=(v[k]||'').trim();if(!t)continue
 const set=()=>cx.font=(b?'600 ':'')+s*S*K+'px '+FONT;set();while(cx.measureText(t).width>mw&&s>8){s-=.5;set()}
 cx.textAlign=a==='c'?'center':(a==='r'?'right':'left');cx.fillText(t,x*S*K,y*S*K+s*0.04*S*K)}
 const sum=v.sum.trim();if(sum){cx.fillStyle='#e8141c';cx.font='600 '+19*S*K+'px '+FONT;cx.textAlign='left';cx.textBaseline='middle';cx.fillText(sum+' ֏',370*S*K,733*S*K)}}
-document.getElementById('b').onclick=async()=>{msg.textContent='Պատրաստվում է...';
+document.getElementById('b').onclick=async()=>{
 try{const pdf = new jspdf.jsPDF({
     orientation: 'portrait',
     unit: 'pt',
@@ -378,8 +375,10 @@ pdf.save(
     '.pdf'
 );
 
-msg.textContent = '';}
-catch(e){msg.textContent='Չհաջողվեց ստեղծել PDF'}};
+}
+catch(e){
+    console.error('PDF generation failed:', e);
+}};
 
 </script>
 
