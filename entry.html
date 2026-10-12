@@ -811,7 +811,7 @@ if (loadingLogo && logoPlaceholder) {
 
         
 loadingLogo.style.transition =
-    "transform 550ms cubic-bezier(.16,.8,.25,1)";
+    "transform 600ms cubic-bezier(.16,.8,.25,1)";
 
 await new Promise(resolve => {
     requestAnimationFrame(() => {
@@ -821,7 +821,7 @@ await new Promise(resolve => {
         loadingLogo.style.transform =
             `translate(${dx}px, ${dy}px) scale(${scale})`;
 
-        setTimeout(resolve, 550);
+        setTimeout(resolve, 600);
     });
 });
 
