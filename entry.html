@@ -341,11 +341,6 @@
    transition: background-color 500ms linear;
 }
 
-/* iOS Web App only */
-@media (display-mode: standalone) {
-#entry-loader { height: 100dvh; }
-}
-
 #entry-loader.is-hidden {
     display: none;
 }
@@ -359,6 +354,12 @@
     animation: logoReveal 0.6s linear forwards;
     transform-origin: center center;
     will-change: transform;
+}
+
+
+body.is-standalone #entry-loader .loading-logo {
+    position: relative;
+    top: -20px;
 }
 
 #entry-loader.is-transitioning {
@@ -854,6 +855,15 @@ await new Promise(resolve => {
 loadingScreen.classList.add("is-hidden");
 
     }
+}
+
+
+const isStandalone =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true;
+
+if (isStandalone) {
+    document.body.classList.add("is-standalone");
 }
 
 checkAccess();
