@@ -331,7 +331,7 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Entry loading screen */
+/* Entry loading animation */
 #entry-loader {
     position: fixed;
     inset: 0;
@@ -339,14 +339,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px;
-    box-sizing: border-box;
     background: #ffffff;
-    color: #111111;
-    text-align: center;
     opacity: 1;
     visibility: visible;
-transition: none;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
 }
 
 #entry-loader.is-hidden {
@@ -356,60 +352,88 @@ transition: none;
 }
 
 .entry-loader-content {
+    position: relative;
+    width: min(520px, 88vw);
+    aspect-ratio: 2 / 1;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+}
+
+.entry-loader-drawing {
+    position: absolute;
     width: 100%;
-    max-width: 320px;
+    height: 100%;
+    inset: 0;
+}
+
+.entry-loader-p {
+    fill: none;
+    stroke: #ed1c24;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 620;
+    stroke-dashoffset: 620;
+    animation: draw-p 1.2s ease-in-out forwards;
+}
+
+.entry-loader-ulse {
+    position: absolute;
+    left: 25%;
+    top: 38%;
+    color: #111111;
+    font-family: Arial, sans-serif;
+    font-size: clamp(34px, 9vw, 64px);
+    font-weight: 500;
+    letter-spacing: -2px;
+    opacity: 0;
+    animation: show-ulse 0.55s ease 1.05s forwards;
 }
 
 .entry-loader-logo {
-    display: block;
-    width: min(260px, 80%);
-    height: auto;
-    object-fit: contain;
-    margin-bottom: 34px;
-}
-
-.entry-loader-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #111111;
-    letter-spacing: 0.1px;
-}
-
-.entry-loader-subtitle {
-    margin-top: 10px;
-    color: #e8141c;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-.entry-loader-progress {
-    overflow: hidden;
-    width: 150px;
-    height: 3px;
-    margin-top: 26px;
-    border-radius: 10px;
-    background: #e5e5e5;
-}
-
-.entry-loader-progress span {
-    display: block;
-    width: 40%;
+    position: absolute;
+    width: 100%;
     height: 100%;
-    border-radius: inherit;
-    background: #e8141c;
-    animation: entry-progress-flow 1.0s ease-in-out infinite;
+    inset: 0;
+    object-fit: contain;
+    opacity: 0;
+    animation: show-full-logo 0.6s ease 1.8s forwards;
 }
 
-@keyframes entry-progress-flow {
-    0% {
-        transform: translateX(-110%);
+@keyframes draw-p {
+    to {
+        stroke-dashoffset: 0;
     }
-    100% {
-        transform: translateX(380%);
+}
+
+@keyframes show-ulse {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes show-full-logo {
+    to {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .entry-loader-p {
+        animation-duration: 0.01ms;
+        stroke-dashoffset: 0;
+    }
+
+    .entry-loader-ulse {
+        animation-duration: 0.01ms;
+        animation-delay: 0s;
+        opacity: 1;
+    }
+
+    .entry-loader-logo {
+        animation-duration: 0.01ms;
+        animation-delay: 0.1s;
     }
 }
         
@@ -418,29 +442,42 @@ transition: none;
 
 <body>
     
-    <!-- Entry loading screen -->
-<div id="entry-loader" role="status" aria-live="polite">
+<!-- Entry loading animation -->
+<div id="entry-loader" role="status" aria-label="Loading Pulse AutoImport">
     <div class="entry-loader-content">
-       <img
-    src="./pulseAutoImport-logo.PNG"
-    alt="Pulse AutoImport"
-    class="entry-loader-logo"
-    fetchpriority="high"
-    loading="eager"
-    decoding="sync"
->
 
-        <div id="entry-loader-title" class="entry-loader-title">
-            Welcome to PulseAutoImport
-        </div>
+        <svg
+            class="entry-loader-drawing"
+            viewBox="0 0 520 260"
+            aria-hidden="true"
+        >
+            <path
+                class="entry-loader-p"
+                d="M 12 137
+                   L 68 137
+                   L 80 121
+                   L 94 158
+                   L 121 86
+                   L 130 158
+                   L 143 137
+                   L 190 137
+                   C 211 137 211 153 190 158
+                   L 130 171
+                   L 129 225"
+            />
+        </svg>
 
-        <div class="entry-loader-subtitle">
-            Feel the pulse of performance
-        </div>
+        <span class="entry-loader-ulse" aria-hidden="true">ulse</span>
 
-        <div class="entry-loader-progress">
-            <span></span>
-        </div>
+        <img
+            src="./pulseAutoImport-logo.PNG"
+            alt="Pulse AutoImport"
+            class="entry-loader-logo"
+            fetchpriority="high"
+            loading="eager"
+            decoding="sync"
+        >
+
     </div>
 </div>
 
@@ -773,6 +810,24 @@ document.addEventListener(
 
     }
 );
+
+let entryAnimationFinished = false;
+let accessCheckFinished = false;
+
+function tryHideEntryLoader() {
+    if (entryAnimationFinished && accessCheckFinished) {
+        document
+            .getElementById("entry-loader")
+            .classList.add("is-hidden");
+    }
+}
+
+window.addEventListener("load", function () {
+    setTimeout(function () {
+        entryAnimationFinished = true;
+        tryHideEntryLoader();
+    }, 2600);
+});
         
         const FUNCTION_URL =
     "https://yusznijfwkdcvrrqqapz.supabase.co/functions/v1/telegram-access";
@@ -808,10 +863,11 @@ async function checkAccess() {
 
     const deviceId = localStorage.getItem(STORAGE_KEY);
 
-    if (!deviceId) {
-        accessLoader.classList.add("is-hidden");
-        return;
-    }
+  if (!deviceId) {
+    accessCheckFinished = true;
+    tryHideEntryLoader();
+    return;
+}
 
     try {
         const response = await fetch(FUNCTION_URL, {
@@ -844,7 +900,8 @@ body: JSON.stringify({
     } catch (error) {
         console.error("Access check error:", error);
     } finally {
-    accessLoader.classList.add("is-hidden");
+    accessCheckFinished = true;
+    tryHideEntryLoader();
 }
 }
 
