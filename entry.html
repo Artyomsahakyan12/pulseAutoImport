@@ -769,7 +769,7 @@ async function checkAccess() {
     } finally {
         const remaining = Math.max(
             0,
-            800 - (Date.now() - loadingStartedAt)
+            550 - (Date.now() - loadingStartedAt)
         );
 
         if (remaining > 0) {
@@ -811,7 +811,7 @@ if (loadingLogo && logoPlaceholder) {
 
         
 loadingLogo.style.transition =
-    "transform 500ms cubic-bezier(.22,.8,.25,1)";
+    "transform 550ms cubic-bezier(.22,.8,.25,1)";
 
 await new Promise(resolve => {
     requestAnimationFrame(() => {
