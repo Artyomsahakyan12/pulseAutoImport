@@ -784,14 +784,12 @@ function tryHideEntryLoader() {
     }
 }
 
-window.addEventListener("load", function () {
-    setTimeout(function () {
-    entryAnimationFinished = true;
 
-    document
-        .getElementById("entry-loader")
-        .classList.add("is-hidden");
+setTimeout(function () {
+    entryAnimationFinished = true;
+    tryHideEntryLoader();
 }, 2200);
+
 });
         
         const FUNCTION_URL =
