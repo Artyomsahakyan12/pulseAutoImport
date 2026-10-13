@@ -350,7 +350,7 @@ background: #f5f6fa;
     height: auto;
     object-fit: contain;
     clip-path: inset(0 100% 0 0);
-    animation: logoReveal 0.45s linear forwards;
+    animation: logoReveal 0.4s linear forwards;
     transform-origin: center center;
     will-change: transform;
 }
@@ -768,7 +768,7 @@ async function checkAccess() {
     } finally {
         const remaining = Math.max(
             0,
-            550 - (Date.now() - loadingStartedAt)
+            500 - (Date.now() - loadingStartedAt)
         );
 
         if (remaining > 0) {
@@ -820,7 +820,7 @@ await new Promise(resolve => {
         loadingLogo.style.transform =
             `translate(${dx}px, ${dy}px) scale(${scale})`;
 
-        setTimeout(resolve, 500);
+        setTimeout(resolve, 350);
     });
 });
 
