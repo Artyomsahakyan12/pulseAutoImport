@@ -350,7 +350,7 @@ background: #f5f6fa;
     height: auto;
     object-fit: contain;
     clip-path: inset(0 100% 0 0);
-    animation: logoReveal 0.4s linear forwards;
+    animation: logoReveal 0.45s linear forwards;
     transform-origin: center center;
     will-change: transform;
 }
@@ -768,7 +768,7 @@ async function checkAccess() {
     } finally {
         const remaining = Math.max(
             0,
-            500 - (Date.now() - loadingStartedAt)
+            550 - (Date.now() - loadingStartedAt)
         );
 
         if (remaining > 0) {
@@ -810,7 +810,7 @@ if (loadingLogo && logoPlaceholder) {
 
         
 loadingLogo.style.transition =
-    "transform 350ms cubic-bezier(.25,.8,.25,1)";
+    "transform 450ms cubic-bezier(.25,.8,.25,1)";
 
 await new Promise(resolve => {
     requestAnimationFrame(() => {
@@ -820,7 +820,7 @@ await new Promise(resolve => {
         loadingLogo.style.transform =
             `translate(${dx}px, ${dy}px) scale(${scale})`;
 
-        setTimeout(resolve, 350);
+        setTimeout(resolve, 450);
     });
 });
 
